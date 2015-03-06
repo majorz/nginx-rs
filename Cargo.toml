@@ -1,0 +1,4 @@
+[package]
+
+name = "nginx-rust"
+version = "0.0.1"
