@@ -1,58 +1,32 @@
-use std::env;
 use std::process::Command;
-use std::path::PathBuf;
-use std::fs::{PathExt, remove_dir_all};
+use std::fs::remove_dir_all;
+use std::rc::Rc;
+
+use paths::Paths;
 
 
 pub struct Downloader {
-   pub version: String,
-
-   archive: String,
-
-   http_location: String,
-
-   download_path: PathBuf,
-
-   archive_path: PathBuf,
-
-   pub extract_path: PathBuf,
+   paths: Rc<Paths>,
 }
 
 
 impl Downloader {
-
-   pub fn new(version: String) -> Self {
-      let extract_dir = format!("nginx-{}", version);
-      let archive = format!("{}.tar.gz", extract_dir);
-
-      let http_location = format!("http://nginx.org/download/{}", archive);
-
-      let download_path = archive_download_path();
-
-      let archive_path = download_path.join(&archive);
-
-      let extract_path = download_path.join(&extract_dir);
-
+   pub fn new(paths: Rc<Paths>) -> Self {
       Downloader {
-         version: version,
-         archive: archive,
-         http_location: http_location,
-         download_path: download_path,
-         archive_path: archive_path,
-         extract_path: extract_path,
+         paths: paths
       }
    }
 
    pub fn download(&self) {
-      println!("Downloading Nginx v{}...", self.version);
+      println!("Downloading Nginx v{}...", self.paths.version);
 
-      if self.already_downloaded() {
+      if self.paths.already_downloaded() {
          println!("Nginx archive already downloaded.", );
       } else {
          self.download_with_curl();
       }
 
-      if self.already_extracted() {
+      if self.paths.already_extracted() {
          self.remove_existing_extract_path();
       }
 
@@ -60,9 +34,9 @@ impl Downloader {
    }
 
    fn download_with_curl(&self) {
-      let args = ["-s", "-L", "-O", self.http_location.as_slice()];
+      let args = ["-s", "-L", "-O", self.paths.http_location.as_slice()];
 
-      Command::new("curl").args(&args).current_dir(&self.download_path).output().unwrap_or_else(|e| {
+      Command::new("curl").args(&args).current_dir(&self.paths.download_path).output().unwrap_or_else(|e| {
          panic!("Downloading Nginx with Curl failed: {}.", e)
       });
 
@@ -72,9 +46,9 @@ impl Downloader {
    fn extract(&self) {
       println!("Extracting Nginx...");
 
-      let args = ["xzf", self.archive.as_slice()];
+      let args = ["xzf", self.paths.archive.as_slice()];
 
-      Command::new("tar").args(&args).current_dir(&self.download_path).output().unwrap_or_else(|e| {
+      Command::new("tar").args(&args).current_dir(&self.paths.download_path).output().unwrap_or_else(|e| {
          panic!("Extracting Nginx failed: {}.", e)
       });
    }
@@ -82,26 +56,8 @@ impl Downloader {
    fn remove_existing_extract_path(&self) {
       println!("Removing previously extracted Nginx archive.");
 
-      remove_dir_all(&self.extract_path).unwrap_or_else(|e| {
-         panic!("Cannot delete Nginx extract path - {:?}: {}.", self.extract_path, e)
+      remove_dir_all(&self.paths.extract_path).unwrap_or_else(|e| {
+         panic!("Cannot delete Nginx extract path - {:?}: {}.", self.paths.extract_path, e)
       });
    }
-
-   fn already_downloaded(&self) -> bool {
-      self.archive_path.exists() && self.archive_path.is_file()
-   }
-
-   fn already_extracted(&self) -> bool {
-      self.extract_path.exists() && self.extract_path.is_dir()
-   }
 }
-
-
-fn archive_download_path() -> PathBuf {
-   let exe_path = env::current_exe().unwrap_or_else(|_| {
-      panic!("Cannot retrieve current executable location.")
-   });
-
-   exe_path.parent().unwrap().to_path_buf()
-}
-
