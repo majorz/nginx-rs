@@ -3,11 +3,9 @@ use std::process::Command;
 use std::path::PathBuf;
 use std::fs::{PathExt, remove_dir_all};
 
-use version::nginx_version_string;
-
 
 pub struct Downloader {
-   version: String,
+   pub version: String,
 
    archive: String,
 
@@ -15,17 +13,15 @@ pub struct Downloader {
 
    download_path: PathBuf,
 
-   extract_path: PathBuf,
-
    archive_path: PathBuf,
+
+   pub extract_path: PathBuf,
 }
 
 
 impl Downloader {
 
-   pub fn new() -> Self {
-      let version = nginx_version_string();
-
+   pub fn new(version: String) -> Self {
       let extract_dir = format!("nginx-{}", version);
       let archive = format!("{}.tar.gz", extract_dir);
 
@@ -33,17 +29,17 @@ impl Downloader {
 
       let download_path = archive_download_path();
 
-      let extract_path = download_path.join(&extract_dir);
-
       let archive_path = download_path.join(&archive);
+
+      let extract_path = download_path.join(&extract_dir);
 
       Downloader {
          version: version,
          archive: archive,
          http_location: http_location,
          download_path: download_path,
-         extract_path: extract_path,
          archive_path: archive_path,
+         extract_path: extract_path,
       }
    }
 
