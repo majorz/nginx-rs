@@ -35,6 +35,8 @@ impl Downloader {
    }
 
    fn download_with_curl(&self) {
+      report("Curl", self.paths.http_location.as_slice());
+
       let args = ["-s", "-L", "-O", self.paths.http_location.as_slice()];
 
       Command::new("curl").args(&args).current_dir(&self.paths.download_path).output().unwrap_or_else(|e| {
