@@ -1,34 +1,32 @@
 use std::fmt;
-use term::{StdTerminal, stdout, color, Attr};
+use term::{stdout, color, Attr};
 use std::old_io::IoResult;
 
-pub struct Reporter {
-   term: Box<StdTerminal>,
+
+pub fn report<T, U>(status: T, message: U)
+   where T: fmt::Display, U: fmt::Display
+{
+   report_impl(status, message).unwrap();
 }
 
-impl Reporter {
-   pub fn new() -> Self {
-      Reporter {
-         term: stdout().unwrap(),
-      }
+
+fn report_impl<T, U>(status: T, message: U) -> IoResult<()>
+   where T: fmt::Display, U: fmt::Display
+{
+   let mut term = stdout().unwrap();
+
+   try!(term.reset());
+
+   try!(term.fg(color::CYAN));
+   if term.supports_attr(Attr::Bold) {
+      try!(term.attr(Attr::Bold));
    }
+   try!(term.write_str(&format!("{:>12}", status)));
 
-   pub fn report<T, U>(&mut self, status: T, message: U) -> IoResult<()>
-      where T: fmt::Display, U: fmt::Display
-   {
-      try!(self.term.reset());
+   try!(term.reset());
 
-      try!(self.term.fg(color::CYAN));
-      if self.term.supports_attr(Attr::Bold) {
-         try!(self.term.attr(Attr::Bold));
-      }
-      try!(self.term.write_str(&format!("{:>12}", status)));
+   try!(term.write_line(&format!(" {}", message)));
+   try!(term.flush());
 
-      try!(self.term.reset());
-
-      try!(self.term.write_line(&format!(" {}", message)));
-      try!(self.term.flush());
-
-      Ok(())
-   }
+   Ok(())
 }
