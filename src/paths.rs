@@ -10,13 +10,19 @@ pub struct Paths {
 
    pub http_location: String,
 
-   pub download_path: PathBuf,
+   pub target_path: PathBuf,
 
    pub archive_path: PathBuf,
 
    pub extract_path: PathBuf,
 
    pub configure_path: PathBuf,
+
+   pub nginx_conf_prefix_path: PathBuf,
+
+   pub nginx_conf_path: PathBuf,
+
+   pub nginx_conf_source_path: PathBuf,
 }
 
 
@@ -28,22 +34,31 @@ impl Paths {
 
       let http_location = format!("http://nginx.org/download/{}", archive);
 
-      let download_path = Paths::archive_download_path();
+      let target_path = Paths::target_path();
 
-      let archive_path = download_path.join(&archive);
+      let archive_path = target_path.join(&archive);
 
-      let extract_path = download_path.join(&extract_dir);
+      let extract_path = target_path.join(&extract_dir);
 
       let configure_path = extract_path.join("configure");
+
+      let nginx_conf_prefix_path = target_path.join("conf");
+
+      let nginx_conf_path = nginx_conf_prefix_path.join("nginx.conf");
+
+      let nginx_conf_source_path = target_path.parent().unwrap().join("conf").join("nginx.conf");
 
       Paths {
          version: version,
          archive: archive,
          http_location: http_location,
-         download_path: download_path,
+         target_path: target_path,
          archive_path: archive_path,
          extract_path: extract_path,
          configure_path: configure_path,
+         nginx_conf_prefix_path: nginx_conf_prefix_path,
+         nginx_conf_path: nginx_conf_path,
+         nginx_conf_source_path: nginx_conf_source_path,
       }
    }
 
@@ -55,7 +70,7 @@ impl Paths {
       self.extract_path.exists() && self.extract_path.is_dir()
    }
 
-   fn archive_download_path() -> PathBuf {
+   fn target_path() -> PathBuf {
       let exe_path = env::current_exe().unwrap_or_else(|_| {
          panic!("Cannot retrieve current executable location.")
       });

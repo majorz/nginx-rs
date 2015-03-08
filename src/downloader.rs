@@ -39,7 +39,7 @@ impl Downloader {
 
       let args = ["-s", "-L", "-O", self.paths.http_location.as_slice()];
 
-      Command::new("curl").args(&args).current_dir(&self.paths.download_path).output().unwrap_or_else(|e| {
+      Command::new("curl").args(&args).current_dir(&self.paths.target_path).output().unwrap_or_else(|e| {
          panic!("Downloading nginx with Curl failed: {}.", e)
       });
    }
@@ -49,7 +49,7 @@ impl Downloader {
 
       let args = ["xzf", self.paths.archive.as_slice()];
 
-      Command::new("tar").args(&args).current_dir(&self.paths.download_path).output().unwrap_or_else(|e| {
+      Command::new("tar").args(&args).current_dir(&self.paths.target_path).output().unwrap_or_else(|e| {
          panic!("Extracting nginx failed: {}.", e)
       });
    }
