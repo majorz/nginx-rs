@@ -1,4 +1,43 @@
 [root]
 name = "nginx-rust"
 version = "0.0.1"
+dependencies = [
+ "term 0.1.13 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "kernel32-sys"
+version = "0.0.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "winapi 0.1.14 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "libc"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "log"
+version = "0.2.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "term"
+version = "0.1.13"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "kernel32-sys 0.0.10 (registry+https://github.com/rust-lang/crates.io-index)",
+ "log 0.2.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "winapi 0.1.14 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "winapi"
+version = "0.1.14"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "libc 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 

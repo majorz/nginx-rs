@@ -2,3 +2,6 @@
 
 name = "nginx-rust"
 version = "0.0.1"
+
+[dependencies]
+term = "*"
