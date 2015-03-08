@@ -3,7 +3,7 @@ use std::fs::remove_dir_all;
 use std::rc::Rc;
 
 use paths::Paths;
-use reporter::report;
+use reporter::{report, report_command};
 
 
 pub struct Downloader {
@@ -19,10 +19,8 @@ impl Downloader {
    }
 
    pub fn download(&self) {
-      report("Downloading", format!("nginx v{}", self.paths.version));
-
       if self.paths.already_downloaded() {
-         report("Downloaded", "already");
+         report("Downloading", format!("nginx downloaded already - v{}", self.paths.version));
       } else {
          self.download_with_curl();
       }
@@ -35,9 +33,9 @@ impl Downloader {
    }
 
    fn download_with_curl(&self) {
-      report("Curl", self.paths.http_location.as_slice());
+      let args = vec!["-s", "-L", "-O", self.paths.http_location.as_slice()];
 
-      let args = ["-s", "-L", "-O", self.paths.http_location.as_slice()];
+      report_command("Downloading", "curl", &args);
 
       Command::new("curl").args(&args).current_dir(&self.paths.target_path).output().unwrap_or_else(|e| {
          panic!("Downloading nginx with Curl failed: {}.", e)
@@ -45,9 +43,9 @@ impl Downloader {
    }
 
    fn extract(&self) {
-      report("Extracting", "nginx");
+      let args = vec!["xzf", self.paths.archive.as_slice()];
 
-      let args = ["xzf", self.paths.archive.as_slice()];
+      report_command("Extracting", "tar", &args);
 
       Command::new("tar").args(&args).current_dir(&self.paths.target_path).output().unwrap_or_else(|e| {
          panic!("Extracting nginx failed: {}.", e)
@@ -55,7 +53,7 @@ impl Downloader {
    }
 
    fn remove_existing_extract_path(&self) {
-      report("Removing", "previously extracted archive");
+      report("Removing", format!("previously extracted archive {:?}", &self.paths.extract_path));
 
       remove_dir_all(&self.paths.extract_path).unwrap_or_else(|e| {
          panic!("Cannot delete nginx extract path - {:?}: {}.", self.paths.extract_path, e)

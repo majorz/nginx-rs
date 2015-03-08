@@ -1,6 +1,15 @@
 use std::fmt;
-use term::{stdout, color, Attr};
 use std::old_io::IoResult;
+use term::{stdout, color, Attr};
+use std::str::Str;
+
+
+pub fn report_command<T, U, S>(status: T, command: U, args: &Vec<S>)
+   where T: fmt::Display, U: fmt::Display, S: Str
+{
+   let arg_string =  args.connect(" ");
+   report(status, format!("{} {}", command, arg_string));
+}
 
 
 pub fn report<T, U>(status: T, message: U)
