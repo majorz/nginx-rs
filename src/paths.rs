@@ -23,6 +23,8 @@ pub struct Paths {
    pub nginx_conf_path: PathBuf,
 
    pub nginx_conf_source_path: PathBuf,
+
+   pub module_dir_path: PathBuf,
 }
 
 
@@ -34,7 +36,11 @@ impl Paths {
 
       let http_location = format!("http://nginx.org/download/{}", archive);
 
-      let target_path = Paths::target_path();
+      let exe_path = Paths::get_exe_path();
+
+      let target_path = exe_path.parent().unwrap();
+
+      let root_path = target_path.parent().unwrap();
 
       let archive_path = target_path.join(&archive);
 
@@ -46,19 +52,22 @@ impl Paths {
 
       let nginx_conf_path = nginx_conf_prefix_path.join("nginx.conf");
 
-      let nginx_conf_source_path = target_path.parent().unwrap().join("conf").join("nginx.conf");
+      let nginx_conf_source_path = root_path.join("conf").join("nginx.conf");
+
+      let module_dir_path = root_path.join("module");
 
       Paths {
          version: version,
          archive: archive,
          http_location: http_location,
-         target_path: target_path,
+         target_path: PathBuf::new(target_path),
          archive_path: archive_path,
          extract_path: extract_path,
          configure_path: configure_path,
          nginx_conf_prefix_path: nginx_conf_prefix_path,
          nginx_conf_path: nginx_conf_path,
          nginx_conf_source_path: nginx_conf_source_path,
+         module_dir_path: module_dir_path,
       }
    }
 
@@ -70,12 +79,11 @@ impl Paths {
       self.extract_path.exists() && self.extract_path.is_dir()
    }
 
-   fn target_path() -> PathBuf {
+   fn get_exe_path() -> PathBuf {
       let exe_path = env::current_exe().unwrap_or_else(|_| {
          panic!("Cannot retrieve current executable location.")
       });
 
-      exe_path.parent().unwrap().to_path_buf()
+      exe_path
    }
 }
-

@@ -27,11 +27,13 @@ impl Builder {
 
       let prefix = format!("--prefix={}", self.paths.target_path.to_str().unwrap());
       let conf_path = format!("--conf-path={}", self.paths.nginx_conf_path.to_str().unwrap());
+      let add_module = format!("--add-module={}", self.paths.module_dir_path.to_str().unwrap());
 
       let args = vec![
          "--with-http_ssl_module",
          prefix.as_slice(),
          conf_path.as_slice(),
+         add_module.as_slice(),
       ];
 
       report_command("Configuring", "configure", &args);
@@ -55,4 +57,3 @@ impl Builder {
       });
    }
 }
-
