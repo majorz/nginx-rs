@@ -20,6 +20,8 @@ impl Builder {
 
    pub fn build(&self) {
       self.configure();
+      self.make();
+      self.make_install();
    }
 
    fn configure(&self) {
@@ -54,6 +56,24 @@ impl Builder {
 
       copy(&self.paths.nginx_conf_source_path, &self.paths.nginx_conf_path).unwrap_or_else(|e| {
          panic!("Cannot copy nginx.conf {:?} -> {:?}: {}.", self.paths.nginx_conf_source_path, self.paths.nginx_conf_path, e)
+      });
+   }
+
+   fn make(&self) {
+      report("Building", "make");
+
+      Command::new("make").current_dir(&self.paths.extract_path).status().unwrap_or_else(|e| {
+         panic!("Make failed: {}.", e)
+      });
+   }
+
+   fn make_install(&self) {
+      let args = vec!["install"];
+
+      report_command("Installing", "make", &args);
+
+      Command::new("make").args(&args).current_dir(&self.paths.extract_path).status().unwrap_or_else(|e| {
+         panic!("Make install failed: {}.", e)
       });
    }
 }
