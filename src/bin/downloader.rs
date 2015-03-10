@@ -53,7 +53,7 @@ impl Downloader {
    }
 
    fn remove_existing_extract_path(&self) {
-      report("Removing", format!("previously extracted archive {:?}", &self.paths.extract_path));
+      report("Deleting", format!("previously extracted {:?}", &self.paths.extract_path));
 
       remove_dir_all(&self.paths.extract_path).unwrap_or_else(|e| {
          panic!("Cannot delete nginx extract path - {:?}: {}.", self.paths.extract_path, e)
