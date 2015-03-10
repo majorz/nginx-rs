@@ -20,7 +20,7 @@ impl Downloader {
 
    pub fn download(&self) {
       if self.paths.already_downloaded() {
-         report("Downloading", format!("nginx downloaded already - v{}", self.paths.version));
+         report("Downloading", format!("nginx downloaded already - {}", self.paths.archive));
       } else {
          self.download_with_curl();
       }

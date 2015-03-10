@@ -1,12 +1,12 @@
 use std::env;
 use std::path::PathBuf;
 use std::fs::PathExt;
+
 use reporter::report_path;
+use version::nginx_version_string;
 
 
 pub struct Paths {
-   pub version: String,
-
    pub archive: String,
 
    pub http_location: String,
@@ -31,7 +31,9 @@ pub struct Paths {
 
 impl Paths {
 
-   pub fn new(version: String) -> Self {
+   pub fn new() -> Self {
+      let version = nginx_version_string();
+
       let extract_dir = format!("nginx-{}", version);
       let archive = format!("{}.tar.gz", extract_dir);
 
@@ -69,7 +71,6 @@ impl Paths {
       report_path("module_dir", &module_dir_path);
 
       Paths {
-         version: version,
          archive: archive,
          http_location: http_location,
          target_path: target_path,
