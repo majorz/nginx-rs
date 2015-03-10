@@ -1,6 +1,7 @@
 use std::env;
 use std::path::PathBuf;
 use std::fs::PathExt;
+use reporter::report_path;
 
 
 pub struct Paths {
@@ -18,11 +19,11 @@ pub struct Paths {
 
    pub configure_path: PathBuf,
 
-   pub nginx_conf_prefix_path: PathBuf,
+   pub ngxconf_prefix_path: PathBuf,
 
-   pub nginx_conf_path: PathBuf,
+   pub ngxconf_path: PathBuf,
 
-   pub nginx_conf_source_path: PathBuf,
+   pub ngxconf_source_path: PathBuf,
 
    pub module_dir_path: PathBuf,
 }
@@ -38,35 +39,47 @@ impl Paths {
 
       let exe_path = Paths::get_exe_path();
 
-      let target_path = exe_path.parent().unwrap();
+      let target_slice = exe_path.parent().unwrap();
+      let root_slice = target_slice.parent().unwrap();
 
-      let root_path = target_path.parent().unwrap();
+      let root_path = PathBuf::new(root_slice);
+      report_path("root", &root_path);
+
+      let target_path = PathBuf::new(target_slice);
+      report_path("target", &target_path);
 
       let archive_path = target_path.join(&archive);
+      report_path("archive", &archive_path);
 
       let extract_path = target_path.join(&extract_dir);
+      report_path("extract", &extract_path);
 
       let configure_path = extract_path.join("configure");
+      report_path("configure", &configure_path);
 
-      let nginx_conf_prefix_path = target_path.join("conf");
+      let ngxconf_prefix_path = target_path.join("conf");
+      report_path("ngxconf_prefix", &ngxconf_prefix_path);
 
-      let nginx_conf_path = nginx_conf_prefix_path.join("nginx.conf");
+      let ngxconf_path = ngxconf_prefix_path.join("nginx.conf");
+      report_path("ngxconf", &ngxconf_path);
 
-      let nginx_conf_source_path = root_path.join("conf").join("nginx.conf");
+      let ngxconf_source_path = root_path.join("conf").join("nginx.conf");
+      report_path("ngxconf_source", &ngxconf_source_path);
 
       let module_dir_path = root_path.join("module");
+      report_path("module_dir", &module_dir_path);
 
       Paths {
          version: version,
          archive: archive,
          http_location: http_location,
-         target_path: PathBuf::new(target_path),
+         target_path: target_path,
          archive_path: archive_path,
          extract_path: extract_path,
          configure_path: configure_path,
-         nginx_conf_prefix_path: nginx_conf_prefix_path,
-         nginx_conf_path: nginx_conf_path,
-         nginx_conf_source_path: nginx_conf_source_path,
+         ngxconf_prefix_path: ngxconf_prefix_path,
+         ngxconf_path: ngxconf_path,
+         ngxconf_source_path: ngxconf_source_path,
          module_dir_path: module_dir_path,
       }
    }

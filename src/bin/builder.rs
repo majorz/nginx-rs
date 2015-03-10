@@ -28,7 +28,7 @@ impl Builder {
       self.setup_conf_path();
 
       let prefix = format!("--prefix={}", self.paths.target_path.to_str().unwrap());
-      let conf_path = format!("--conf-path={}", self.paths.nginx_conf_path.to_str().unwrap());
+      let conf_path = format!("--conf-path={}", self.paths.ngxconf_path.to_str().unwrap());
       let add_module = format!("--add-module={}", self.paths.module_dir_path.to_str().unwrap());
 
       let args = vec![
@@ -46,16 +46,16 @@ impl Builder {
    }
 
    fn setup_conf_path(&self) {
-      report("Creating", format!("{:?}", &self.paths.nginx_conf_prefix_path));
+      report("Creating", format!("{:?}", &self.paths.ngxconf_prefix_path));
 
-      create_dir_all(&self.paths.nginx_conf_prefix_path).unwrap_or_else(|e| {
-         panic!("Cannot create nginx conf prefix path - {:?}: {}.", self.paths.nginx_conf_prefix_path, e)
+      create_dir_all(&self.paths.ngxconf_prefix_path).unwrap_or_else(|e| {
+         panic!("Cannot create nginx conf prefix path - {:?}: {}.", self.paths.ngxconf_prefix_path, e)
       });
 
-      report("Copying", format!("nginx.conf {:?}", &self.paths.nginx_conf_path));
+      report("Copying", format!("nginx.conf {:?}", &self.paths.ngxconf_path));
 
-      copy(&self.paths.nginx_conf_source_path, &self.paths.nginx_conf_path).unwrap_or_else(|e| {
-         panic!("Cannot copy nginx.conf {:?} -> {:?}: {}.", self.paths.nginx_conf_source_path, self.paths.nginx_conf_path, e)
+      copy(&self.paths.ngxconf_source_path, &self.paths.ngxconf_path).unwrap_or_else(|e| {
+         panic!("Cannot copy nginx.conf {:?} -> {:?}: {}.", self.paths.ngxconf_source_path, self.paths.ngxconf_path, e)
       });
    }
 
