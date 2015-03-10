@@ -13,6 +13,8 @@ pub struct Paths {
 
    pub target_path: PathBuf,
 
+   pub dist_path: PathBuf,
+
    pub archive_path: PathBuf,
 
    pub extract_path: PathBuf,
@@ -49,6 +51,9 @@ impl Paths {
       let target_path = PathBuf::new(target_slice);
       report_path("target", &target_path);
 
+      let dist_path = target_path.join("dist");
+      report_path("dist", &dist_path);
+
       let archive_path = target_path.join(&archive);
       report_path("archive", &archive_path);
 
@@ -58,7 +63,7 @@ impl Paths {
       let configure_path = extract_path.join("configure");
       report_path("configure", &configure_path);
 
-      let ngxconf_prefix_path = target_path.join("conf");
+      let ngxconf_prefix_path = dist_path.join("conf");
       report_path("ngxconf_prefix", &ngxconf_prefix_path);
 
       let ngxconf_path = ngxconf_prefix_path.join("nginx.conf");
@@ -74,6 +79,7 @@ impl Paths {
          archive: archive,
          http_location: http_location,
          target_path: target_path,
+         dist_path: dist_path,
          archive_path: archive_path,
          extract_path: extract_path,
          configure_path: configure_path,

@@ -25,9 +25,10 @@ impl Builder {
    }
 
    fn configure(&self) {
+      self.setup_dist_path();
       self.setup_conf_path();
 
-      let prefix = format!("--prefix={}", self.paths.target_path.to_str().unwrap());
+      let prefix = format!("--prefix={}", self.paths.dist_path.to_str().unwrap());
       let conf_path = format!("--conf-path={}", self.paths.ngxconf_path.to_str().unwrap());
       let add_module = format!("--add-module={}", self.paths.module_dir_path.to_str().unwrap());
 
@@ -42,6 +43,14 @@ impl Builder {
 
       Command::new(&self.paths.configure_path).args(&args).current_dir(&self.paths.extract_path).status().unwrap_or_else(|e| {
          panic!("Configuring Nginx build failed: {}.", e)
+      });
+   }
+
+   fn setup_dist_path(&self) {
+      report("Creating", format!("{:?}", &self.paths.dist_path));
+
+      create_dir_all(&self.paths.dist_path).unwrap_or_else(|e| {
+         panic!("Cannot create build dist path - {:?}: {}.", self.paths.dist_path, e)
       });
    }
 
