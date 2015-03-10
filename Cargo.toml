@@ -6,6 +6,9 @@ version = "0.0.1"
 [dependencies]
 term = "*"
 
+[lib]
+name = "nrust"
+crate-type = ["dylib"]
 
 [[bin]]
 name = "nginx-make"
