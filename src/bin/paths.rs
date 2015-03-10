@@ -40,9 +40,8 @@ impl Paths {
       let exe_path = Paths::get_exe_path();
 
       let target_slice = exe_path.parent().unwrap();
-      let root_slice = target_slice.parent().unwrap();
 
-      let root_path = PathBuf::new(root_slice);
+      let root_path = Paths::get_root_path();
       report_path("root", &root_path);
 
       let target_path = PathBuf::new(target_slice);
@@ -98,5 +97,13 @@ impl Paths {
       });
 
       exe_path
+   }
+
+   fn get_root_path() -> PathBuf {
+      let root_path = env::var("CARGO_MANIFEST_DIR").unwrap_or_else(|_| {
+         panic!("Cannot retrieve root dir – CARGO_MANIFEST_DIR.")
+      });
+
+      PathBuf::new(root_path.as_slice())
    }
 }
