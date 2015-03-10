@@ -19,6 +19,8 @@ use builder::Builder;
 
 
 fn main() {
+   dump_env();
+
    let paths = Paths::new();
    let paths_rc = Rc::new(paths);
 
@@ -27,4 +29,16 @@ fn main() {
 
    let nginx_builder = Builder::new(paths_rc.clone());
    nginx_builder.build();
+}
+
+
+fn dump_env() {
+   use std::env;
+   use reporter::report;
+
+   report("Dumping", "Environment");
+
+   for (key, value) in env::vars() {
+       println!("{:>30}: {}", key, value);
+   }
 }
