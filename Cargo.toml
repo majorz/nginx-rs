@@ -5,3 +5,7 @@ version = "0.0.1"
 
 [dependencies]
 term = "*"
+
+
+[[bin]]
+name = "nginx-make"
