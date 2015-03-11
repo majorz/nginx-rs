@@ -2,7 +2,14 @@
 #include <ngx_core.h>
 #include <ngx_http.h>
 
+
+typedef void * (*pcalloc_callback)(ngx_pool_t *pool, size_t size);
+
+ngx_str_t sample_text_from_rust(ngx_http_request_t *r, pcalloc_callback pcalloc);
+
+
 static char *ngx_http_sample_module_command(ngx_conf_t *cf, ngx_command_t *cmd, void *conf);
+
 
 static ngx_command_t  ngx_http_sample_commands[] = {
    {
@@ -46,9 +53,9 @@ ngx_module_t  ngx_http_sample_module = {
    NGX_MODULE_V1_PADDING
 };
 
-static ngx_str_t ngx_http_sample_text = ngx_string(
-   "ngx_http_sample_handler"
-);
+//static ngx_str_t ngx_http_sample_text = ngx_string(
+//   "ngx_http_sample_handler"
+//);
 
 static ngx_int_t
 ngx_http_sample_handler(ngx_http_request_t *r)
@@ -56,6 +63,10 @@ ngx_http_sample_handler(ngx_http_request_t *r)
    ngx_int_t     rc;
    ngx_buf_t    *b;
    ngx_chain_t   out;
+
+   ngx_str_t ngx_http_sample_text;
+
+   ngx_http_sample_text = sample_text_from_rust(r, ngx_pcalloc);
 
    r->headers_out.status = NGX_HTTP_OK;
    r->headers_out.content_length_n = ngx_http_sample_text.len;
