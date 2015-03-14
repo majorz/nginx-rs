@@ -1,6 +1,10 @@
 #![feature(libc)]
+#![feature(plugin)]
+
+#![plugin(maud_macros)]
 
 extern crate libc;
+extern crate maud;
 
 mod ffi;
 
@@ -22,15 +26,21 @@ pub extern fn sample_text_from_rust(
    ngx_pcalloc: extern fn(pool: *mut ngx_pool_t, size: size_t) -> *mut c_void
 ) -> ngx_str_t
 {
-   let s = CString::new("hellohihi").unwrap();
+   let name = "Nginx-Rust";
+   let markup = html! {
+      p { "Hello, " $name "!" }
+   };
+
+   let s = CString::new(markup.to_string()).unwrap();
+   let len = s.to_bytes().len() as size_t;
 
    let result = ngx_str_t {
-      len: 9,
-      data: unsafe { ngx_pcalloc((*r).pool, 10) as *mut u8 },
+      len: len,
+      data: unsafe { ngx_pcalloc((*r).pool, len) as *mut u8 },
    };
 
    unsafe {
-      memcpy(result.data as *mut c_void, s.as_ptr() as *const c_void, 9);
+      memcpy(result.data as *mut c_void, s.as_ptr() as *const c_void, len);
    }
 
    result

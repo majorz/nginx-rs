@@ -6,6 +6,12 @@ version = "0.0.1"
 [dependencies]
 term = "*"
 
+[dependencies.maud]
+git = "https://github.com/lfairy/maud.git"
+
+[dependencies.maud_macros]
+git = "https://github.com/lfairy/maud.git"
+
 [lib]
 name = "nrust"
 crate-type = ["dylib"]
