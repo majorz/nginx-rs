@@ -1,6 +1,5 @@
 #![feature(core)]
 #![feature(old_io)]
-#![feature(path)]
 #![feature(path_ext)]
 
 extern crate term;
