@@ -9,15 +9,11 @@ extern crate maud;
 mod ffi;
 
 use std::ffi::CString;
+use std::ptr;
 
 use ffi::nginx::{ngx_str_t, ngx_http_request_t, ngx_pool_t};
 
 use libc::{c_void, size_t};
-
-
-extern {
-   pub fn memcpy(dest: *mut c_void, src: *const c_void, n: size_t) -> *mut c_void;
-}
 
 
 #[no_mangle]
@@ -28,7 +24,12 @@ pub extern fn sample_text_from_rust(
 {
    let name = "Nginx-Rust";
    let markup = html! {
-      p { "Hello, " $name "!" }
+      html {
+         head meta charset="utf-8"
+         body {
+            p { "Здравейте, " $name "!" }
+         }
+      }
    };
 
    let s = CString::new(markup.to_string()).unwrap();
@@ -40,7 +41,7 @@ pub extern fn sample_text_from_rust(
    };
 
    unsafe {
-      memcpy(result.data as *mut c_void, s.as_ptr() as *const c_void, len);
+      ptr::copy_nonoverlapping(result.data, s.as_ptr() as *const u8, len as usize);
    }
 
    result
