@@ -1,5 +1,5 @@
 use std::fmt;
-use std::old_io::IoResult;
+use std::io;
 use term::{stdout, color, Attr};
 use std::str::Str;
 use std::path::PathBuf;
@@ -29,7 +29,7 @@ pub fn report_path<T>(key: T, path: &PathBuf)
 }
 
 
-fn report_impl<T, U>(status: T, message: U, status_color: color::Color) -> IoResult<()>
+fn report_impl<T, U>(status: T, message: U, status_color: color::Color) -> io::Result<()>
    where T: fmt::Display, U: fmt::Display
 {
    let mut term = stdout().unwrap();
@@ -40,11 +40,11 @@ fn report_impl<T, U>(status: T, message: U, status_color: color::Color) -> IoRes
    if term.supports_attr(Attr::Bold) {
       try!(term.attr(Attr::Bold));
    }
-   try!(term.write_str(&format!("{:>12}", status)));
+   try!(write!(term, "{:>12}", status));
 
    try!(term.reset());
 
-   try!(term.write_line(&format!(" {}", message)));
+   try!(write!(term, " {}\n", message));
    try!(term.flush());
 
    Ok(())
