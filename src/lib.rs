@@ -16,12 +16,17 @@ use ffi::nginx::{ngx_str_t, ngx_http_request_t, ngx_pool_t};
 use libc::{c_void, size_t};
 
 
+pub type NgxPcalloc = extern fn(pool: *mut ngx_pool_t, size: size_t) -> *mut c_void;
+static mut ngx_pcalloc: Option<NgxPcalloc> = None;
+
+
 #[no_mangle]
-pub extern fn sample_text_from_rust(
-   r: *const ngx_http_request_t,
-   ngx_pcalloc: extern fn(pool: *mut ngx_pool_t, size: size_t) -> *mut c_void
-) -> ngx_str_t
+pub extern fn sample_text_from_rust(r: *const ngx_http_request_t, pcalloc: NgxPcalloc) -> ngx_str_t
 {
+   unsafe {
+      ngx_pcalloc = Some(pcalloc);
+   }
+
    let name = "Nginx-Rust";
    let markup = html! {
       html {
@@ -37,7 +42,7 @@ pub extern fn sample_text_from_rust(
 
    let result = ngx_str_t {
       len: len,
-      data: unsafe { ngx_pcalloc((*r).pool, len) as *mut u8 },
+      data: unsafe { ngx_pcalloc.unwrap()((*r).pool, len) as *mut u8 },
    };
 
    unsafe {
