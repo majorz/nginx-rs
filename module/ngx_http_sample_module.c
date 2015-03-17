@@ -3,9 +3,7 @@
 #include <ngx_http.h>
 
 
-typedef void * (*pcalloc_callback)(ngx_pool_t *pool, size_t size);
-
-ngx_str_t sample_text_from_rust(ngx_http_request_t *r, pcalloc_callback pcalloc);
+ngx_str_t sample_text_from_rust(ngx_http_request_t *r);
 
 
 static char *ngx_http_sample_module_command(ngx_conf_t *cf, ngx_command_t *cmd, void *conf);
@@ -66,7 +64,7 @@ ngx_http_sample_handler(ngx_http_request_t *r)
 
    ngx_str_t ngx_http_sample_text;
 
-   ngx_http_sample_text = sample_text_from_rust(r, ngx_pcalloc);
+   ngx_http_sample_text = sample_text_from_rust(r);
 
    r->headers_out.status = NGX_HTTP_OK;
    r->headers_out.content_length_n = ngx_http_sample_text.len;
