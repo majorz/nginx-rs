@@ -11,13 +11,9 @@ mod ffi;
 use std::ffi::CString;
 use std::ptr;
 
-use ffi::nginx::{ngx_str_t, ngx_http_request_t, ngx_pool_t};
+use ffi::nginx::{ngx_str_t, ngx_http_request_t, ngx_pcalloc};
 
-use libc::{c_void, size_t};
-
-extern {
-   fn ngx_pcalloc(pool: *mut ngx_pool_t, size: size_t) -> *mut libc::c_void;
-}
+use libc::{size_t};
 
 
 #[no_mangle]

@@ -81,7 +81,11 @@ struct SSL;
 #[repr(C)]
 struct SSL_SESSION;
 
+#[repr(C)]
+struct va_list;
 
+#[repr(C)]
+struct RSA;
 
 
 pub type __u_char = ::libc::c_uchar;
@@ -3576,321 +3580,1137 @@ impl ::std::default::Default for Struct_Unnamed239 {
     fn default() -> Struct_Unnamed239 { unsafe { ::std::mem::zeroed() } }
 }
 pub type ngx_http_status_t = Struct_Unnamed239;
+
 extern "C" {
-    pub static mut __environ: *mut *mut ::libc::c_char;
-    pub static mut environ: *mut *mut ::libc::c_char;
-    pub static mut optarg: *mut ::libc::c_char;
-    pub static mut optind: ::libc::c_int;
-    pub static mut opterr: ::libc::c_int;
-    pub static mut optopt: ::libc::c_int;
-    pub static mut _IO_2_1_stdin_: Struct__IO_FILE_plus;
-    pub static mut _IO_2_1_stdout_: Struct__IO_FILE_plus;
-    pub static mut _IO_2_1_stderr_: Struct__IO_FILE_plus;
-    pub static mut stdin: *mut Struct__IO_FILE;
-    pub static mut stdout: *mut Struct__IO_FILE;
-    pub static mut stderr: *mut Struct__IO_FILE;
-    pub static mut sys_nerr: ::libc::c_int;
-    pub static mut sys_errlist: *const *const ::libc::c_char;
-    pub static mut _sys_nerr: ::libc::c_int;
-    pub static mut _sys_errlist: *const *const ::libc::c_char;
-    pub static mut program_invocation_name: *mut ::libc::c_char;
-    pub static mut program_invocation_short_name: *mut ::libc::c_char;
-    pub static mut _sys_siglist: [*const ::libc::c_char; 65usize];
-    pub static mut sys_siglist: [*const ::libc::c_char; 65usize];
-    pub static in6addr_any: Struct_in6_addr;
-    pub static in6addr_loopback: Struct_in6_addr;
-    pub static mut __tzname: [*mut ::libc::c_char; 2usize];
-    pub static mut __daylight: ::libc::c_int;
-    pub static mut __timezone: ::libc::c_long;
-    pub static mut tzname: [*mut ::libc::c_char; 2usize];
-    pub static mut daylight: ::libc::c_int;
-    pub static mut timezone: ::libc::c_long;
-    pub static mut getdate_err: ::libc::c_int;
-    pub static mut __morecore:
-               ::std::option::Option<extern "C" fn(__size: ptrdiff_t)
-                                         -> *mut ::libc::c_void>;
-    pub static mut __malloc_initialize_hook:
-               ::std::option::Option<extern "C" fn() -> ()>;
-    pub static mut __free_hook:
-               ::std::option::Option<extern "C" fn
-                                         (__ptr: *mut ::libc::c_void,
-                                          arg1: *const ::libc::c_void) -> ()>;
-    pub static mut __malloc_hook:
-               ::std::option::Option<extern "C" fn
-                                         (__size: size_t,
-                                          arg1: *const ::libc::c_void)
-                                         -> *mut ::libc::c_void>;
-    pub static mut __realloc_hook:
-               ::std::option::Option<extern "C" fn
-                                         (__ptr: *mut ::libc::c_void,
-                                          __size: size_t,
-                                          arg1: *const ::libc::c_void)
-                                         -> *mut ::libc::c_void>;
-    pub static mut __memalign_hook:
-               ::std::option::Option<extern "C" fn
-                                         (__alignment: size_t, __size: size_t,
-                                          arg1: *const ::libc::c_void)
-                                         -> *mut ::libc::c_void>;
-    pub static mut __after_morecore_hook:
-               ::std::option::Option<extern "C" fn() -> ()>;
-    pub static mut ngx_argc: ::libc::c_int;
-    pub static mut ngx_argv: *mut *mut ::libc::c_char;
-    pub static mut ngx_os_argv: *mut *mut ::libc::c_char;
-    pub static mut ngx_pid: ngx_pid_t;
-    pub static mut ngx_channel: ngx_socket_t;
-    pub static mut ngx_process_slot: ngx_int_t;
-    pub static mut ngx_last_process: ngx_int_t;
-    pub static mut ngx_processes: [ngx_process_t; 1024usize];
-    pub static mut ngx_errlog_module: ngx_module_t;
-    pub static mut ngx_use_stderr: ngx_uint_t;
-    pub static mut ngx_pagesize: ngx_uint_t;
-    pub static mut ngx_pagesize_shift: ngx_uint_t;
-    pub static mut ngx_cacheline_size: ngx_uint_t;
-    pub static mut ngx_temp_number: *mut ngx_atomic_t;
-    pub static mut ngx_random_number: ngx_atomic_int_t;
-    pub static mut ngx_crc32_table_short: *mut uint32_t;
-    pub static mut ngx_crc32_table256: *mut uint32_t;
-    pub static mut pcre_malloc:
-               ::std::option::Option<extern "C" fn(arg1: size_t)
-                                         -> *mut ::libc::c_void>;
-    pub static mut pcre_free:
-               ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)
-                                         -> ()>;
-    pub static mut pcre_stack_malloc:
-               ::std::option::Option<extern "C" fn(arg1: size_t)
-                                         -> *mut ::libc::c_void>;
-    pub static mut pcre_stack_free:
-               ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)
-                                         -> ()>;
-    pub static mut pcre_callout:
-               ::std::option::Option<extern "C" fn
-                                         (arg1: *mut pcre_callout_block)
-                                         -> ::libc::c_int>;
-    pub static mut pcre_stack_guard:
-               ::std::option::Option<extern "C" fn() -> ::libc::c_int>;
-    pub static mut pcre16_malloc:
-               ::std::option::Option<extern "C" fn(arg1: size_t)
-                                         -> *mut ::libc::c_void>;
-    pub static mut pcre16_free:
-               ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)
-                                         -> ()>;
-    pub static mut pcre16_stack_malloc:
-               ::std::option::Option<extern "C" fn(arg1: size_t)
-                                         -> *mut ::libc::c_void>;
-    pub static mut pcre16_stack_free:
-               ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)
-                                         -> ()>;
-    pub static mut pcre16_callout:
-               ::std::option::Option<extern "C" fn
-                                         (arg1: *mut pcre16_callout_block)
-                                         -> ::libc::c_int>;
-    pub static mut pcre16_stack_guard:
-               ::std::option::Option<extern "C" fn() -> ::libc::c_int>;
-    pub static mut pcre32_malloc:
-               ::std::option::Option<extern "C" fn(arg1: size_t)
-                                         -> *mut ::libc::c_void>;
-    pub static mut pcre32_free:
-               ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)
-                                         -> ()>;
-    pub static mut pcre32_stack_malloc:
-               ::std::option::Option<extern "C" fn(arg1: size_t)
-                                         -> *mut ::libc::c_void>;
-    pub static mut pcre32_stack_free:
-               ::std::option::Option<extern "C" fn(arg1: *mut ::libc::c_void)
-                                         -> ()>;
-    pub static mut pcre32_callout:
-               ::std::option::Option<extern "C" fn
-                                         (arg1: *mut pcre32_callout_block)
-                                         -> ::libc::c_int>;
-    pub static mut pcre32_stack_guard:
-               ::std::option::Option<extern "C" fn() -> ::libc::c_int>;
-    pub static mut ngx_cached_time: *mut ngx_time_t;
-    pub static mut ngx_cached_err_log_time: ngx_str_t;
-    pub static mut ngx_cached_http_time: ngx_str_t;
-    pub static mut ngx_cached_http_log_time: ngx_str_t;
-    pub static mut ngx_cached_http_log_iso8601: ngx_str_t;
-    pub static mut ngx_cached_syslog_time: ngx_str_t;
-    pub static mut ngx_current_msec: ngx_msec_t;
-    pub static mut ngx_cycle: *mut ngx_cycle_t;
-    pub static mut ngx_old_cycles: ngx_array_t;
-    pub static mut ngx_core_module: ngx_module_t;
-    pub static mut ngx_test_config: ngx_uint_t;
-    pub static mut ngx_quiet_mode: ngx_uint_t;
-    pub static ASN1_SEQUENCE_ANY_it: ASN1_ITEM;
-    pub static ASN1_SET_ANY_it: ASN1_ITEM;
-    pub static ASN1_ANY_it: ASN1_ITEM;
-    pub static ASN1_OBJECT_it: ASN1_ITEM;
-    pub static ASN1_BIT_STRING_it: ASN1_ITEM;
-    pub static ASN1_INTEGER_it: ASN1_ITEM;
-    pub static ASN1_ENUMERATED_it: ASN1_ITEM;
-    pub static ASN1_OCTET_STRING_it: ASN1_ITEM;
-    pub static ASN1_VISIBLESTRING_it: ASN1_ITEM;
-    pub static ASN1_UNIVERSALSTRING_it: ASN1_ITEM;
-    pub static ASN1_UTF8STRING_it: ASN1_ITEM;
-    pub static ASN1_NULL_it: ASN1_ITEM;
-    pub static ASN1_BMPSTRING_it: ASN1_ITEM;
-    pub static ASN1_PRINTABLE_it: ASN1_ITEM;
-    pub static DIRECTORYSTRING_it: ASN1_ITEM;
-    pub static DISPLAYTEXT_it: ASN1_ITEM;
-    pub static ASN1_PRINTABLESTRING_it: ASN1_ITEM;
-    pub static ASN1_T61STRING_it: ASN1_ITEM;
-    pub static ASN1_IA5STRING_it: ASN1_ITEM;
-    pub static ASN1_GENERALSTRING_it: ASN1_ITEM;
-    pub static ASN1_UTCTIME_it: ASN1_ITEM;
-    pub static ASN1_GENERALIZEDTIME_it: ASN1_ITEM;
-    pub static ASN1_TIME_it: ASN1_ITEM;
-    pub static ASN1_OCTET_STRING_NDEF_it: ASN1_ITEM;
-    pub static NETSCAPE_X509_it: ASN1_ITEM;
-    pub static mut obj_cleanup_defer: ::libc::c_int;
-    pub static RSAPublicKey_it: ASN1_ITEM;
-    pub static RSAPrivateKey_it: ASN1_ITEM;
-    pub static RSA_PSS_PARAMS_it: ASN1_ITEM;
-    pub static PKCS7_ISSUER_AND_SERIAL_it: ASN1_ITEM;
-    pub static PKCS7_SIGNER_INFO_it: ASN1_ITEM;
-    pub static PKCS7_RECIP_INFO_it: ASN1_ITEM;
-    pub static PKCS7_SIGNED_it: ASN1_ITEM;
-    pub static PKCS7_ENC_CONTENT_it: ASN1_ITEM;
-    pub static PKCS7_ENVELOPE_it: ASN1_ITEM;
-    pub static PKCS7_SIGN_ENVELOPE_it: ASN1_ITEM;
-    pub static PKCS7_DIGEST_it: ASN1_ITEM;
-    pub static PKCS7_ENCRYPT_it: ASN1_ITEM;
-    pub static PKCS7_it: ASN1_ITEM;
-    pub static PKCS7_ATTR_SIGN_it: ASN1_ITEM;
-    pub static PKCS7_ATTR_VERIFY_it: ASN1_ITEM;
-    pub static X509_ALGOR_it: ASN1_ITEM;
-    pub static X509_ALGORS_it: ASN1_ITEM;
-    pub static X509_VAL_it: ASN1_ITEM;
-    pub static X509_PUBKEY_it: ASN1_ITEM;
-    pub static X509_SIG_it: ASN1_ITEM;
-    pub static X509_REQ_INFO_it: ASN1_ITEM;
-    pub static X509_REQ_it: ASN1_ITEM;
-    pub static X509_ATTRIBUTE_it: ASN1_ITEM;
-    pub static X509_EXTENSION_it: ASN1_ITEM;
-    pub static X509_EXTENSIONS_it: ASN1_ITEM;
-    pub static X509_NAME_ENTRY_it: ASN1_ITEM;
-    pub static X509_NAME_it: ASN1_ITEM;
-    pub static X509_CINF_it: ASN1_ITEM;
-    pub static X509_it: ASN1_ITEM;
-    pub static X509_CERT_AUX_it: ASN1_ITEM;
-    pub static X509_CERT_PAIR_it: ASN1_ITEM;
-    pub static X509_REVOKED_it: ASN1_ITEM;
-    pub static X509_CRL_INFO_it: ASN1_ITEM;
-    pub static X509_CRL_it: ASN1_ITEM;
-    pub static NETSCAPE_SPKI_it: ASN1_ITEM;
-    pub static NETSCAPE_SPKAC_it: ASN1_ITEM;
-    pub static NETSCAPE_CERT_SEQUENCE_it: ASN1_ITEM;
-    pub static PBEPARAM_it: ASN1_ITEM;
-    pub static PBE2PARAM_it: ASN1_ITEM;
-    pub static PBKDF2PARAM_it: ASN1_ITEM;
-    pub static PKCS8_PRIV_KEY_INFO_it: ASN1_ITEM;
-    pub static PROXY_POLICY_it: ASN1_ITEM;
-    pub static PROXY_CERT_INFO_EXTENSION_it: ASN1_ITEM;
-    pub static BASIC_CONSTRAINTS_it: ASN1_ITEM;
-    pub static SXNET_it: ASN1_ITEM;
-    pub static SXNETID_it: ASN1_ITEM;
-    pub static AUTHORITY_KEYID_it: ASN1_ITEM;
-    pub static PKEY_USAGE_PERIOD_it: ASN1_ITEM;
-    pub static GENERAL_NAME_it: ASN1_ITEM;
-    pub static GENERAL_NAMES_it: ASN1_ITEM;
-    pub static OTHERNAME_it: ASN1_ITEM;
-    pub static EDIPARTYNAME_it: ASN1_ITEM;
-    pub static EXTENDED_KEY_USAGE_it: ASN1_ITEM;
-    pub static CERTIFICATEPOLICIES_it: ASN1_ITEM;
-    pub static POLICYINFO_it: ASN1_ITEM;
-    pub static POLICYQUALINFO_it: ASN1_ITEM;
-    pub static USERNOTICE_it: ASN1_ITEM;
-    pub static NOTICEREF_it: ASN1_ITEM;
-    pub static CRL_DIST_POINTS_it: ASN1_ITEM;
-    pub static DIST_POINT_it: ASN1_ITEM;
-    pub static DIST_POINT_NAME_it: ASN1_ITEM;
-    pub static ISSUING_DIST_POINT_it: ASN1_ITEM;
-    pub static ACCESS_DESCRIPTION_it: ASN1_ITEM;
-    pub static AUTHORITY_INFO_ACCESS_it: ASN1_ITEM;
-    pub static POLICY_MAPPING_it: ASN1_ITEM;
-    pub static POLICY_MAPPINGS_it: ASN1_ITEM;
-    pub static GENERAL_SUBTREE_it: ASN1_ITEM;
-    pub static NAME_CONSTRAINTS_it: ASN1_ITEM;
-    pub static POLICY_CONSTRAINTS_it: ASN1_ITEM;
-    pub static OCSP_RESPID_it: ASN1_ITEM;
-    pub static OCSP_SINGLERESP_it: ASN1_ITEM;
-    pub static OCSP_CERTSTATUS_it: ASN1_ITEM;
-    pub static OCSP_REVOKEDINFO_it: ASN1_ITEM;
-    pub static OCSP_BASICRESP_it: ASN1_ITEM;
-    pub static OCSP_RESPDATA_it: ASN1_ITEM;
-    pub static OCSP_RESPONSE_it: ASN1_ITEM;
-    pub static OCSP_RESPBYTES_it: ASN1_ITEM;
-    pub static OCSP_ONEREQ_it: ASN1_ITEM;
-    pub static OCSP_CERTID_it: ASN1_ITEM;
-    pub static OCSP_REQUEST_it: ASN1_ITEM;
-    pub static OCSP_SIGNATURE_it: ASN1_ITEM;
-    pub static OCSP_REQINFO_it: ASN1_ITEM;
-    pub static OCSP_CRLID_it: ASN1_ITEM;
-    pub static OCSP_SERVICELOC_it: ASN1_ITEM;
-    pub static mut ngx_ssl_connection_index: ::libc::c_int;
-    pub static mut ngx_ssl_server_conf_index: ::libc::c_int;
-    pub static mut ngx_ssl_session_cache_index: ::libc::c_int;
-    pub static mut ngx_ssl_session_ticket_keys_index: ::libc::c_int;
-    pub static mut ngx_ssl_certificate_index: ::libc::c_int;
-    pub static mut ngx_ssl_stapling_index: ::libc::c_int;
-    pub static mut ngx_process: ngx_uint_t;
-    pub static mut ngx_new_binary: ngx_pid_t;
-    pub static mut ngx_inherited: ngx_uint_t;
-    pub static mut ngx_daemonized: ngx_uint_t;
-    pub static mut ngx_threaded: ngx_uint_t;
-    pub static mut ngx_exiting: ngx_uint_t;
-    pub static mut ngx_reap: sig_atomic_t;
-    pub static mut ngx_sigio: sig_atomic_t;
-    pub static mut ngx_sigalrm: sig_atomic_t;
-    pub static mut ngx_quit: sig_atomic_t;
-    pub static mut ngx_debug_quit: sig_atomic_t;
-    pub static mut ngx_terminate: sig_atomic_t;
-    pub static mut ngx_noaccept: sig_atomic_t;
-    pub static mut ngx_reconfigure: sig_atomic_t;
-    pub static mut ngx_reopen: sig_atomic_t;
-    pub static mut ngx_change_binary: sig_atomic_t;
-    pub static mut ngx_max_module: ngx_uint_t;
-    pub static mut ngx_modules: *mut *mut ngx_module_t;
-    pub static mut ngx_os_io: ngx_os_io_t;
-    pub static mut ngx_ncpu: ngx_int_t;
-    pub static mut ngx_max_sockets: ngx_int_t;
-    pub static mut ngx_inherited_nonblocking: ngx_uint_t;
-    pub static mut ngx_tcp_nodelay_and_tcp_nopush: ngx_uint_t;
-    pub static mut ngx_linux_rtsig_max: ::libc::c_int;
-    pub static mut ngx_http_variable_null_value: ngx_http_variable_value_t;
-    pub static mut ngx_http_variable_true_value: ngx_http_variable_value_t;
-    pub static mut ngx_http_headers_in: *mut ngx_http_header_t;
-    pub static mut ngx_http_headers_out: *mut ngx_http_header_out_t;
-    pub static mut ngx_event_actions: ngx_event_actions_t;
-    pub static mut ngx_io: ngx_os_io_t;
-    pub static mut ngx_connection_counter: *mut ngx_atomic_t;
-    pub static mut ngx_accept_mutex_ptr: *mut ngx_atomic_t;
-    pub static mut ngx_accept_mutex: ngx_shmtx_t;
-    pub static mut ngx_use_accept_mutex: ngx_uint_t;
-    pub static mut ngx_accept_events: ngx_uint_t;
-    pub static mut ngx_accept_mutex_held: ngx_uint_t;
-    pub static mut ngx_accept_mutex_delay: ngx_msec_t;
-    pub static mut ngx_accept_disabled: ngx_int_t;
-    pub static mut ngx_event_timer_alarm: sig_atomic_t;
-    pub static mut ngx_event_flags: ngx_uint_t;
-    pub static mut ngx_events_module: ngx_module_t;
-    pub static mut ngx_event_core_module: ngx_module_t;
-    pub static mut ngx_event_timer_rbtree: ngx_rbtree_t;
-    pub static mut ngx_posted_accept_events: ngx_queue_t;
-    pub static mut ngx_posted_events: ngx_queue_t;
-    pub static mut ngx_http_upstream_module: ngx_module_t;
-    pub static mut ngx_http_upstream_cache_method_mask:
-               *mut ngx_conf_bitmask_t;
-    pub static mut ngx_http_upstream_ignore_headers_masks:
-               *mut ngx_conf_bitmask_t;
-    pub static mut ngx_http_core_module: ngx_module_t;
-    pub static mut ngx_http_max_module: ngx_uint_t;
-    pub static mut ngx_http_core_get_method: ngx_str_t;
-    pub static mut ngx_http_cache_status: *mut ngx_str_t;
-    pub static mut ngx_http_ssi_filter_module: ngx_module_t;
-    pub static mut ngx_http_ssl_module: ngx_module_t;
-    pub static mut ngx_http_module: ngx_module_t;
-    pub static mut ngx_http_html_default_types: *mut ngx_str_t;
-    pub static mut ngx_http_top_header_filter:
-               ngx_http_output_header_filter_pt;
-    pub static mut ngx_http_top_body_filter: ngx_http_output_body_filter_pt;
+   pub static mut ngx_argc: ::libc::c_int;
+   pub static mut ngx_argv: *mut *mut ::libc::c_char;
+   pub static mut ngx_os_argv: *mut *mut ::libc::c_char;
+   pub static mut ngx_pid: ngx_pid_t;
+   pub static mut ngx_channel: ngx_socket_t;
+   pub static mut ngx_process_slot: ngx_int_t;
+   pub static mut ngx_last_process: ngx_int_t;
+   pub static mut ngx_processes: [ngx_process_t; 1024usize];
+   pub static mut ngx_errlog_module: ngx_module_t;
+   pub static mut ngx_use_stderr: ngx_uint_t;
+   pub static mut ngx_pagesize: ngx_uint_t;
+   pub static mut ngx_pagesize_shift: ngx_uint_t;
+   pub static mut ngx_cacheline_size: ngx_uint_t;
+   pub static mut ngx_temp_number: *mut ngx_atomic_t;
+   pub static mut ngx_random_number: ngx_atomic_int_t;
+   pub static mut ngx_crc32_table_short: *mut uint32_t;
+   pub static mut ngx_crc32_table256: *mut uint32_t;
+
+   pub static mut ngx_cached_time: *mut ngx_time_t;
+   pub static mut ngx_cached_err_log_time: ngx_str_t;
+   pub static mut ngx_cached_http_time: ngx_str_t;
+   pub static mut ngx_cached_http_log_time: ngx_str_t;
+   pub static mut ngx_cached_http_log_iso8601: ngx_str_t;
+   pub static mut ngx_cached_syslog_time: ngx_str_t;
+   pub static mut ngx_current_msec: ngx_msec_t;
+   pub static mut ngx_cycle: *mut ngx_cycle_t;
+   pub static mut ngx_old_cycles: ngx_array_t;
+   pub static mut ngx_core_module: ngx_module_t;
+   pub static mut ngx_test_config: ngx_uint_t;
+   pub static mut ngx_quiet_mode: ngx_uint_t;
+
+   pub static mut ngx_ssl_connection_index: ::libc::c_int;
+   pub static mut ngx_ssl_server_conf_index: ::libc::c_int;
+   pub static mut ngx_ssl_session_cache_index: ::libc::c_int;
+   pub static mut ngx_ssl_session_ticket_keys_index: ::libc::c_int;
+   pub static mut ngx_ssl_certificate_index: ::libc::c_int;
+   pub static mut ngx_ssl_stapling_index: ::libc::c_int;
+   pub static mut ngx_process: ngx_uint_t;
+   pub static mut ngx_new_binary: ngx_pid_t;
+   pub static mut ngx_inherited: ngx_uint_t;
+   pub static mut ngx_daemonized: ngx_uint_t;
+   pub static mut ngx_threaded: ngx_uint_t;
+   pub static mut ngx_exiting: ngx_uint_t;
+   pub static mut ngx_reap: sig_atomic_t;
+   pub static mut ngx_sigio: sig_atomic_t;
+   pub static mut ngx_sigalrm: sig_atomic_t;
+   pub static mut ngx_quit: sig_atomic_t;
+   pub static mut ngx_debug_quit: sig_atomic_t;
+   pub static mut ngx_terminate: sig_atomic_t;
+   pub static mut ngx_noaccept: sig_atomic_t;
+   pub static mut ngx_reconfigure: sig_atomic_t;
+   pub static mut ngx_reopen: sig_atomic_t;
+   pub static mut ngx_change_binary: sig_atomic_t;
+   pub static mut ngx_max_module: ngx_uint_t;
+   pub static mut ngx_modules: *mut *mut ngx_module_t;
+   pub static mut ngx_os_io: ngx_os_io_t;
+   pub static mut ngx_ncpu: ngx_int_t;
+   pub static mut ngx_max_sockets: ngx_int_t;
+   pub static mut ngx_inherited_nonblocking: ngx_uint_t;
+   pub static mut ngx_tcp_nodelay_and_tcp_nopush: ngx_uint_t;
+   pub static mut ngx_linux_rtsig_max: ::libc::c_int;
+   pub static mut ngx_http_variable_null_value: ngx_http_variable_value_t;
+   pub static mut ngx_http_variable_true_value: ngx_http_variable_value_t;
+   pub static mut ngx_http_headers_in: *mut ngx_http_header_t;
+   pub static mut ngx_http_headers_out: *mut ngx_http_header_out_t;
+   pub static mut ngx_event_actions: ngx_event_actions_t;
+   pub static mut ngx_io: ngx_os_io_t;
+   pub static mut ngx_connection_counter: *mut ngx_atomic_t;
+   pub static mut ngx_accept_mutex_ptr: *mut ngx_atomic_t;
+   pub static mut ngx_accept_mutex: ngx_shmtx_t;
+   pub static mut ngx_use_accept_mutex: ngx_uint_t;
+   pub static mut ngx_accept_events: ngx_uint_t;
+   pub static mut ngx_accept_mutex_held: ngx_uint_t;
+   pub static mut ngx_accept_mutex_delay: ngx_msec_t;
+   pub static mut ngx_accept_disabled: ngx_int_t;
+   pub static mut ngx_event_timer_alarm: sig_atomic_t;
+   pub static mut ngx_event_flags: ngx_uint_t;
+   pub static mut ngx_events_module: ngx_module_t;
+   pub static mut ngx_event_core_module: ngx_module_t;
+   pub static mut ngx_event_timer_rbtree: ngx_rbtree_t;
+   pub static mut ngx_posted_accept_events: ngx_queue_t;
+   pub static mut ngx_posted_events: ngx_queue_t;
+   pub static mut ngx_http_upstream_module: ngx_module_t;
+   pub static mut ngx_http_upstream_cache_method_mask:
+              *mut ngx_conf_bitmask_t;
+   pub static mut ngx_http_upstream_ignore_headers_masks:
+              *mut ngx_conf_bitmask_t;
+   pub static mut ngx_http_core_module: ngx_module_t;
+   pub static mut ngx_http_max_module: ngx_uint_t;
+   pub static mut ngx_http_core_get_method: ngx_str_t;
+   pub static mut ngx_http_cache_status: *mut ngx_str_t;
+   pub static mut ngx_http_ssi_filter_module: ngx_module_t;
+   pub static mut ngx_http_ssl_module: ngx_module_t;
+   pub static mut ngx_http_module: ngx_module_t;
+   pub static mut ngx_http_html_default_types: *mut ngx_str_t;
+   pub static mut ngx_http_top_header_filter:
+              ngx_http_output_header_filter_pt;
+   pub static mut ngx_http_top_body_filter: ngx_http_output_body_filter_pt;
+}
+
+
+extern "C" {
+   pub fn ngx_strerror(err: ngx_err_t, errstr: *mut u_char, size: size_t)
+    -> *mut u_char;
+   pub fn ngx_strerror_init() -> ngx_int_t;
+   pub fn ngx_spinlock(lock: *mut ngx_atomic_t, value: ngx_atomic_int_t,
+                       spin: ngx_uint_t) -> ();
+   pub fn ngx_rbtree_insert(tree: *mut ngx_rbtree_t,
+                           node: *mut ngx_rbtree_node_t) -> ();
+   pub fn ngx_rbtree_delete(tree: *mut ngx_rbtree_t,
+                           node: *mut ngx_rbtree_node_t) -> ();
+   pub fn ngx_rbtree_insert_value(root: *mut ngx_rbtree_node_t,
+                                  node: *mut ngx_rbtree_node_t,
+                                  sentinel: *mut ngx_rbtree_node_t) -> ();
+   pub fn ngx_rbtree_insert_timer_value(root: *mut ngx_rbtree_node_t,
+                                        node: *mut ngx_rbtree_node_t,
+                                        sentinel: *mut ngx_rbtree_node_t)
+    -> ();
+   pub fn ngx_timezone_update() -> ();
+   pub fn ngx_localtime(s: time_t, tm: *mut ngx_tm_t) -> ();
+   pub fn ngx_libc_localtime(s: time_t, tm: *mut Struct_tm) -> ();
+   pub fn ngx_libc_gmtime(s: time_t, tm: *mut Struct_tm) -> ();
+   pub fn ngx_nonblocking(s: ngx_socket_t) -> ::libc::c_int;
+   pub fn ngx_blocking(s: ngx_socket_t) -> ::libc::c_int;
+   pub fn ngx_tcp_nopush(s: ngx_socket_t) -> ::libc::c_int;
+   pub fn ngx_tcp_push(s: ngx_socket_t) -> ::libc::c_int;
+   pub fn ngx_strlow(dst: *mut u_char, src: *mut u_char, n: size_t) -> ();
+   pub fn ngx_cpystrn(dst: *mut u_char, src: *mut u_char, n: size_t)
+    -> *mut u_char;
+   pub fn ngx_pstrdup(pool: *mut ngx_pool_t, src: *mut ngx_str_t)
+    -> *mut u_char;
+   pub fn ngx_sprintf(buf: *mut u_char, fmt: *const ::libc::c_char, ...)
+    -> *mut u_char;
+   pub fn ngx_snprintf(buf: *mut u_char, max: size_t,
+                       fmt: *const ::libc::c_char, ...) -> *mut u_char;
+   pub fn ngx_slprintf(buf: *mut u_char, last: *mut u_char,
+                       fmt: *const ::libc::c_char, ...) -> *mut u_char;
+   pub fn ngx_vslprintf(buf: *mut u_char, last: *mut u_char,
+                        fmt: *const ::libc::c_char, args: va_list)
+    -> *mut u_char;
+   pub fn ngx_strcasecmp(s1: *mut u_char, s2: *mut u_char) -> ngx_int_t;
+   pub fn ngx_strncasecmp(s1: *mut u_char, s2: *mut u_char, n: size_t)
+    -> ngx_int_t;
+   pub fn ngx_strnstr(s1: *mut u_char, s2: *mut ::libc::c_char, n: size_t)
+    -> *mut u_char;
+   pub fn ngx_strstrn(s1: *mut u_char, s2: *mut ::libc::c_char, n: size_t)
+    -> *mut u_char;
+   pub fn ngx_strcasestrn(s1: *mut u_char, s2: *mut ::libc::c_char,
+                          n: size_t) -> *mut u_char;
+   pub fn ngx_strlcasestrn(s1: *mut u_char, last: *mut u_char,
+                           s2: *mut u_char, n: size_t) -> *mut u_char;
+   pub fn ngx_rstrncmp(s1: *mut u_char, s2: *mut u_char, n: size_t)
+    -> ngx_int_t;
+   pub fn ngx_rstrncasecmp(s1: *mut u_char, s2: *mut u_char, n: size_t)
+    -> ngx_int_t;
+   pub fn ngx_memn2cmp(s1: *mut u_char, s2: *mut u_char, n1: size_t,
+                       n2: size_t) -> ngx_int_t;
+   pub fn ngx_dns_strcmp(s1: *mut u_char, s2: *mut u_char) -> ngx_int_t;
+   pub fn ngx_filename_cmp(s1: *mut u_char, s2: *mut u_char, n: size_t)
+    -> ngx_int_t;
+   pub fn ngx_atoi(line: *mut u_char, n: size_t) -> ngx_int_t;
+   pub fn ngx_atofp(line: *mut u_char, n: size_t, point: size_t)
+    -> ngx_int_t;
+   pub fn ngx_atosz(line: *mut u_char, n: size_t) -> ssize_t;
+   pub fn ngx_atoof(line: *mut u_char, n: size_t) -> off_t;
+   pub fn ngx_atotm(line: *mut u_char, n: size_t) -> time_t;
+   pub fn ngx_hextoi(line: *mut u_char, n: size_t) -> ngx_int_t;
+   pub fn ngx_hex_dump(dst: *mut u_char, src: *mut u_char, len: size_t)
+    -> *mut u_char;
+   pub fn ngx_encode_base64(dst: *mut ngx_str_t, src: *mut ngx_str_t) -> ();
+   pub fn ngx_encode_base64url(dst: *mut ngx_str_t, src: *mut ngx_str_t)
+    -> ();
+   pub fn ngx_decode_base64(dst: *mut ngx_str_t, src: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_decode_base64url(dst: *mut ngx_str_t, src: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_utf8_decode(p: *mut *mut u_char, n: size_t) -> uint32_t;
+   pub fn ngx_utf8_length(p: *mut u_char, n: size_t) -> size_t;
+   pub fn ngx_utf8_cpystrn(dst: *mut u_char, src: *mut u_char, n: size_t,
+                           len: size_t) -> *mut u_char;
+   pub fn ngx_escape_uri(dst: *mut u_char, src: *mut u_char, size: size_t,
+                        _type: ngx_uint_t) -> uintptr_t;
+   pub fn ngx_unescape_uri(dst: *mut *mut u_char, src: *mut *mut u_char,
+                           size: size_t, _type: ngx_uint_t) -> ();
+   pub fn ngx_escape_html(dst: *mut u_char, src: *mut u_char, size: size_t)
+    -> uintptr_t;
+   pub fn ngx_escape_json(dst: *mut u_char, src: *mut u_char, size: size_t)
+    -> uintptr_t;
+   pub fn ngx_str_rbtree_insert_value(temp: *mut ngx_rbtree_node_t,
+                                      node: *mut ngx_rbtree_node_t,
+                                      sentinel: *mut ngx_rbtree_node_t)
+    -> ();
+   pub fn ngx_str_rbtree_lookup(rbtree: *mut ngx_rbtree_t,
+                                name: *mut ngx_str_t, hash: uint32_t)
+    -> *mut ngx_str_node_t;
+   pub fn ngx_sort(base: *mut ::libc::c_void, n: size_t, size: size_t,
+                   cmp:
+                       ::std::option::Option<extern "C" fn
+                                                 (arg1:
+                                                      *const ::libc::c_void,
+                                                  arg2:
+                                                      *const ::libc::c_void)
+                                                 -> ngx_int_t>) -> ();
+   pub fn ngx_open_tempfile(name: *mut u_char, persistent: ngx_uint_t,
+                           access: ngx_uint_t) -> ngx_fd_t;
+   pub fn ngx_read_file(file: *mut ngx_file_t, buf: *mut u_char,
+                        size: size_t, offset: off_t) -> ssize_t;
+   pub fn ngx_write_file(file: *mut ngx_file_t, buf: *mut u_char,
+                        size: size_t, offset: off_t) -> ssize_t;
+   pub fn ngx_write_chain_to_file(file: *mut ngx_file_t,
+                                  ce: *mut ngx_chain_t, offset: off_t,
+                                  pool: *mut ngx_pool_t) -> ssize_t;
+   pub fn ngx_set_file_time(name: *mut u_char, fd: ngx_fd_t, s: time_t)
+    -> ngx_int_t;
+   pub fn ngx_create_file_mapping(fm: *mut ngx_file_mapping_t) -> ngx_int_t;
+   pub fn ngx_close_file_mapping(fm: *mut ngx_file_mapping_t) -> ();
+   pub fn ngx_open_dir(name: *mut ngx_str_t, dir: *mut ngx_dir_t)
+    -> ngx_int_t;
+   pub fn ngx_read_dir(dir: *mut ngx_dir_t) -> ngx_int_t;
+   pub fn ngx_open_glob(gl: *mut ngx_glob_t) -> ngx_int_t;
+   pub fn ngx_read_glob(gl: *mut ngx_glob_t, name: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_close_glob(gl: *mut ngx_glob_t) -> ();
+   pub fn ngx_trylock_fd(fd: ngx_fd_t) -> ngx_err_t;
+   pub fn ngx_lock_fd(fd: ngx_fd_t) -> ngx_err_t;
+   pub fn ngx_unlock_fd(fd: ngx_fd_t) -> ngx_err_t;
+   pub fn ngx_read_ahead(fd: ngx_fd_t, n: size_t) -> ngx_int_t;
+   pub fn ngx_directio_on(fd: ngx_fd_t) -> ngx_int_t;
+   pub fn ngx_directio_off(fd: ngx_fd_t) -> ngx_int_t;
+   pub fn ngx_fs_bsize(name: *mut u_char) -> size_t;
+   pub fn ngx_shm_alloc(shm: *mut ngx_shm_t) -> ngx_int_t;
+   pub fn ngx_shm_free(shm: *mut ngx_shm_t) -> ();
+   pub fn ngx_setaffinity(cpu_affinity: uint64_t, log: *mut ngx_log_t) -> ();
+   pub fn ngx_init_setproctitle(log: *mut ngx_log_t) -> ngx_int_t;
+   pub fn ngx_setproctitle(title: *mut ::libc::c_char) -> ();
+   pub fn ngx_spawn_process(cycle: *mut ngx_cycle_t,
+                           _proc: ngx_spawn_proc_pt,
+                           data: *mut ::libc::c_void,
+                           name: *mut ::libc::c_char, respawn: ngx_int_t)
+    -> ngx_pid_t;
+   pub fn ngx_execute(cycle: *mut ngx_cycle_t, ctx: *mut ngx_exec_ctx_t)
+    -> ngx_pid_t;
+   pub fn ngx_init_signals(log: *mut ngx_log_t) -> ngx_int_t;
+   pub fn ngx_debug_point() -> ();
+   pub fn ngx_libc_crypt(pool: *mut ngx_pool_t, key: *mut u_char,
+                        salt: *mut u_char, encrypted: *mut *mut u_char)
+    -> ngx_int_t;
+   pub fn ngx_parse_size(line: *mut ngx_str_t) -> ssize_t;
+   pub fn ngx_parse_offset(line: *mut ngx_str_t) -> off_t;
+   pub fn ngx_parse_time(line: *mut ngx_str_t, is_sec: ngx_uint_t)
+    -> ngx_int_t;
+   pub fn ngx_log_error_core(level: ngx_uint_t, log: *mut ngx_log_t,
+                             err: ngx_err_t, fmt: *const ::libc::c_char, ...)
+    -> ();
+   pub fn ngx_log_init(prefix: *mut u_char) -> *mut ngx_log_t;
+   pub fn ngx_log_abort(err: ngx_err_t, fmt: *const ::libc::c_char, ...)
+    -> ();
+   pub fn ngx_log_stderr(err: ngx_err_t, fmt: *const ::libc::c_char, ...)
+    -> ();
+   pub fn ngx_log_errno(buf: *mut u_char, last: *mut u_char, err: ngx_err_t)
+    -> *mut u_char;
+   pub fn ngx_log_open_default(cycle: *mut ngx_cycle_t) -> ngx_int_t;
+   pub fn ngx_log_redirect_stderr(cycle: *mut ngx_cycle_t) -> ngx_int_t;
+   pub fn ngx_log_get_file_log(head: *mut ngx_log_t) -> *mut ngx_log_t;
+   pub fn ngx_log_set_log(cf: *mut ngx_conf_t, head: *mut *mut ngx_log_t)
+    -> *mut ::libc::c_char;
+   pub fn ngx_alloc(size: size_t, log: *mut ngx_log_t)
+    -> *mut ::libc::c_void;
+   pub fn ngx_calloc(size: size_t, log: *mut ngx_log_t)
+    -> *mut ::libc::c_void;
+   pub fn ngx_memalign(alignment: size_t, size: size_t, log: *mut ngx_log_t)
+    -> *mut ::libc::c_void;
+   pub fn ngx_create_pool(size: size_t, log: *mut ngx_log_t)
+    -> *mut ngx_pool_t;
+   pub fn ngx_destroy_pool(pool: *mut ngx_pool_t) -> ();
+   pub fn ngx_reset_pool(pool: *mut ngx_pool_t) -> ();
+   pub fn ngx_palloc(pool: *mut ngx_pool_t, size: size_t)
+    -> *mut ::libc::c_void;
+   pub fn ngx_pnalloc(pool: *mut ngx_pool_t, size: size_t)
+    -> *mut ::libc::c_void;
+   pub fn ngx_pcalloc(pool: *mut ngx_pool_t, size: size_t)
+    -> *mut ::libc::c_void;
+   pub fn ngx_pmemalign(pool: *mut ngx_pool_t, size: size_t,
+                        alignment: size_t) -> *mut ::libc::c_void;
+   pub fn ngx_pfree(pool: *mut ngx_pool_t, p: *mut ::libc::c_void)
+    -> ngx_int_t;
+   pub fn ngx_pool_cleanup_add(p: *mut ngx_pool_t, size: size_t)
+    -> *mut ngx_pool_cleanup_t;
+   pub fn ngx_pool_run_cleanup_file(p: *mut ngx_pool_t, fd: ngx_fd_t) -> ();
+   pub fn ngx_pool_cleanup_file(data: *mut ::libc::c_void) -> ();
+   pub fn ngx_pool_delete_file(data: *mut ::libc::c_void) -> ();
+   pub fn ngx_create_temp_buf(pool: *mut ngx_pool_t, size: size_t)
+    -> *mut ngx_buf_t;
+   pub fn ngx_create_chain_of_bufs(pool: *mut ngx_pool_t,
+                                   bufs: *mut ngx_bufs_t)
+    -> *mut ngx_chain_t;
+   pub fn ngx_alloc_chain_link(pool: *mut ngx_pool_t) -> *mut ngx_chain_t;
+   pub fn ngx_output_chain(ctx: *mut ngx_output_chain_ctx_t,
+                           _in: *mut ngx_chain_t) -> ngx_int_t;
+   pub fn ngx_chain_writer(ctx: *mut ::libc::c_void, _in: *mut ngx_chain_t)
+    -> ngx_int_t;
+   pub fn ngx_chain_add_copy(pool: *mut ngx_pool_t,
+                             chain: *mut *mut ngx_chain_t,
+                             _in: *mut ngx_chain_t) -> ngx_int_t;
+   pub fn ngx_chain_get_free_buf(p: *mut ngx_pool_t,
+                                 free: *mut *mut ngx_chain_t)
+    -> *mut ngx_chain_t;
+   pub fn ngx_chain_update_chains(p: *mut ngx_pool_t,
+                                  free: *mut *mut ngx_chain_t,
+                                  busy: *mut *mut ngx_chain_t,
+                                  out: *mut *mut ngx_chain_t,
+                                  tag: ngx_buf_tag_t) -> ();
+   pub fn ngx_chain_coalesce_file(_in: *mut *mut ngx_chain_t, limit: off_t)
+    -> off_t;
+   pub fn ngx_chain_update_sent(_in: *mut ngx_chain_t, sent: off_t)
+    -> *mut ngx_chain_t;
+   pub fn ngx_queue_middle(queue: *mut ngx_queue_t) -> *mut ngx_queue_t;
+   pub fn ngx_queue_sort(queue: *mut ngx_queue_t,
+                        cmp:
+                             ::std::option::Option<extern "C" fn
+                                                       (arg1:
+                                                            *const ngx_queue_t,
+                                                        arg2:
+                                                            *const ngx_queue_t)
+                                                       -> ngx_int_t>) -> ();
+   pub fn ngx_array_create(p: *mut ngx_pool_t, n: ngx_uint_t, size: size_t)
+    -> *mut ngx_array_t;
+   pub fn ngx_array_destroy(a: *mut ngx_array_t) -> ();
+   pub fn ngx_array_push(a: *mut ngx_array_t) -> *mut ::libc::c_void;
+   pub fn ngx_array_push_n(a: *mut ngx_array_t, n: ngx_uint_t)
+    -> *mut ::libc::c_void;
+   pub fn ngx_list_create(pool: *mut ngx_pool_t, n: ngx_uint_t, size: size_t)
+    -> *mut ngx_list_t;
+   pub fn ngx_list_push(list: *mut ngx_list_t) -> *mut ::libc::c_void;
+   pub fn ngx_hash_find(hash: *mut ngx_hash_t, key: ngx_uint_t,
+                        name: *mut u_char, len: size_t)
+    -> *mut ::libc::c_void;
+   pub fn ngx_hash_find_wc_head(hwc: *mut ngx_hash_wildcard_t,
+                                name: *mut u_char, len: size_t)
+    -> *mut ::libc::c_void;
+   pub fn ngx_hash_find_wc_tail(hwc: *mut ngx_hash_wildcard_t,
+                                name: *mut u_char, len: size_t)
+    -> *mut ::libc::c_void;
+   pub fn ngx_hash_find_combined(hash: *mut ngx_hash_combined_t,
+                                 key: ngx_uint_t, name: *mut u_char,
+                                 len: size_t) -> *mut ::libc::c_void;
+   pub fn ngx_hash_init(hinit: *mut ngx_hash_init_t,
+                        names: *mut ngx_hash_key_t, nelts: ngx_uint_t)
+    -> ngx_int_t;
+   pub fn ngx_hash_wildcard_init(hinit: *mut ngx_hash_init_t,
+                                 names: *mut ngx_hash_key_t,
+                                 nelts: ngx_uint_t) -> ngx_int_t;
+   pub fn ngx_hash_key(data: *mut u_char, len: size_t) -> ngx_uint_t;
+   pub fn ngx_hash_key_lc(data: *mut u_char, len: size_t) -> ngx_uint_t;
+   pub fn ngx_hash_strlow(dst: *mut u_char, src: *mut u_char, n: size_t)
+    -> ngx_uint_t;
+   pub fn ngx_hash_keys_array_init(ha: *mut ngx_hash_keys_arrays_t,
+                                   _type: ngx_uint_t) -> ngx_int_t;
+   pub fn ngx_hash_add_key(ha: *mut ngx_hash_keys_arrays_t,
+                           key: *mut ngx_str_t, value: *mut ::libc::c_void,
+                           flags: ngx_uint_t) -> ngx_int_t;
+   pub fn ngx_get_full_name(pool: *mut ngx_pool_t, prefix: *mut ngx_str_t,
+                           name: *mut ngx_str_t) -> ngx_int_t;
+   pub fn ngx_write_chain_to_temp_file(tf: *mut ngx_temp_file_t,
+                                       chain: *mut ngx_chain_t) -> ssize_t;
+   pub fn ngx_create_temp_file(file: *mut ngx_file_t, path: *mut ngx_path_t,
+                              pool: *mut ngx_pool_t, persistent: ngx_uint_t,
+                              clean: ngx_uint_t, access: ngx_uint_t)
+    -> ngx_int_t;
+   pub fn ngx_create_hashed_filename(path: *mut ngx_path_t,
+                                     file: *mut u_char, len: size_t) -> ();
+   pub fn ngx_create_path(file: *mut ngx_file_t, path: *mut ngx_path_t)
+    -> ngx_int_t;
+   pub fn ngx_create_full_path(dir: *mut u_char, access: ngx_uint_t)
+    -> ngx_err_t;
+   pub fn ngx_add_path(cf: *mut ngx_conf_t, slot: *mut *mut ngx_path_t)
+    -> ngx_int_t;
+   pub fn ngx_create_paths(cycle: *mut ngx_cycle_t, user: ngx_uid_t)
+    -> ngx_int_t;
+   pub fn ngx_ext_rename_file(src: *mut ngx_str_t, to: *mut ngx_str_t,
+                              ext: *mut ngx_ext_rename_file_t) -> ngx_int_t;
+   pub fn ngx_copy_file(from: *mut u_char, to: *mut u_char,
+                        cf: *mut ngx_copy_file_t) -> ngx_int_t;
+   pub fn ngx_walk_tree(ctx: *mut ngx_tree_ctx_t, tree: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_next_temp_number(collision: ngx_uint_t) -> ngx_atomic_uint_t;
+   pub fn ngx_conf_set_path_slot(cf: *mut ngx_conf_t,
+                                 cmd: *mut ngx_command_t,
+                                 conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_conf_merge_path_value(cf: *mut ngx_conf_t,
+                                    path: *mut *mut ngx_path_t,
+                                    prev: *mut ngx_path_t,
+                                    init: *mut ngx_path_init_t)
+    -> *mut ::libc::c_char;
+   pub fn ngx_conf_set_access_slot(cf: *mut ngx_conf_t,
+                                   cmd: *mut ngx_command_t,
+                                   conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_crc32_table_init() -> ngx_int_t;
+   pub fn ngx_murmur_hash2(data: *mut u_char, len: size_t) -> uint32_t;
+
+   pub fn ngx_regex_init() -> ();
+   pub fn ngx_regex_compile(rc: *mut ngx_regex_compile_t) -> ngx_int_t;
+   pub fn ngx_regex_exec_array(a: *mut ngx_array_t, s: *mut ngx_str_t,
+                              log: *mut ngx_log_t) -> ngx_int_t;
+   pub fn ngx_radix_tree_create(pool: *mut ngx_pool_t,
+                                preallocate: ngx_int_t)
+    -> *mut ngx_radix_tree_t;
+   pub fn ngx_radix32tree_insert(tree: *mut ngx_radix_tree_t, key: uint32_t,
+                                 mask: uint32_t, value: uintptr_t)
+    -> ngx_int_t;
+   pub fn ngx_radix32tree_delete(tree: *mut ngx_radix_tree_t, key: uint32_t,
+                                 mask: uint32_t) -> ngx_int_t;
+   pub fn ngx_radix32tree_find(tree: *mut ngx_radix_tree_t, key: uint32_t)
+    -> uintptr_t;
+   pub fn ngx_time_init() -> ();
+   pub fn ngx_time_update() -> ();
+   pub fn ngx_time_sigsafe_update() -> ();
+   pub fn ngx_http_time(buf: *mut u_char, t: time_t) -> *mut u_char;
+   pub fn ngx_http_cookie_time(buf: *mut u_char, t: time_t) -> *mut u_char;
+   pub fn ngx_gmtime(t: time_t, tp: *mut ngx_tm_t) -> ();
+   pub fn ngx_next_time(when: time_t) -> time_t;
+   pub fn ngx_shmtx_create(mtx: *mut ngx_shmtx_t, addr: *mut ngx_shmtx_sh_t,
+                           name: *mut u_char) -> ngx_int_t;
+   pub fn ngx_shmtx_destroy(mtx: *mut ngx_shmtx_t) -> ();
+   pub fn ngx_shmtx_trylock(mtx: *mut ngx_shmtx_t) -> ngx_uint_t;
+   pub fn ngx_shmtx_lock(mtx: *mut ngx_shmtx_t) -> ();
+   pub fn ngx_shmtx_unlock(mtx: *mut ngx_shmtx_t) -> ();
+   pub fn ngx_shmtx_force_unlock(mtx: *mut ngx_shmtx_t, pid: ngx_pid_t)
+    -> ngx_uint_t;
+   pub fn ngx_slab_init(pool: *mut ngx_slab_pool_t) -> ();
+   pub fn ngx_slab_alloc(pool: *mut ngx_slab_pool_t, size: size_t)
+    -> *mut ::libc::c_void;
+   pub fn ngx_slab_alloc_locked(pool: *mut ngx_slab_pool_t, size: size_t)
+    -> *mut ::libc::c_void;
+   pub fn ngx_slab_calloc(pool: *mut ngx_slab_pool_t, size: size_t)
+    -> *mut ::libc::c_void;
+   pub fn ngx_slab_calloc_locked(pool: *mut ngx_slab_pool_t, size: size_t)
+    -> *mut ::libc::c_void;
+   pub fn ngx_slab_free(pool: *mut ngx_slab_pool_t, p: *mut ::libc::c_void)
+    -> ();
+   pub fn ngx_slab_free_locked(pool: *mut ngx_slab_pool_t,
+                              p: *mut ::libc::c_void) -> ();
+   pub fn ngx_inet_addr(text: *mut u_char, len: size_t) -> in_addr_t;
+   pub fn ngx_sock_ntop(sa: *mut Struct_sockaddr, socklen: socklen_t,
+                        text: *mut u_char, len: size_t, port: ngx_uint_t)
+    -> size_t;
+   pub fn ngx_inet_ntop(family: ::libc::c_int, addr: *mut ::libc::c_void,
+                        text: *mut u_char, len: size_t) -> size_t;
+   pub fn ngx_ptocidr(text: *mut ngx_str_t, cidr: *mut ngx_cidr_t)
+    -> ngx_int_t;
+   pub fn ngx_parse_addr(pool: *mut ngx_pool_t, addr: *mut ngx_addr_t,
+                        text: *mut u_char, len: size_t) -> ngx_int_t;
+   pub fn ngx_parse_url(pool: *mut ngx_pool_t, u: *mut ngx_url_t)
+    -> ngx_int_t;
+   pub fn ngx_inet_resolve_host(pool: *mut ngx_pool_t, u: *mut ngx_url_t)
+    -> ngx_int_t;
+   pub fn ngx_cmp_sockaddr(sa1: *mut Struct_sockaddr, slen1: socklen_t,
+                           sa2: *mut Struct_sockaddr, slen2: socklen_t,
+                           cmp_port: ngx_uint_t) -> ngx_int_t;
+   pub fn ngx_init_cycle(old_cycle: *mut ngx_cycle_t) -> *mut ngx_cycle_t;
+   pub fn ngx_create_pidfile(name: *mut ngx_str_t, log: *mut ngx_log_t)
+    -> ngx_int_t;
+   pub fn ngx_delete_pidfile(cycle: *mut ngx_cycle_t) -> ();
+   pub fn ngx_signal_process(cycle: *mut ngx_cycle_t,
+                             sig: *mut ::libc::c_char) -> ngx_int_t;
+   pub fn ngx_reopen_files(cycle: *mut ngx_cycle_t, user: ngx_uid_t) -> ();
+   pub fn ngx_set_environment(cycle: *mut ngx_cycle_t, last: *mut ngx_uint_t)
+    -> *mut *mut ::libc::c_char;
+   pub fn ngx_exec_new_binary(cycle: *mut ngx_cycle_t,
+                              argv: *const *mut ::libc::c_char) -> ngx_pid_t;
+   pub fn ngx_get_cpu_affinity(n: ngx_uint_t) -> uint64_t;
+   pub fn ngx_shared_memory_add(cf: *mut ngx_conf_t, name: *mut ngx_str_t,
+                                size: size_t, tag: *mut ::libc::c_void)
+    -> *mut ngx_shm_zone_t;
+   pub fn ngx_resolver_create(cf: *mut ngx_conf_t, names: *mut ngx_str_t,
+                              n: ngx_uint_t) -> *mut ngx_resolver_t;
+   pub fn ngx_resolve_start(r: *mut ngx_resolver_t,
+                           temp: *mut ngx_resolver_ctx_t)
+    -> *mut ngx_resolver_ctx_t;
+   pub fn ngx_resolve_name(ctx: *mut ngx_resolver_ctx_t) -> ngx_int_t;
+   pub fn ngx_resolve_name_done(ctx: *mut ngx_resolver_ctx_t) -> ();
+   pub fn ngx_resolve_addr(ctx: *mut ngx_resolver_ctx_t) -> ngx_int_t;
+   pub fn ngx_resolve_addr_done(ctx: *mut ngx_resolver_ctx_t) -> ();
+   pub fn ngx_resolver_strerror(err: ngx_int_t) -> *mut ::libc::c_char;
+
+   pub fn ngx_ssl_init(log: *mut ngx_log_t) -> ngx_int_t;
+   pub fn ngx_ssl_create(ssl: *mut ngx_ssl_t, protocols: ngx_uint_t,
+                        data: *mut ::libc::c_void) -> ngx_int_t;
+   pub fn ngx_ssl_certificate(cf: *mut ngx_conf_t, ssl: *mut ngx_ssl_t,
+                              cert: *mut ngx_str_t, key: *mut ngx_str_t,
+                              passwords: *mut ngx_array_t) -> ngx_int_t;
+   pub fn ngx_ssl_client_certificate(cf: *mut ngx_conf_t,
+                                     ssl: *mut ngx_ssl_t,
+                                     cert: *mut ngx_str_t, depth: ngx_int_t)
+    -> ngx_int_t;
+   pub fn ngx_ssl_trusted_certificate(cf: *mut ngx_conf_t,
+                                      ssl: *mut ngx_ssl_t,
+                                      cert: *mut ngx_str_t, depth: ngx_int_t)
+    -> ngx_int_t;
+   pub fn ngx_ssl_crl(cf: *mut ngx_conf_t, ssl: *mut ngx_ssl_t,
+                      crl: *mut ngx_str_t) -> ngx_int_t;
+   pub fn ngx_ssl_stapling(cf: *mut ngx_conf_t, ssl: *mut ngx_ssl_t,
+                           file: *mut ngx_str_t, responder: *mut ngx_str_t,
+                           verify: ngx_uint_t) -> ngx_int_t;
+   pub fn ngx_ssl_stapling_resolver(cf: *mut ngx_conf_t, ssl: *mut ngx_ssl_t,
+                                    resolver: *mut ngx_resolver_t,
+                                    resolver_timeout: ngx_msec_t)
+    -> ngx_int_t;
+   pub fn ngx_ssl_rsa512_key_callback(ssl_conn: *mut SSL,
+                                      is_export: ::libc::c_int,
+                                      key_length: ::libc::c_int) -> *mut RSA;
+   pub fn ngx_ssl_read_password_file(cf: *mut ngx_conf_t,
+                                     file: *mut ngx_str_t)
+    -> *mut ngx_array_t;
+   pub fn ngx_ssl_dhparam(cf: *mut ngx_conf_t, ssl: *mut ngx_ssl_t,
+                          file: *mut ngx_str_t) -> ngx_int_t;
+   pub fn ngx_ssl_ecdh_curve(cf: *mut ngx_conf_t, ssl: *mut ngx_ssl_t,
+                             name: *mut ngx_str_t) -> ngx_int_t;
+   pub fn ngx_ssl_session_cache(ssl: *mut ngx_ssl_t,
+                                sess_ctx: *mut ngx_str_t,
+                                builtin_session_cache: ssize_t,
+                                shm_zone: *mut ngx_shm_zone_t,
+                                timeout: time_t) -> ngx_int_t;
+   pub fn ngx_ssl_session_ticket_keys(cf: *mut ngx_conf_t,
+                                      ssl: *mut ngx_ssl_t,
+                                      paths: *mut ngx_array_t) -> ngx_int_t;
+   pub fn ngx_ssl_session_cache_init(shm_zone: *mut ngx_shm_zone_t,
+                                     data: *mut ::libc::c_void) -> ngx_int_t;
+   pub fn ngx_ssl_create_connection(ssl: *mut ngx_ssl_t,
+                                    c: *mut ngx_connection_t,
+                                    flags: ngx_uint_t) -> ngx_int_t;
+   pub fn ngx_ssl_remove_cached_session(ssl: *mut SSL_CTX,
+                                        sess: *mut SSL_SESSION) -> ();
+   pub fn ngx_ssl_set_session(c: *mut ngx_connection_t,
+                              session: *mut SSL_SESSION) -> ngx_int_t;
+   pub fn ngx_ssl_check_host(c: *mut ngx_connection_t, name: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_ssl_get_protocol(c: *mut ngx_connection_t,
+                              pool: *mut ngx_pool_t, s: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_ssl_get_cipher_name(c: *mut ngx_connection_t,
+                                  pool: *mut ngx_pool_t, s: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_ssl_get_session_id(c: *mut ngx_connection_t,
+                                 pool: *mut ngx_pool_t, s: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_ssl_get_session_reused(c: *mut ngx_connection_t,
+                                     pool: *mut ngx_pool_t,
+                                     s: *mut ngx_str_t) -> ngx_int_t;
+   pub fn ngx_ssl_get_server_name(c: *mut ngx_connection_t,
+                                  pool: *mut ngx_pool_t, s: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_ssl_get_raw_certificate(c: *mut ngx_connection_t,
+                                      pool: *mut ngx_pool_t,
+                                      s: *mut ngx_str_t) -> ngx_int_t;
+   pub fn ngx_ssl_get_certificate(c: *mut ngx_connection_t,
+                                  pool: *mut ngx_pool_t, s: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_ssl_get_subject_dn(c: *mut ngx_connection_t,
+                                 pool: *mut ngx_pool_t, s: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_ssl_get_issuer_dn(c: *mut ngx_connection_t,
+                                pool: *mut ngx_pool_t, s: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_ssl_get_serial_number(c: *mut ngx_connection_t,
+                                    pool: *mut ngx_pool_t, s: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_ssl_get_fingerprint(c: *mut ngx_connection_t,
+                                  pool: *mut ngx_pool_t, s: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_ssl_get_client_verify(c: *mut ngx_connection_t,
+                                    pool: *mut ngx_pool_t, s: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_ssl_handshake(c: *mut ngx_connection_t) -> ngx_int_t;
+   pub fn ngx_ssl_recv(c: *mut ngx_connection_t, buf: *mut u_char,
+                       size: size_t) -> ssize_t;
+   pub fn ngx_ssl_write(c: *mut ngx_connection_t, data: *mut u_char,
+                        size: size_t) -> ssize_t;
+   pub fn ngx_ssl_recv_chain(c: *mut ngx_connection_t, cl: *mut ngx_chain_t,
+                             limit: off_t) -> ssize_t;
+   pub fn ngx_ssl_send_chain(c: *mut ngx_connection_t, _in: *mut ngx_chain_t,
+                             limit: off_t) -> *mut ngx_chain_t;
+   pub fn ngx_ssl_free_buffer(c: *mut ngx_connection_t) -> ();
+   pub fn ngx_ssl_shutdown(c: *mut ngx_connection_t) -> ngx_int_t;
+   pub fn ngx_ssl_error(level: ngx_uint_t, log: *mut ngx_log_t,
+                        err: ngx_err_t, fmt: *mut ::libc::c_char, ...) -> ();
+   pub fn ngx_ssl_cleanup_ctx(data: *mut ::libc::c_void) -> ();
+   pub fn ngx_master_process_cycle(cycle: *mut ngx_cycle_t) -> ();
+   pub fn ngx_single_process_cycle(cycle: *mut ngx_cycle_t) -> ();
+   pub fn ngx_conf_deprecated(cf: *mut ngx_conf_t, post: *mut ::libc::c_void,
+                              data: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_conf_check_num_bounds(cf: *mut ngx_conf_t,
+                                    post: *mut ::libc::c_void,
+                                    data: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_conf_param(cf: *mut ngx_conf_t) -> *mut ::libc::c_char;
+   pub fn ngx_conf_parse(cf: *mut ngx_conf_t, filename: *mut ngx_str_t)
+    -> *mut ::libc::c_char;
+   pub fn ngx_conf_include(cf: *mut ngx_conf_t, cmd: *mut ngx_command_t,
+                           conf: *mut ::libc::c_void) -> *mut ::libc::c_char;
+   pub fn ngx_conf_full_name(cycle: *mut ngx_cycle_t, name: *mut ngx_str_t,
+                             conf_prefix: ngx_uint_t) -> ngx_int_t;
+   pub fn ngx_conf_open_file(cycle: *mut ngx_cycle_t, name: *mut ngx_str_t)
+    -> *mut ngx_open_file_t;
+   pub fn ngx_conf_log_error(level: ngx_uint_t, cf: *mut ngx_conf_t,
+                             err: ngx_err_t, fmt: *const ::libc::c_char, ...)
+    -> ();
+   pub fn ngx_conf_set_flag_slot(cf: *mut ngx_conf_t,
+                                 cmd: *mut ngx_command_t,
+                                 conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_conf_set_str_slot(cf: *mut ngx_conf_t, cmd: *mut ngx_command_t,
+                                conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_conf_set_str_array_slot(cf: *mut ngx_conf_t,
+                                      cmd: *mut ngx_command_t,
+                                      conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_conf_set_keyval_slot(cf: *mut ngx_conf_t,
+                                   cmd: *mut ngx_command_t,
+                                   conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_conf_set_num_slot(cf: *mut ngx_conf_t, cmd: *mut ngx_command_t,
+                                conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_conf_set_size_slot(cf: *mut ngx_conf_t,
+                                 cmd: *mut ngx_command_t,
+                                 conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_conf_set_off_slot(cf: *mut ngx_conf_t, cmd: *mut ngx_command_t,
+                                conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_conf_set_msec_slot(cf: *mut ngx_conf_t,
+                                 cmd: *mut ngx_command_t,
+                                 conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_conf_set_sec_slot(cf: *mut ngx_conf_t, cmd: *mut ngx_command_t,
+                                conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_conf_set_bufs_slot(cf: *mut ngx_conf_t,
+                                 cmd: *mut ngx_command_t,
+                                 conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_conf_set_enum_slot(cf: *mut ngx_conf_t,
+                                 cmd: *mut ngx_command_t,
+                                 conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_conf_set_bitmask_slot(cf: *mut ngx_conf_t,
+                                    cmd: *mut ngx_command_t,
+                                    conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_open_file_cache_init(pool: *mut ngx_pool_t, max: ngx_uint_t,
+                                   inactive: time_t)
+    -> *mut ngx_open_file_cache_t;
+   pub fn ngx_open_cached_file(cache: *mut ngx_open_file_cache_t,
+                              name: *mut ngx_str_t,
+                              of: *mut ngx_open_file_info_t,
+                              pool: *mut ngx_pool_t) -> ngx_int_t;
+   pub fn ngx_os_init(log: *mut ngx_log_t) -> ngx_int_t;
+   pub fn ngx_os_status(log: *mut ngx_log_t) -> ();
+   pub fn ngx_os_specific_init(log: *mut ngx_log_t) -> ngx_int_t;
+   pub fn ngx_os_specific_status(log: *mut ngx_log_t) -> ();
+   pub fn ngx_daemon(log: *mut ngx_log_t) -> ngx_int_t;
+   pub fn ngx_os_signal_process(cycle: *mut ngx_cycle_t,
+                                sig: *mut ::libc::c_char, pid: ngx_int_t)
+    -> ngx_int_t;
+   pub fn ngx_unix_recv(c: *mut ngx_connection_t, buf: *mut u_char,
+                        size: size_t) -> ssize_t;
+   pub fn ngx_readv_chain(c: *mut ngx_connection_t, entry: *mut ngx_chain_t,
+                          limit: off_t) -> ssize_t;
+   pub fn ngx_udp_unix_recv(c: *mut ngx_connection_t, buf: *mut u_char,
+                           size: size_t) -> ssize_t;
+   pub fn ngx_unix_send(c: *mut ngx_connection_t, buf: *mut u_char,
+                        size: size_t) -> ssize_t;
+   pub fn ngx_writev_chain(c: *mut ngx_connection_t, _in: *mut ngx_chain_t,
+                           limit: off_t) -> *mut ngx_chain_t;
+   pub fn ngx_output_chain_to_iovec(vec: *mut ngx_iovec_t,
+                                    _in: *mut ngx_chain_t, limit: size_t,
+                                    log: *mut ngx_log_t) -> *mut ngx_chain_t;
+   pub fn ngx_writev(c: *mut ngx_connection_t, vec: *mut ngx_iovec_t)
+    -> ssize_t;
+   pub fn ngx_linux_sendfile_chain(c: *mut ngx_connection_t,
+                                   _in: *mut ngx_chain_t, limit: off_t)
+    -> *mut ngx_chain_t;
+   pub fn ngx_create_listening(cf: *mut ngx_conf_t,
+                              sockaddr: *mut ::libc::c_void,
+                              socklen: socklen_t) -> *mut ngx_listening_t;
+   pub fn ngx_set_inherited_sockets(cycle: *mut ngx_cycle_t) -> ngx_int_t;
+   pub fn ngx_open_listening_sockets(cycle: *mut ngx_cycle_t) -> ngx_int_t;
+   pub fn ngx_configure_listening_sockets(cycle: *mut ngx_cycle_t) -> ();
+   pub fn ngx_close_listening_sockets(cycle: *mut ngx_cycle_t) -> ();
+   pub fn ngx_close_connection(c: *mut ngx_connection_t) -> ();
+   pub fn ngx_connection_local_sockaddr(c: *mut ngx_connection_t,
+                                        s: *mut ngx_str_t, port: ngx_uint_t)
+    -> ngx_int_t;
+   pub fn ngx_connection_error(c: *mut ngx_connection_t, err: ngx_err_t,
+                              text: *mut ::libc::c_char) -> ngx_int_t;
+   pub fn ngx_get_connection(s: ngx_socket_t, log: *mut ngx_log_t)
+    -> *mut ngx_connection_t;
+   pub fn ngx_free_connection(c: *mut ngx_connection_t) -> ();
+   pub fn ngx_reusable_connection(c: *mut ngx_connection_t,
+                                  reusable: ngx_uint_t) -> ();
+   pub fn ngx_syslog_process_conf(cf: *mut ngx_conf_t,
+                                  peer: *mut ngx_syslog_peer_t)
+    -> *mut ::libc::c_char;
+   pub fn ngx_syslog_add_header(peer: *mut ngx_syslog_peer_t,
+                                buf: *mut u_char) -> *mut u_char;
+   pub fn ngx_syslog_writer(log: *mut ngx_log_t, level: ngx_uint_t,
+                           buf: *mut u_char, len: size_t) -> ();
+   pub fn ngx_syslog_send(peer: *mut ngx_syslog_peer_t, buf: *mut u_char,
+                          len: size_t) -> ssize_t;
+   pub fn ngx_proxy_protocol_parse(c: *mut ngx_connection_t,
+                                   buf: *mut u_char, last: *mut u_char)
+    -> *mut u_char;
+   pub fn ngx_cpuinfo() -> ();
+   pub fn ngx_http_add_variable(cf: *mut ngx_conf_t, name: *mut ngx_str_t,
+                                flags: ngx_uint_t)
+    -> *mut ngx_http_variable_t;
+   pub fn ngx_http_get_variable_index(cf: *mut ngx_conf_t,
+                                      name: *mut ngx_str_t) -> ngx_int_t;
+   pub fn ngx_http_get_indexed_variable(r: *mut ngx_http_request_t,
+                                        index: ngx_uint_t)
+    -> *mut ngx_http_variable_value_t;
+   pub fn ngx_http_get_flushed_variable(r: *mut ngx_http_request_t,
+                                        index: ngx_uint_t)
+    -> *mut ngx_http_variable_value_t;
+   pub fn ngx_http_get_variable(r: *mut ngx_http_request_t,
+                                name: *mut ngx_str_t, key: ngx_uint_t)
+    -> *mut ngx_http_variable_value_t;
+   pub fn ngx_http_variable_unknown_header(v: *mut ngx_http_variable_value_t,
+                                           var: *mut ngx_str_t,
+                                           part: *mut ngx_list_part_t,
+                                           prefix: size_t) -> ngx_int_t;
+   pub fn ngx_http_regex_compile(cf: *mut ngx_conf_t,
+                                 rc: *mut ngx_regex_compile_t)
+    -> *mut ngx_http_regex_t;
+   pub fn ngx_http_regex_exec(r: *mut ngx_http_request_t,
+                              re: *mut ngx_http_regex_t, s: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_http_map_find(r: *mut ngx_http_request_t,
+                           map: *mut ngx_http_map_t, _match: *mut ngx_str_t)
+    -> *mut ::libc::c_void;
+   pub fn ngx_http_variables_add_core_vars(cf: *mut ngx_conf_t) -> ngx_int_t;
+   pub fn ngx_http_variables_init_vars(cf: *mut ngx_conf_t) -> ngx_int_t;
+   pub fn ngx_http_script_flush_complex_value(r: *mut ngx_http_request_t,
+                                              val:
+                                                  *mut ngx_http_complex_value_t)
+    -> ();
+   pub fn ngx_http_complex_value(r: *mut ngx_http_request_t,
+                                 val: *mut ngx_http_complex_value_t,
+                                 value: *mut ngx_str_t) -> ngx_int_t;
+   pub fn ngx_http_compile_complex_value(ccv:
+                                             *mut ngx_http_compile_complex_value_t)
+    -> ngx_int_t;
+   pub fn ngx_http_set_complex_value_slot(cf: *mut ngx_conf_t,
+                                          cmd: *mut ngx_command_t,
+                                          conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_http_test_predicates(r: *mut ngx_http_request_t,
+                                   predicates: *mut ngx_array_t)
+    -> ngx_int_t;
+   pub fn ngx_http_set_predicate_slot(cf: *mut ngx_conf_t,
+                                      cmd: *mut ngx_command_t,
+                                      conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_http_script_variables_count(value: *mut ngx_str_t)
+    -> ngx_uint_t;
+   pub fn ngx_http_script_compile(sc: *mut ngx_http_script_compile_t)
+    -> ngx_int_t;
+   pub fn ngx_http_script_run(r: *mut ngx_http_request_t,
+                              value: *mut ngx_str_t,
+                              code_lengths: *mut ::libc::c_void,
+                              reserved: size_t,
+                              code_values: *mut ::libc::c_void)
+    -> *mut u_char;
+   pub fn ngx_http_script_flush_no_cacheable_variables(r:
+                                                           *mut ngx_http_request_t,
+                                                       indices:
+                                                           *mut ngx_array_t)
+    -> ();
+   pub fn ngx_http_script_start_code(pool: *mut ngx_pool_t,
+                                     codes: *mut *mut ngx_array_t,
+                                     size: size_t) -> *mut ::libc::c_void;
+   pub fn ngx_http_script_add_code(codes: *mut ngx_array_t, size: size_t,
+                                   code: *mut ::libc::c_void)
+    -> *mut ::libc::c_void;
+   pub fn ngx_http_script_copy_len_code(e: *mut ngx_http_script_engine_t)
+    -> size_t;
+   pub fn ngx_http_script_copy_code(e: *mut ngx_http_script_engine_t) -> ();
+   pub fn ngx_http_script_copy_var_len_code(e: *mut ngx_http_script_engine_t)
+    -> size_t;
+   pub fn ngx_http_script_copy_var_code(e: *mut ngx_http_script_engine_t)
+    -> ();
+   pub fn ngx_http_script_copy_capture_len_code(e:
+                                                    *mut ngx_http_script_engine_t)
+    -> size_t;
+   pub fn ngx_http_script_copy_capture_code(e: *mut ngx_http_script_engine_t)
+    -> ();
+   pub fn ngx_http_script_mark_args_code(e: *mut ngx_http_script_engine_t)
+    -> size_t;
+   pub fn ngx_http_script_start_args_code(e: *mut ngx_http_script_engine_t)
+    -> ();
+   pub fn ngx_http_script_regex_start_code(e: *mut ngx_http_script_engine_t)
+    -> ();
+   pub fn ngx_http_script_regex_end_code(e: *mut ngx_http_script_engine_t)
+    -> ();
+   pub fn ngx_http_script_return_code(e: *mut ngx_http_script_engine_t)
+    -> ();
+   pub fn ngx_http_script_break_code(e: *mut ngx_http_script_engine_t) -> ();
+   pub fn ngx_http_script_if_code(e: *mut ngx_http_script_engine_t) -> ();
+   pub fn ngx_http_script_equal_code(e: *mut ngx_http_script_engine_t) -> ();
+   pub fn ngx_http_script_not_equal_code(e: *mut ngx_http_script_engine_t)
+    -> ();
+   pub fn ngx_http_script_file_code(e: *mut ngx_http_script_engine_t) -> ();
+   pub fn ngx_http_script_complex_value_code(e:
+                                                 *mut ngx_http_script_engine_t)
+    -> ();
+   pub fn ngx_http_script_value_code(e: *mut ngx_http_script_engine_t) -> ();
+   pub fn ngx_http_script_set_var_code(e: *mut ngx_http_script_engine_t)
+    -> ();
+   pub fn ngx_http_script_var_set_handler_code(e:
+                                                   *mut ngx_http_script_engine_t)
+    -> ();
+   pub fn ngx_http_script_var_code(e: *mut ngx_http_script_engine_t) -> ();
+   pub fn ngx_http_script_nop_code(e: *mut ngx_http_script_engine_t) -> ();
+   pub fn ngx_event_accept(ev: *mut ngx_event_t) -> ();
+   pub fn ngx_trylock_accept_mutex(cycle: *mut ngx_cycle_t) -> ngx_int_t;
+   pub fn ngx_accept_log_error(log: *mut ngx_log_t, buf: *mut u_char,
+                              len: size_t) -> *mut u_char;
+   pub fn ngx_process_events_and_timers(cycle: *mut ngx_cycle_t) -> ();
+   pub fn ngx_handle_read_event(rev: *mut ngx_event_t, flags: ngx_uint_t)
+    -> ngx_int_t;
+   pub fn ngx_handle_write_event(wev: *mut ngx_event_t, lowat: size_t)
+    -> ngx_int_t;
+   pub fn ngx_send_lowat(c: *mut ngx_connection_t, lowat: size_t)
+    -> ngx_int_t;
+   pub fn ngx_event_timer_init(log: *mut ngx_log_t) -> ngx_int_t;
+   pub fn ngx_event_find_timer() -> ngx_msec_t;
+   pub fn ngx_event_expire_timers() -> ();
+   pub fn ngx_event_cancel_timers() -> ();
+   pub fn ngx_event_process_posted(cycle: *mut ngx_cycle_t,
+                                   posted: *mut ngx_queue_t) -> ();
+   pub fn ngx_event_busy_lock(bl: *mut ngx_event_busy_lock_t,
+                              ctx: *mut ngx_event_busy_lock_ctx_t)
+    -> ngx_int_t;
+   pub fn ngx_event_busy_lock_cacheable(bl: *mut ngx_event_busy_lock_t,
+                                        ctx: *mut ngx_event_busy_lock_ctx_t)
+    -> ngx_int_t;
+   pub fn ngx_event_busy_unlock(bl: *mut ngx_event_busy_lock_t,
+                                ctx: *mut ngx_event_busy_lock_ctx_t) -> ();
+   pub fn ngx_event_busy_lock_cancel(bl: *mut ngx_event_busy_lock_t,
+                                     ctx: *mut ngx_event_busy_lock_ctx_t)
+    -> ();
+   pub fn ngx_event_connect_peer(pc: *mut ngx_peer_connection_t)
+    -> ngx_int_t;
+   pub fn ngx_event_get_peer(pc: *mut ngx_peer_connection_t,
+                             data: *mut ::libc::c_void) -> ngx_int_t;
+   pub fn ngx_event_pipe(p: *mut ngx_event_pipe_t, do_write: ngx_int_t)
+    -> ngx_int_t;
+   pub fn ngx_event_pipe_copy_input_filter(p: *mut ngx_event_pipe_t,
+                                           buf: *mut ngx_buf_t) -> ngx_int_t;
+   pub fn ngx_event_pipe_add_free_buf(p: *mut ngx_event_pipe_t,
+                                      b: *mut ngx_buf_t) -> ngx_int_t;
+   pub fn ngx_http_upstream_cookie_variable(r: *mut ngx_http_request_t,
+                                            v:
+                                               *mut ngx_http_variable_value_t,
+                                            data: uintptr_t) -> ngx_int_t;
+   pub fn ngx_http_upstream_header_variable(r: *mut ngx_http_request_t,
+                                            v:
+                                               *mut ngx_http_variable_value_t,
+                                            data: uintptr_t) -> ngx_int_t;
+   pub fn ngx_http_upstream_create(r: *mut ngx_http_request_t) -> ngx_int_t;
+   pub fn ngx_http_upstream_init(r: *mut ngx_http_request_t) -> ();
+   pub fn ngx_http_upstream_add(cf: *mut ngx_conf_t, u: *mut ngx_url_t,
+                                flags: ngx_uint_t)
+    -> *mut ngx_http_upstream_srv_conf_t;
+   pub fn ngx_http_upstream_bind_set_slot(cf: *mut ngx_conf_t,
+                                          cmd: *mut ngx_command_t,
+                                          conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_http_upstream_param_set_slot(cf: *mut ngx_conf_t,
+                                           cmd: *mut ngx_command_t,
+                                           conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_http_upstream_hide_headers_hash(cf: *mut ngx_conf_t,
+                                              conf:
+                                                  *mut ngx_http_upstream_conf_t,
+                                              prev:
+                                                  *mut ngx_http_upstream_conf_t,
+                                              default_hide_headers:
+                                                  *mut ngx_str_t,
+                                              hash: *mut ngx_hash_init_t)
+    -> ngx_int_t;
+   pub fn ngx_http_upstream_init_round_robin(cf: *mut ngx_conf_t,
+                                             us:
+                                                 *mut ngx_http_upstream_srv_conf_t)
+    -> ngx_int_t;
+   pub fn ngx_http_upstream_init_round_robin_peer(r: *mut ngx_http_request_t,
+                                                  us:
+                                                      *mut ngx_http_upstream_srv_conf_t)
+    -> ngx_int_t;
+   pub fn ngx_http_upstream_create_round_robin_peer(r:
+                                                        *mut ngx_http_request_t,
+                                                    ur:
+                                                        *mut ngx_http_upstream_resolved_t)
+    -> ngx_int_t;
+   pub fn ngx_http_upstream_get_round_robin_peer(pc:
+                                                     *mut ngx_peer_connection_t,
+                                                 data: *mut ::libc::c_void)
+    -> ngx_int_t;
+   pub fn ngx_http_upstream_free_round_robin_peer(pc:
+                                                      *mut ngx_peer_connection_t,
+                                                  data: *mut ::libc::c_void,
+                                                  state: ngx_uint_t) -> ();
+   pub fn ngx_http_upstream_set_round_robin_peer_session(pc:
+                                                             *mut ngx_peer_connection_t,
+                                                         data:
+                                                             *mut ::libc::c_void)
+    -> ngx_int_t;
+   pub fn ngx_http_upstream_save_round_robin_peer_session(pc:
+                                                              *mut ngx_peer_connection_t,
+                                                          data:
+                                                              *mut ::libc::c_void)
+    -> ();
+   pub fn ngx_http_busy_lock(bl: *mut ngx_http_busy_lock_t,
+                             bc: *mut ngx_http_busy_lock_ctx_t)
+    -> ::libc::c_int;
+   pub fn ngx_http_busy_lock_cacheable(bl: *mut ngx_http_busy_lock_t,
+                                       bc: *mut ngx_http_busy_lock_ctx_t,
+                                       lock: ::libc::c_int) -> ::libc::c_int;
+   pub fn ngx_http_busy_unlock(bl: *mut ngx_http_busy_lock_t,
+                              bc: *mut ngx_http_busy_lock_ctx_t) -> ();
+   pub fn ngx_http_set_busy_lock_slot(cf: *mut ngx_conf_t,
+                                      cmd: *mut ngx_command_t,
+                                      conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_http_core_run_phases(r: *mut ngx_http_request_t) -> ();
+   pub fn ngx_http_core_generic_phase(r: *mut ngx_http_request_t,
+                                      ph: *mut ngx_http_phase_handler_t)
+    -> ngx_int_t;
+   pub fn ngx_http_core_rewrite_phase(r: *mut ngx_http_request_t,
+                                      ph: *mut ngx_http_phase_handler_t)
+    -> ngx_int_t;
+   pub fn ngx_http_core_find_config_phase(r: *mut ngx_http_request_t,
+                                          ph: *mut ngx_http_phase_handler_t)
+    -> ngx_int_t;
+   pub fn ngx_http_core_post_rewrite_phase(r: *mut ngx_http_request_t,
+                                           ph: *mut ngx_http_phase_handler_t)
+    -> ngx_int_t;
+   pub fn ngx_http_core_access_phase(r: *mut ngx_http_request_t,
+                                     ph: *mut ngx_http_phase_handler_t)
+    -> ngx_int_t;
+   pub fn ngx_http_core_post_access_phase(r: *mut ngx_http_request_t,
+                                          ph: *mut ngx_http_phase_handler_t)
+    -> ngx_int_t;
+   pub fn ngx_http_core_try_files_phase(r: *mut ngx_http_request_t,
+                                        ph: *mut ngx_http_phase_handler_t)
+    -> ngx_int_t;
+   pub fn ngx_http_core_content_phase(r: *mut ngx_http_request_t,
+                                      ph: *mut ngx_http_phase_handler_t)
+    -> ngx_int_t;
+   pub fn ngx_http_test_content_type(r: *mut ngx_http_request_t,
+                                     types_hash: *mut ngx_hash_t)
+    -> *mut ::libc::c_void;
+   pub fn ngx_http_set_content_type(r: *mut ngx_http_request_t) -> ngx_int_t;
+   pub fn ngx_http_set_exten(r: *mut ngx_http_request_t) -> ();
+   pub fn ngx_http_set_etag(r: *mut ngx_http_request_t) -> ngx_int_t;
+   pub fn ngx_http_weak_etag(r: *mut ngx_http_request_t) -> ();
+   pub fn ngx_http_send_response(r: *mut ngx_http_request_t,
+                                 status: ngx_uint_t, ct: *mut ngx_str_t,
+                                 cv: *mut ngx_http_complex_value_t)
+    -> ngx_int_t;
+   pub fn ngx_http_map_uri_to_path(r: *mut ngx_http_request_t,
+                                   name: *mut ngx_str_t,
+                                   root_length: *mut size_t,
+                                   reserved: size_t) -> *mut u_char;
+   pub fn ngx_http_auth_basic_user(r: *mut ngx_http_request_t) -> ngx_int_t;
+   pub fn ngx_http_gzip_ok(r: *mut ngx_http_request_t) -> ngx_int_t;
+   pub fn ngx_http_subrequest(r: *mut ngx_http_request_t,
+                              uri: *mut ngx_str_t, args: *mut ngx_str_t,
+                              sr: *mut *mut ngx_http_request_t,
+                              psr: *mut ngx_http_post_subrequest_t,
+                              flags: ngx_uint_t) -> ngx_int_t;
+   pub fn ngx_http_internal_redirect(r: *mut ngx_http_request_t,
+                                     uri: *mut ngx_str_t,
+                                     args: *mut ngx_str_t) -> ngx_int_t;
+   pub fn ngx_http_named_location(r: *mut ngx_http_request_t,
+                                  name: *mut ngx_str_t) -> ngx_int_t;
+   pub fn ngx_http_cleanup_add(r: *mut ngx_http_request_t, size: size_t)
+    -> *mut ngx_http_cleanup_t;
+   pub fn ngx_http_output_filter(r: *mut ngx_http_request_t,
+                                 chain: *mut ngx_chain_t) -> ngx_int_t;
+   pub fn ngx_http_write_filter(r: *mut ngx_http_request_t,
+                                chain: *mut ngx_chain_t) -> ngx_int_t;
+   pub fn ngx_http_set_disable_symlinks(r: *mut ngx_http_request_t,
+                                        clcf: *mut ngx_http_core_loc_conf_t,
+                                        path: *mut ngx_str_t,
+                                        of: *mut ngx_open_file_info_t)
+    -> ngx_int_t;
+   pub fn ngx_http_get_forwarded_addr(r: *mut ngx_http_request_t,
+                                      addr: *mut ngx_addr_t,
+                                      headers: *mut ngx_array_t,
+                                      value: *mut ngx_str_t,
+                                      proxies: *mut ngx_array_t,
+                                      recursive: ::libc::c_int) -> ngx_int_t;
+   pub fn ngx_http_file_cache_new(r: *mut ngx_http_request_t) -> ngx_int_t;
+   pub fn ngx_http_file_cache_create(r: *mut ngx_http_request_t)
+    -> ngx_int_t;
+   pub fn ngx_http_file_cache_create_key(r: *mut ngx_http_request_t) -> ();
+   pub fn ngx_http_file_cache_open(r: *mut ngx_http_request_t) -> ngx_int_t;
+   pub fn ngx_http_file_cache_set_header(r: *mut ngx_http_request_t,
+                                         buf: *mut u_char) -> ngx_int_t;
+   pub fn ngx_http_file_cache_update(r: *mut ngx_http_request_t,
+                                     tf: *mut ngx_temp_file_t) -> ();
+   pub fn ngx_http_file_cache_update_header(r: *mut ngx_http_request_t)
+    -> ();
+   pub fn ngx_http_cache_send(arg1: *mut ngx_http_request_t) -> ngx_int_t;
+   pub fn ngx_http_file_cache_free(c: *mut ngx_http_cache_t,
+                                   tf: *mut ngx_temp_file_t) -> ();
+   pub fn ngx_http_file_cache_valid(cache_valid: *mut ngx_array_t,
+                                    status: ngx_uint_t) -> time_t;
+   pub fn ngx_http_file_cache_set_slot(cf: *mut ngx_conf_t,
+                                       cmd: *mut ngx_command_t,
+                                       conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_http_file_cache_valid_set_slot(cf: *mut ngx_conf_t,
+                                             cmd: *mut ngx_command_t,
+                                             conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_http_add_location(cf: *mut ngx_conf_t,
+                                locations: *mut *mut ngx_queue_t,
+                                clcf: *mut ngx_http_core_loc_conf_t)
+    -> ngx_int_t;
+   pub fn ngx_http_add_listen(cf: *mut ngx_conf_t,
+                              cscf: *mut ngx_http_core_srv_conf_t,
+                              lsopt: *mut ngx_http_listen_opt_t)
+    -> ngx_int_t;
+   pub fn ngx_http_init_connection(c: *mut ngx_connection_t) -> ();
+   pub fn ngx_http_close_connection(c: *mut ngx_connection_t) -> ();
+   pub fn ngx_http_ssl_servername(ssl_conn: *mut SSL, ad: *mut ::libc::c_int,
+                                  arg: *mut ::libc::c_void) -> ::libc::c_int;
+   pub fn ngx_http_parse_request_line(r: *mut ngx_http_request_t,
+                                      b: *mut ngx_buf_t) -> ngx_int_t;
+   pub fn ngx_http_parse_uri(r: *mut ngx_http_request_t) -> ngx_int_t;
+   pub fn ngx_http_parse_complex_uri(r: *mut ngx_http_request_t,
+                                     merge_slashes: ngx_uint_t) -> ngx_int_t;
+   pub fn ngx_http_parse_status_line(r: *mut ngx_http_request_t,
+                                     b: *mut ngx_buf_t,
+                                     status: *mut ngx_http_status_t)
+    -> ngx_int_t;
+   pub fn ngx_http_parse_unsafe_uri(r: *mut ngx_http_request_t,
+                                    uri: *mut ngx_str_t,
+                                    args: *mut ngx_str_t,
+                                    flags: *mut ngx_uint_t) -> ngx_int_t;
+   pub fn ngx_http_parse_header_line(r: *mut ngx_http_request_t,
+                                     b: *mut ngx_buf_t,
+                                     allow_underscores: ngx_uint_t)
+    -> ngx_int_t;
+   pub fn ngx_http_parse_multi_header_lines(headers: *mut ngx_array_t,
+                                            name: *mut ngx_str_t,
+                                            value: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_http_parse_set_cookie_lines(headers: *mut ngx_array_t,
+                                          name: *mut ngx_str_t,
+                                          value: *mut ngx_str_t)
+    -> ngx_int_t;
+   pub fn ngx_http_arg(r: *mut ngx_http_request_t, name: *mut u_char,
+                       len: size_t, value: *mut ngx_str_t) -> ngx_int_t;
+   pub fn ngx_http_split_args(r: *mut ngx_http_request_t,
+                              uri: *mut ngx_str_t, args: *mut ngx_str_t)
+    -> ();
+   pub fn ngx_http_parse_chunked(r: *mut ngx_http_request_t,
+                                 b: *mut ngx_buf_t,
+                                 ctx: *mut ngx_http_chunked_t) -> ngx_int_t;
+   pub fn ngx_http_create_request(c: *mut ngx_connection_t)
+    -> *mut ngx_http_request_t;
+   pub fn ngx_http_process_request_uri(r: *mut ngx_http_request_t)
+    -> ngx_int_t;
+   pub fn ngx_http_process_request_header(r: *mut ngx_http_request_t)
+    -> ngx_int_t;
+   pub fn ngx_http_process_request(r: *mut ngx_http_request_t) -> ();
+   pub fn ngx_http_update_location_config(r: *mut ngx_http_request_t) -> ();
+   pub fn ngx_http_handler(r: *mut ngx_http_request_t) -> ();
+   pub fn ngx_http_run_posted_requests(c: *mut ngx_connection_t) -> ();
+   pub fn ngx_http_post_request(r: *mut ngx_http_request_t,
+                                pr: *mut ngx_http_posted_request_t)
+    -> ngx_int_t;
+   pub fn ngx_http_finalize_request(r: *mut ngx_http_request_t,
+                                    rc: ngx_int_t) -> ();
+   pub fn ngx_http_free_request(r: *mut ngx_http_request_t, rc: ngx_int_t)
+    -> ();
+   pub fn ngx_http_empty_handler(wev: *mut ngx_event_t) -> ();
+   pub fn ngx_http_request_empty_handler(r: *mut ngx_http_request_t) -> ();
+   pub fn ngx_http_send_special(r: *mut ngx_http_request_t,
+                                flags: ngx_uint_t) -> ngx_int_t;
+   pub fn ngx_http_read_client_request_body(r: *mut ngx_http_request_t,
+                                            post_handler:
+                                               ngx_http_client_body_handler_pt)
+    -> ngx_int_t;
+   pub fn ngx_http_send_header(r: *mut ngx_http_request_t) -> ngx_int_t;
+   pub fn ngx_http_special_response_handler(r: *mut ngx_http_request_t,
+                                            error: ngx_int_t) -> ngx_int_t;
+   pub fn ngx_http_filter_finalize_request(r: *mut ngx_http_request_t,
+                                           m: *mut ngx_module_t,
+                                           error: ngx_int_t) -> ngx_int_t;
+   pub fn ngx_http_clean_header(r: *mut ngx_http_request_t) -> ();
+   pub fn ngx_http_parse_time(value: *mut u_char, len: size_t) -> time_t;
+   pub fn ngx_http_get_time(buf: *mut ::libc::c_char, t: time_t) -> size_t;
+   pub fn ngx_http_discard_request_body(r: *mut ngx_http_request_t)
+    -> ngx_int_t;
+   pub fn ngx_http_discarded_request_body_handler(r: *mut ngx_http_request_t)
+    -> ();
+   pub fn ngx_http_block_reading(r: *mut ngx_http_request_t) -> ();
+   pub fn ngx_http_test_reading(r: *mut ngx_http_request_t) -> ();
+   pub fn ngx_http_types_slot(cf: *mut ngx_conf_t, cmd: *mut ngx_command_t,
+                              conf: *mut ::libc::c_void)
+    -> *mut ::libc::c_char;
+   pub fn ngx_http_merge_types(cf: *mut ngx_conf_t,
+                              keys: *mut *mut ngx_array_t,
+                              types_hash: *mut ngx_hash_t,
+                              prev_keys: *mut *mut ngx_array_t,
+                              prev_types_hash: *mut ngx_hash_t,
+                              default_types: *mut ngx_str_t)
+    -> *mut ::libc::c_char;
+   pub fn ngx_http_set_default_types(cf: *mut ngx_conf_t,
+                                     types: *mut *mut ngx_array_t,
+                                     default_type: *mut ngx_str_t)
+    -> ngx_int_t;
 }
