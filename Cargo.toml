@@ -5,6 +5,7 @@ version = "0.0.1"
 
 [dependencies]
 term = "*"
+bitflags = "*"
 
 [dependencies.maud]
 git = "https://github.com/lfairy/maud.git"

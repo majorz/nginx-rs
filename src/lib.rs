@@ -9,7 +9,7 @@
 
 extern crate libc;
 extern crate maud;
-#[macro_use] #[no_link] extern crate rustc_bitflags;
+#[macro_use] extern crate bitflags;
 
 mod ffi;
 
@@ -78,7 +78,7 @@ macro_rules! ngx_calloc_buf {
 
 
 #[no_mangle]
-pub extern fn ngx_http_sample_module_command(
+pub extern fn ngx_http_reborn_module_command(
    cf: *mut ngx_conf_t,
    cmd: *mut ngx_command_t,
    conf: *mut c_void
@@ -87,7 +87,7 @@ pub extern fn ngx_http_sample_module_command(
 
    unsafe {
       let clcf: *mut ngx_http_core_loc_conf_t = (*((*((*cf).ctx as *mut ngx_http_conf_ctx_t)).loc_conf).offset(ngx_http_core_module.ctx_index as isize)) as *mut ngx_http_core_loc_conf_t;
-      (*clcf).handler = Some(ngx_http_sample_handler);
+      (*clcf).handler = Some(ngx_http_reborn_handler);
    }
 
    //return NGX_CONF_OK as *mut c_char;
@@ -96,7 +96,7 @@ pub extern fn ngx_http_sample_module_command(
 
 
 #[no_mangle]
-pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
+pub extern fn ngx_http_reborn_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 {
    unsafe {
       let log = (*(*r).connection).log;
@@ -111,12 +111,12 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 
       401 as i64
 
-      let ngx_http_sample_text: ngx_str_t = sample_text_from_rust(r);
+//      let ngx_http_reborn_text: ngx_str_t = reborn_text_from_rust(r);
 
-      (*r).headers_out.status = NGX_HTTP_OK;
-      (*r).headers_out.content_length_n = ngx_http_sample_text.len as i64;
+//      (*r).headers_out.status = NGX_HTTP_OK;
+//      (*r).headers_out.content_length_n = ngx_http_reborn_text.len as i64;
 
-      let rc: ngx_int_t = ngx_http_send_header(r);
+//      let rc: ngx_int_t = ngx_http_send_header(r);
 //      if rc == NGX_ERROR || rc > NGX_OK { //|| (*r).header_only) {
 //         return rc;
 //      }
@@ -136,10 +136,10 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 
       let out: *mut ngx_chain_t = boxed::into_raw(out);
 
-      (*b).start = ngx_http_sample_text.data;
+      (*b).start = ngx_http_reborn_text.data;
       (*b).pos = (*b).start;
 
-      (*b).end = ngx_http_sample_text.data.offset(ngx_http_sample_text.len as isize );
+      (*b).end = ngx_http_reborn_text.data.offset(ngx_http_reborn_text.len as isize );
       (*b).last = (*b).end;
    //   (*b).last_buf = 1;
    //   (*b).memory = 1;
@@ -151,7 +151,7 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 }
 
 
-fn sample_text_from_rust(r: *mut ngx_http_request_t) -> ngx_str_t
+fn reborn_text_from_rust(r: *mut ngx_http_request_t) -> ngx_str_t
 {
    let name = "Nginx-Rust";
    let markup = html! {

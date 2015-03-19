@@ -2,10 +2,16 @@
 name = "nginx-rust"
 version = "0.0.1"
 dependencies = [
+ "bitflags 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "maud 0.3.1 (git+https://github.com/lfairy/maud.git)",
  "maud_macros 0.3.1 (git+https://github.com/lfairy/maud.git)",
  "term 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
+
+[[package]]
+name = "bitflags"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "kernel32-sys"

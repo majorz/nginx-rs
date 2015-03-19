@@ -3,10 +3,10 @@
 #include <ngx_http.h>
 
 
-ngx_str_t sample_text_from_rust(ngx_http_request_t *r);
+//void dump_request(ngx_http_request_t *r);
 
 
-char *ngx_http_sample_module_command(ngx_conf_t *cf, ngx_command_t *cmd, void *conf);
+static char *ngx_http_sample_module_command(ngx_conf_t *cf, ngx_command_t *cmd, void *conf);
 
 
 static ngx_command_t  ngx_http_sample_commands[] = {
@@ -50,3 +50,53 @@ ngx_module_t  ngx_http_sample_module = {
    NULL,                                  /* exit master */
    NGX_MODULE_V1_PADDING
 };
+
+//static ngx_str_t ngx_http_sample_text = ngx_string(
+//   "ngx_http_sample_handler"
+//);
+
+static ngx_str_t  ngx_http_sample_text = ngx_string("sample");
+
+static ngx_int_t
+ngx_http_sample_handler(ngx_http_request_t *r)
+{
+   ngx_int_t     rc;
+   ngx_buf_t    *b;
+   ngx_chain_t   out;
+
+   r->headers_out.status = NGX_HTTP_OK;
+   r->headers_out.content_length_n = ngx_http_sample_text.len;
+
+   rc = ngx_http_send_header(r);
+
+   if (rc == NGX_ERROR || rc > NGX_OK || r->header_only) {
+      return rc;
+   }
+
+   b = ngx_calloc_buf(r->pool);
+   if (b == NULL) {
+      return NGX_HTTP_INTERNAL_SERVER_ERROR;
+   }
+
+   out.buf = b;
+   out.next = NULL;
+
+   b->start = b->pos = ngx_http_sample_text.data;
+   b->end = b->last = ngx_http_sample_text.data + ngx_http_sample_text.len;
+   b->memory = 1;
+   b->last_buf = 1;
+   b->last_in_chain = 1;
+
+   return ngx_http_output_filter(r, &out);
+}
+
+static char *
+ngx_http_sample_module_command(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
+{
+   ngx_http_core_loc_conf_t  *clcf;
+
+   clcf = ngx_http_conf_get_module_loc_conf(cf, ngx_http_core_module);
+   clcf->handler = ngx_http_sample_handler;
+
+   return NGX_CONF_OK;
+}
