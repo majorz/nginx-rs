@@ -47,7 +47,7 @@ const NGX_HTTP_INTERNAL_SERVER_ERROR:   ngx_uint_t = 500;
 // #define ngx_http_conf_get_module_loc_conf(cf, module)                         \
 //    ((ngx_http_conf_ctx_t *) cf->ctx)->loc_conf[module.ctx_index]
 macro_rules! ngx_http_conf_get_module_loc_conf {
-   ($cf:ident, $module:ident) => (
+   ($cf:expr, $module:expr) => (
       unsafe {
          (*
             (
@@ -76,9 +76,25 @@ macro_rules! ngx_calloc_buf {
 }
 
 
+bitflags! {
+    flags BufFlags: u32 {
+        const FLAG_TEMPORARY        = 0b0000000000000001,
+        const FLAG_MEMORY           = 0b0000000000000010,
+        const FLAG_MMAP             = 0b0000000000000100,
+        const FLAG_RECYCLED         = 0b0000000000001000,
+        const FLAG_IN_FILE          = 0b0000000000010000,
+        const FLAG_FLUSH            = 0b0000000000100000,
+        const FLAG_SYNC             = 0b0000000001000000,
+        const FLAG_LAST_BUF         = 0b0000000010000000,
+        const FLAG_LAST_IN_CHAIN    = 0b0000000100000000,
+        const FLAG_LAST_SHADOW      = 0b0000001000000000,
+        const FLAG_TEMP_FILE        = 0b0000010000000000,
+    }
+}
+
 
 #[no_mangle]
-pub extern fn ngx_http_reborn_module_command(
+pub extern fn ngx_http_sample_module_command(
    cf: *mut ngx_conf_t,
    cmd: *mut ngx_command_t,
    conf: *mut c_void
@@ -87,40 +103,29 @@ pub extern fn ngx_http_reborn_module_command(
 
    unsafe {
       let clcf: *mut ngx_http_core_loc_conf_t = (*((*((*cf).ctx as *mut ngx_http_conf_ctx_t)).loc_conf).offset(ngx_http_core_module.ctx_index as isize)) as *mut ngx_http_core_loc_conf_t;
-      (*clcf).handler = Some(ngx_http_reborn_handler);
+      (*clcf).handler = Some(ngx_http_sample_handler);
    }
 
-   //return NGX_CONF_OK as *mut c_char;
    NGX_CONF_OK as *mut c_char
 }
 
 
 #[no_mangle]
-pub extern fn ngx_http_reborn_handler(r: *mut ngx_http_request_t) -> ngx_int_t
+pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 {
    unsafe {
       let log = (*(*r).connection).log;
 
-      let s = CString::new("DUMP  method: %d").unwrap();
+      let ngx_http_sample_text: ngx_str_t = sample_text_from_rust(r);
 
-      ngx_log_error_core(
-         2, log, 0,
-         s.as_ptr(),
-         (*r).method
-      );
+      (*r).headers_out.status = NGX_HTTP_OK;
+      (*r).headers_out.content_length_n = ngx_http_sample_text.len as i64;
 
-      401 as i64
+      let rc: ngx_int_t = ngx_http_send_header(r);
+      if rc == NGX_ERROR || rc > NGX_OK { //|| (*r).header_only) {
+         return rc;
+      }
 
-//      let ngx_http_reborn_text: ngx_str_t = reborn_text_from_rust(r);
-
-//      (*r).headers_out.status = NGX_HTTP_OK;
-//      (*r).headers_out.content_length_n = ngx_http_reborn_text.len as i64;
-
-//      let rc: ngx_int_t = ngx_http_send_header(r);
-//      if rc == NGX_ERROR || rc > NGX_OK { //|| (*r).header_only) {
-//         return rc;
-//      }
-/*
       let b: *mut ngx_buf_t = ngx_calloc_buf!((*r).pool) as *mut ngx_buf_t;
 
       if b.is_null() {
@@ -136,22 +141,21 @@ pub extern fn ngx_http_reborn_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 
       let out: *mut ngx_chain_t = boxed::into_raw(out);
 
-      (*b).start = ngx_http_reborn_text.data;
+      (*b).start = ngx_http_sample_text.data;
       (*b).pos = (*b).start;
 
-      (*b).end = ngx_http_reborn_text.data.offset(ngx_http_reborn_text.len as isize );
+      (*b).end = ngx_http_sample_text.data.offset(ngx_http_sample_text.len as isize);
       (*b).last = (*b).end;
-   //   (*b).last_buf = 1;
-   //   (*b).memory = 1;
-   //   (*b).last_in_chain = 1;
+
+      let buf_flags = FLAG_MEMORY | FLAG_LAST_BUF | FLAG_LAST_IN_CHAIN;
+      (*b)._bindgen_bitfield_1_ = buf_flags.bits();
 
       ngx_http_output_filter(r, out)
-   */
    }
 }
 
 
-fn reborn_text_from_rust(r: *mut ngx_http_request_t) -> ngx_str_t
+fn sample_text_from_rust(r: *mut ngx_http_request_t) -> ngx_str_t
 {
    let name = "Nginx-Rust";
    let markup = html! {
@@ -178,4 +182,87 @@ fn reborn_text_from_rust(r: *mut ngx_http_request_t) -> ngx_str_t
    }
 
    result
+}
+
+#[no_mangle]
+pub extern fn dump_request(r: *mut ngx_http_request_t) {
+   unsafe {
+      let log = (*(*r).connection).log;
+
+      let template = "REQ: \
+         method=\"%ud\" \
+         http_version=\"%ud\" \
+         request_line=\"%V\" \
+         uri=\"%V\" \
+         args=\"%V\" \
+         exten=\"%V\" \
+         unparsed_uri=\"%V\" \
+         method_name=\"%V\" \
+         http_protocol=\"%V\" \
+         bit1=\"%s\" \
+         bit2=\"%s\" \
+         bit3=\"%s\" \
+         bit4=\"%s\" \
+         bits=\"%s\" \
+      ";
+      let cstr_template = CString::new(template).unwrap();
+
+      let b1 = CString::new(format!("{:032b}", (*r)._bindgen_bitfield_1_)).unwrap();
+      let b2 = CString::new(format!("{:032b}", (*r)._bindgen_bitfield_2_)).unwrap();
+      let b3 = CString::new(format!("{:032b}", (*r)._bindgen_bitfield_3_)).unwrap();
+      let b4 = CString::new(format!("{:032b}", (*r)._bindgen_bitfield_4_)).unwrap();
+
+      let buf_flags = FLAG_MEMORY | FLAG_LAST_BUF | FLAG_LAST_IN_CHAIN;
+      let bits = CString::new(format!("{:032b}", buf_flags.bits())).unwrap();
+
+      ngx_log_error_core(
+         2, log, 0,
+         cstr_template.as_ptr(),
+         (*r).method,
+         (*r).http_version,
+         &((*r).request_line),
+         &((*r).uri),
+         &((*r).args),
+         &((*r).exten),
+         &((*r).unparsed_uri),
+         &((*r).method_name),
+         &((*r).http_protocol),
+         b1.as_ptr(),
+         b2.as_ptr(),
+         b3.as_ptr(),
+         b4.as_ptr(),
+         bits.as_ptr(),
+      );
+   }
+}
+
+
+#[no_mangle]
+pub extern fn dump_buffer(r: *mut ngx_http_request_t, b: *mut ngx_buf_t) {
+   unsafe {
+      let log = (*(*r).connection).log;
+
+      let template = "BUF: \
+         pos=\"%p\" \
+         last=\"%p\" \
+         start=\"%p\" \
+         end=\"%p\" \
+         num=\"%d\" \
+         bit1=\"%s\" \
+      ";
+      let cstr_template = CString::new(template).unwrap();
+
+      let b1 = CString::new(format!("{:064b}", (*b)._bindgen_bitfield_1_)).unwrap();
+
+      ngx_log_error_core(
+         2, log, 0,
+         cstr_template.as_ptr(),
+         (*b).pos,
+         (*b).last,
+         (*b).start,
+         (*b).end,
+         (*b).num,
+         b1.as_ptr(),
+      );
+   }
 }
