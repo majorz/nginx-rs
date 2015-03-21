@@ -2,20 +2,16 @@
 #![feature(plugin)]
 #![feature(alloc)]
 
-#![plugin(maud_macros)]
-
 #![allow(dead_code)]
 #![allow(unused_imports)]
 
 extern crate libc;
-extern crate maud;
 #[macro_use] extern crate bitflags;
 
 mod ffi;
 
 use std::ffi::CString;
 use std::ptr;
-use std::ptr::PtrExt;
 use std::mem;
 use std::boxed;
 
@@ -139,6 +135,17 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
          }
       );
 
+      let headers_in = (*r).headers_in;
+
+      let cstr_template = CString::new("BITS: \"%s\"").unwrap();
+      let b1 = CString::new(format!("{:032b}", headers_in._bindgen_bitfield_1_)).unwrap();
+
+      ngx_log_error_core(
+         2, log, 0,
+         cstr_template.as_ptr(),
+         b1.as_ptr()
+      );
+
       let out: *mut ngx_chain_t = boxed::into_raw(out);
 
       (*b).start = ngx_http_sample_text.data;
@@ -157,17 +164,7 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 
 fn sample_text_from_rust(r: *mut ngx_http_request_t) -> ngx_str_t
 {
-   let name = "Nginx-Rust";
-   let markup = html! {
-      html {
-         head meta charset="utf-8"
-         body {
-            p { "Здравейте, " $name "!" }
-         }
-      }
-   };
-
-   let s = CString::new(markup.to_string()).unwrap();
+   let s = CString::new("<html><head><meta charset=\"utf-8\"></head><body>Здравейте!</body></html>".to_string()).unwrap();
    let len = s.to_bytes().len() as size_t;
 
    let result = ngx_str_t {

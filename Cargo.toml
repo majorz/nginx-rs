@@ -3,15 +3,11 @@
 name = "nginx-rust"
 version = "0.0.1"
 
-[dependencies]
-term = "*"
-bitflags = "*"
+[dependencies.term]
+git = "https://github.com/rust-lang/term.git"
 
-[dependencies.maud]
-git = "https://github.com/lfairy/maud.git"
-
-[dependencies.maud_macros]
-git = "https://github.com/lfairy/maud.git"
+[dependencies.bitflags]
+git = "https://github.com/rust-lang/bitflags.git"
 
 [lib]
 name = "nrust"
