@@ -261,7 +261,7 @@ impl ::std::default::Default for Struct_ngx_rbtree_s {
 }
 pub type ngx_msec_t = ngx_rbtree_key_t;
 pub type ngx_msec_int_t = ngx_rbtree_key_int_t;
-pub type ngx_tm_t = Struct_tm;
+type ngx_tm_t = Struct_tm;
 pub type ngx_socket_t = ::libc::c_int;
 #[repr(C)]
 #[derive(Copy)]
@@ -321,9 +321,9 @@ impl ::std::default::Default for Struct_Unnamed75 {
 pub type ngx_file_mapping_t = Struct_Unnamed75;
 #[repr(C)]
 pub struct Struct_Unnamed76 {
-    pub dir: *mut DIR,
-    pub de: *mut Struct_dirent,
-    pub info: Struct_stat,
+    dir: *mut DIR,
+    de: *mut Struct_dirent,
+    info: Struct_stat,
     pub _bindgen_bitfield_1_: ::libc::c_uint,
 }
 impl ::std::default::Default for Struct_Unnamed76 {
@@ -333,7 +333,7 @@ pub type ngx_dir_t = Struct_Unnamed76;
 #[repr(C)]
 pub struct Struct_Unnamed77 {
     pub n: size_t,
-    pub pglob: glob_t,
+    pglob: glob_t,
     pub pattern: *mut u_char,
     pub log: *mut ngx_log_t,
     pub test: ngx_uint_t,
@@ -822,8 +822,8 @@ impl ::std::default::Default for Struct_ngx_tree_ctx_s {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_Unnamed100 {
-    pub code: *mut pcre,
-    pub extra: *mut pcre_extra,
+    code: *mut pcre,
+    extra: *mut pcre_extra,
 }
 impl ::std::default::Default for Struct_Unnamed100 {
     fn default() -> Struct_Unnamed100 { unsafe { ::std::mem::zeroed() } }
@@ -909,7 +909,7 @@ pub struct Struct_Unnamed106 {
     pub lock: *mut ngx_atomic_t,
     pub wait: *mut ngx_atomic_t,
     pub semaphore: ngx_uint_t,
-    pub sem: sem_t,
+    sem: sem_t,
     pub spin: ngx_uint_t,
 }
 impl ::std::default::Default for Struct_Unnamed106 {
@@ -950,8 +950,8 @@ impl ::std::default::Default for Struct_Unnamed107 {
 pub type ngx_slab_pool_t = Struct_Unnamed107;
 #[repr(C)]
 pub struct Struct_Unnamed108 {
-    pub addr: in_addr_t,
-    pub mask: in_addr_t,
+    addr: in_addr_t,
+    mask: in_addr_t,
 }
 impl ::std::default::Default for Struct_Unnamed108 {
     fn default() -> Struct_Unnamed108 { unsafe { ::std::mem::zeroed() } }
@@ -982,8 +982,8 @@ impl ::std::default::Default for Union_Unnamed110 {
 pub type ngx_cidr_t = Struct_Unnamed109;
 #[repr(C)]
 pub struct Struct_Unnamed111 {
-    pub sockaddr: *mut Struct_sockaddr,
-    pub socklen: socklen_t,
+    sockaddr: *mut Struct_sockaddr,
+    socklen: socklen_t,
     pub name: ngx_str_t,
 }
 impl ::std::default::Default for Struct_Unnamed111 {
@@ -996,11 +996,11 @@ pub struct Struct_Unnamed112 {
     pub host: ngx_str_t,
     pub port_text: ngx_str_t,
     pub uri: ngx_str_t,
-    pub port: in_port_t,
-    pub default_port: in_port_t,
+    port: in_port_t,
+    default_port: in_port_t,
     pub family: ::libc::c_int,
     pub _bindgen_bitfield_1_: ::libc::c_uint,
-    pub socklen: socklen_t,
+    socklen: socklen_t,
     pub sockaddr: [u_char; 110usize],
     pub addrs: *mut ngx_addr_t,
     pub naddrs: ngx_uint_t,
@@ -1098,8 +1098,8 @@ pub type ngx_core_tls_t = Struct_Unnamed114;
 #[repr(C)]
 pub struct Struct_Unnamed115 {
     pub connection: *mut ngx_connection_t,
-    pub sockaddr: *mut Struct_sockaddr,
-    pub socklen: socklen_t,
+    sockaddr: *mut Struct_sockaddr,
+    socklen: socklen_t,
     pub server: ngx_str_t,
     pub log: ngx_log_t,
 }
@@ -1188,7 +1188,7 @@ pub struct Struct_ngx_resolver_ctx_s {
     pub naddrs: ngx_uint_t,
     pub addrs: *mut ngx_addr_t,
     pub addr: ngx_addr_t,
-    pub sin: Struct_sockaddr_in,
+    sin: Struct_sockaddr_in,
     pub handler: ngx_resolver_handler_pt,
     pub data: *mut ::libc::c_void,
     pub timeout: ngx_msec_t,
@@ -1208,7 +1208,7 @@ impl ::std::default::Default for Struct_ngx_resolver_ctx_s {
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_Unnamed140 {
-    pub ctx: *mut SSL_CTX,
+    ctx: *mut SSL_CTX,
     pub log: *mut ngx_log_t,
     pub buffer_size: size_t,
 }
@@ -1219,7 +1219,7 @@ pub type ngx_ssl_t = Struct_Unnamed140;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_Unnamed141 {
-    pub connection: *mut SSL,
+    connection: *mut SSL,
     pub last: ngx_int_t,
     pub buf: *mut ngx_buf_t,
     pub buffer_size: size_t,
@@ -1585,7 +1585,7 @@ pub type ngx_os_io_t = Struct_Unnamed156;
 #[repr(C)]
 #[derive(Copy)]
 pub struct Struct_Unnamed157 {
-    pub iovs: *mut Struct_iovec,
+    iovs: *mut Struct_iovec,
     pub count: ngx_uint_t,
     pub size: size_t,
     pub nalloc: ngx_uint_t,
@@ -1598,8 +1598,8 @@ pub type ngx_listening_t = Struct_ngx_listening_s;
 #[repr(C)]
 pub struct Struct_ngx_listening_s {
     pub fd: ngx_socket_t,
-    pub sockaddr: *mut Struct_sockaddr,
-    pub socklen: socklen_t,
+    sockaddr: *mut Struct_sockaddr,
+    socklen: socklen_t,
     pub addr_text_max_len: size_t,
     pub addr_text: ngx_str_t,
     pub _type: ::libc::c_int,
@@ -1655,13 +1655,13 @@ pub struct Struct_ngx_connection_s {
     pub sent: off_t,
     pub log: *mut ngx_log_t,
     pub pool: *mut ngx_pool_t,
-    pub sockaddr: *mut Struct_sockaddr,
-    pub socklen: socklen_t,
+    sockaddr: *mut Struct_sockaddr,
+    socklen: socklen_t,
     pub addr_text: ngx_str_t,
     pub proxy_protocol_addr: ngx_str_t,
     pub ssl: *mut ngx_ssl_connection_t,
-    pub local_sockaddr: *mut Struct_sockaddr,
-    pub local_socklen: socklen_t,
+    local_sockaddr: *mut Struct_sockaddr,
+    local_socklen: socklen_t,
     pub buffer: *mut ngx_buf_t,
     pub queue: ngx_queue_t,
     pub number: ngx_atomic_uint_t,
@@ -2484,8 +2484,8 @@ pub type ngx_event_save_peer_session_pt =
 #[repr(C)]
 pub struct Struct_ngx_peer_connection_s {
     pub connection: *mut ngx_connection_t,
-    pub sockaddr: *mut Struct_sockaddr,
-    pub socklen: socklen_t,
+    sockaddr: *mut Struct_sockaddr,
+    socklen: socklen_t,
     pub name: *mut ngx_str_t,
     pub tries: ngx_uint_t,
     pub start_time: ngx_msec_t,
@@ -2628,8 +2628,8 @@ pub struct Struct_ngx_http_upstream_srv_conf_s {
     pub host: ngx_str_t,
     pub file_name: *mut u_char,
     pub line: ngx_uint_t,
-    pub port: in_port_t,
-    pub default_port: in_port_t,
+    port: in_port_t,
+    default_port: in_port_t,
     pub no_port: ngx_uint_t,
 }
 impl ::std::default::Default for Struct_ngx_http_upstream_srv_conf_s {
@@ -2760,12 +2760,12 @@ pub type ngx_http_upstream_headers_in_t = Struct_Unnamed206;
 #[repr(C)]
 pub struct Struct_Unnamed207 {
     pub host: ngx_str_t,
-    pub port: in_port_t,
+    port: in_port_t,
     pub no_port: ngx_uint_t,
     pub naddrs: ngx_uint_t,
     pub addrs: *mut ngx_addr_t,
-    pub sockaddr: *mut Struct_sockaddr,
-    pub socklen: socklen_t,
+    sockaddr: *mut Struct_sockaddr,
+    socklen: socklen_t,
     pub ctx: *mut ngx_resolver_ctx_t,
 }
 impl ::std::default::Default for Struct_Unnamed207 {
@@ -2870,8 +2870,8 @@ impl ::std::default::Default for Struct_Unnamed209 {
 pub type ngx_http_upstream_param_t = Struct_Unnamed209;
 #[repr(C)]
 pub struct Struct_Unnamed210 {
-    pub sockaddr: *mut Struct_sockaddr,
-    pub socklen: socklen_t,
+    sockaddr: *mut Struct_sockaddr,
+    socklen: socklen_t,
     pub name: ngx_str_t,
     pub server: ngx_str_t,
     pub current_weight: ngx_int_t,
@@ -2883,7 +2883,7 @@ pub struct Struct_Unnamed210 {
     pub max_fails: ngx_uint_t,
     pub fail_timeout: time_t,
     pub down: ngx_uint_t,
-    pub ssl_session: *mut SSL_SESSION,
+    ssl_session: *mut SSL_SESSION,
 }
 impl ::std::default::Default for Struct_Unnamed210 {
     fn default() -> Struct_Unnamed210 { unsafe { ::std::mem::zeroed() } }
@@ -2953,7 +2953,7 @@ pub type ngx_http_core_loc_conf_t = Struct_ngx_http_core_loc_conf_s;
 #[repr(C)]
 pub struct Struct_Unnamed214 {
     pub u: Union_Unnamed215,
-    pub socklen: socklen_t,
+    socklen: socklen_t,
     pub _bindgen_bitfield_1_: ::libc::c_uint,
     pub backlog: ::libc::c_int,
     pub rcvbuf: ::libc::c_int,
@@ -3121,7 +3121,7 @@ impl ::std::default::Default for Struct_ngx_http_addr_conf_s {
 }
 #[repr(C)]
 pub struct Struct_Unnamed223 {
-    pub addr: in_addr_t,
+    addr: in_addr_t,
     pub conf: ngx_http_addr_conf_t,
 }
 impl ::std::default::Default for Struct_Unnamed223 {
@@ -3141,7 +3141,7 @@ pub type ngx_http_port_t = Struct_Unnamed224;
 #[repr(C)]
 pub struct Struct_Unnamed225 {
     pub family: ngx_int_t,
-    pub port: in_port_t,
+    port: in_port_t,
     pub addrs: ngx_array_t,
 }
 impl ::std::default::Default for Struct_Unnamed225 {
