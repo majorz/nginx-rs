@@ -8,14 +8,14 @@
 extern crate libc;
 #[macro_use] extern crate bitflags;
 
-mod ffi;
+mod nginx;
 
 use std::ffi::CString;
 use std::ptr;
 use std::mem;
 use std::boxed;
 
-use ffi::nginx::{
+use nginx::ffi::{
    ngx_str_t, ngx_http_request_t, ngx_pcalloc, ngx_palloc, ngx_conf_t, ngx_command_t, ngx_http_core_module,
    ngx_http_conf_ctx_t, ngx_int_t, ngx_http_output_filter, ngx_chain_t, ngx_http_send_header, ngx_buf_t,
    ngx_uint_t, ngx_http_core_loc_conf_t, ngx_log_error_core,
