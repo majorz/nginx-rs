@@ -40,22 +40,18 @@ const NGX_HTTP_OK:                      ngx_uint_t = 200;
 const NGX_HTTP_INTERNAL_SERVER_ERROR:   ngx_uint_t = 500;
 
 
-// #define ngx_http_conf_get_module_loc_conf(cf, module)                         \
-//    ((ngx_http_conf_ctx_t *) cf->ctx)->loc_conf[module.ctx_index]
 macro_rules! ngx_http_conf_get_module_loc_conf {
-   ($cf:expr, $module:expr) => (
-      unsafe {
-         (*
-            (
-               (*
-                  (
-                     (*cf).ctx as *mut ngx_http_conf_ctx_t
-                  )
-               ).loc_conf
-            ).offset(ngx_http_core_module.ctx_index as isize)
-         )
-      }
-   )
+   ($cf:expr, $module:expr) => ({
+      (*
+         (
+            (*
+               (
+                  (*$cf).ctx as *mut ngx_http_conf_ctx_t
+               )
+            ).loc_conf
+         ).offset($module.ctx_index as isize)
+      ) as *mut ngx_http_core_loc_conf_t
+   })
 }
 
 
@@ -98,7 +94,7 @@ pub extern fn ngx_http_sample_module_command(
    //ngx_http_core_loc_conf_t  *clcf;
 
    unsafe {
-      let clcf: *mut ngx_http_core_loc_conf_t = (*((*((*cf).ctx as *mut ngx_http_conf_ctx_t)).loc_conf).offset(ngx_http_core_module.ctx_index as isize)) as *mut ngx_http_core_loc_conf_t;
+      let clcf = ngx_http_conf_get_module_loc_conf!(cf, ngx_http_core_module);
       (*clcf).handler = Some(ngx_http_sample_handler);
    }
 
