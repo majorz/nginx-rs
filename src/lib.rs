@@ -85,19 +85,27 @@ bitflags! {
 }
 
 
-#[no_mangle]
-pub extern fn ngx_http_sample_module_command(
-   cf: *mut ngx_conf_t,
-   cmd: *mut ngx_command_t,
-   conf: *mut c_void
-) -> *const c_char {
-   unsafe {
-      let clcf = ngx_http_conf_get_module_loc_conf!(cf, ngx_http_core_module);
-      (*clcf).handler = Some(ngx_http_sample_handler);
-   }
 
-   NGX_CONF_OK
+macro_rules! define_http_module_command {
+   ($command:ident, $handler:ident) => (
+      #[no_mangle]
+      pub extern fn $command(
+         cf: *mut ngx_conf_t,
+         _: *mut ngx_command_t,
+         _: *mut c_void
+      ) -> *const c_char {
+         unsafe {
+            let clcf = ngx_http_conf_get_module_loc_conf!(cf, ngx_http_core_module);
+            (*clcf).handler = Some($handler);
+         }
+
+         NGX_CONF_OK
+      }
+   )
 }
+
+
+define_http_module_command!(ngx_http_sample_module_command, ngx_http_sample_handler);
 
 
 #[no_mangle]
