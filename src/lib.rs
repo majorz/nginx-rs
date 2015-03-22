@@ -24,8 +24,8 @@ use nginx::ffi::{
 use libc::{size_t, c_void, c_uchar, c_char};
 
 
-const NGX_CONF_OK: *const c_void = 0 as *const c_void;
-const NGX_CONF_ERROR: *const c_void = -1 as *const c_void;
+const NGX_CONF_OK: *const c_char = 0 as *const c_char;
+const NGX_CONF_ERROR: *const c_char = -1 as *const c_char;
 
 const NGX_OK:        ngx_int_t =  0;
 const NGX_ERROR:     ngx_int_t = -1;
@@ -90,15 +90,13 @@ pub extern fn ngx_http_sample_module_command(
    cf: *mut ngx_conf_t,
    cmd: *mut ngx_command_t,
    conf: *mut c_void
-) -> *mut c_char {
-   //ngx_http_core_loc_conf_t  *clcf;
-
+) -> *const c_char {
    unsafe {
       let clcf = ngx_http_conf_get_module_loc_conf!(cf, ngx_http_core_module);
       (*clcf).handler = Some(ngx_http_sample_handler);
    }
 
-   NGX_CONF_OK as *mut c_char
+   NGX_CONF_OK
 }
 
 
