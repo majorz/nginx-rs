@@ -70,7 +70,7 @@ macro_rules! ngx_calloc_buf {
 
 macro_rules! log_error_core {
    ($level:expr, $log:expr, $err:expr, $fmt:expr, $( $arg:expr ),*) => (
-      ngx_log_error_core($level, $log.ptr, $err, $fmt, $( $arg ),*)
+      ngx_log_error_core($level, $log.raw, $err, $fmt, $( $arg ),*)
    )
 }
 
@@ -118,9 +118,7 @@ simple_http_module_command!(ngx_http_sample_module_command, ngx_http_sample_hand
 #[no_mangle]
 pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 {
-   let request = nginx::HttpRequest {
-      ptr: r
-   };
+   let request = nginx::HttpRequest::new(r);
 
    unsafe {
       let log = request.connection().unwrap().log().unwrap();

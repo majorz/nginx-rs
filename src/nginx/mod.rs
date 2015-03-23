@@ -4,47 +4,63 @@ use libc::c_char;
 
 
 pub struct HttpRequest {
-   pub ptr: *mut ffi::ngx_http_request_t,
+   raw: *mut ffi::ngx_http_request_t,
 }
 
 impl HttpRequest {
-   pub fn connection(&self) -> Option<Connection> {
-      let connection_ptr = unsafe { (*self.ptr).connection };
+   pub fn new(raw: *mut ffi::ngx_http_request_t) -> Self {
+      HttpRequest {
+         raw: raw
+      }
+   }
 
-      if connection_ptr.is_null() {
+   pub fn connection(&self) -> Option<Connection> {
+      let raw = unsafe { (*self.raw).connection };
+
+      if raw.is_null() {
          None
       } else {
-         Some(Connection {
-            ptr: connection_ptr,
-         })
+         Some(
+            Connection::new(raw)
+         )
       }
    }
 }
 
 
 pub struct Connection {
-   pub ptr: *mut ffi::ngx_connection_t,
+   raw: *mut ffi::ngx_connection_t,
 }
 
 impl Connection {
-   pub fn log(&self) -> Option<Log> {
-      let log_ptr = unsafe { (*self.ptr).log };
+   pub fn new(raw: *mut ffi::ngx_connection_t) -> Self {
+      Connection {
+         raw: raw
+      }
+   }
 
-      if log_ptr.is_null() {
+   pub fn log(&self) -> Option<Log> {
+      let raw = unsafe { (*self.raw).log };
+
+      if raw.is_null() {
          None
       } else {
-         Some(Log {
-            ptr: log_ptr,
-         })
+         Some(
+            Log::new(raw)
+         )
       }
    }
 }
 
 
 pub struct Log {
-   pub ptr: *mut ffi::ngx_log_t,
+   pub raw: *mut ffi::ngx_log_t,
 }
 
 impl Log {
-
+   pub fn new(raw: *mut ffi::ngx_log_t) -> Self {
+      Log {
+         raw: raw
+      }
+   }
 }
