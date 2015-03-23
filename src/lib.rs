@@ -76,19 +76,19 @@ macro_rules! log_error_core {
 
 
 bitflags! {
-    flags BufFlags: u32 {
-        const FLAG_TEMPORARY        = 0b0000000000000001,
-        const FLAG_MEMORY           = 0b0000000000000010,
-        const FLAG_MMAP             = 0b0000000000000100,
-        const FLAG_RECYCLED         = 0b0000000000001000,
-        const FLAG_IN_FILE          = 0b0000000000010000,
-        const FLAG_FLUSH            = 0b0000000000100000,
-        const FLAG_SYNC             = 0b0000000001000000,
-        const FLAG_LAST_BUF         = 0b0000000010000000,
-        const FLAG_LAST_IN_CHAIN    = 0b0000000100000000,
-        const FLAG_LAST_SHADOW      = 0b0000001000000000,
-        const FLAG_TEMP_FILE        = 0b0000010000000000,
-    }
+   flags BufFlags: u32 {
+      const FLAG_TEMPORARY        = 0b0000000000000001,
+      const FLAG_MEMORY           = 0b0000000000000010,
+      const FLAG_MMAP             = 0b0000000000000100,
+      const FLAG_RECYCLED         = 0b0000000000001000,
+      const FLAG_IN_FILE          = 0b0000000000010000,
+      const FLAG_FLUSH            = 0b0000000000100000,
+      const FLAG_SYNC             = 0b0000000001000000,
+      const FLAG_LAST_BUF         = 0b0000000010000000,
+      const FLAG_LAST_IN_CHAIN    = 0b0000000100000000,
+      const FLAG_LAST_SHADOW      = 0b0000001000000000,
+      const FLAG_TEMP_FILE        = 0b0000010000000000,
+   }
 }
 
 
@@ -120,10 +120,12 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 {
    let request = nginx::HttpRequest::new(r);
 
-   unsafe {
-      let log = request.connection().unwrap().log().unwrap();
+   let log = request.connection().unwrap().log().unwrap();
 
-      let ngx_http_sample_text: ngx_str_t = sample_text_from_rust(r);
+   let ngx_http_sample_text: ngx_str_t = sample_text_from_rust(r);
+
+   unsafe {
+
 
       (*r).headers_out.status = NGX_HTTP_OK;
       (*r).headers_out.content_length_n = ngx_http_sample_text.len as i64;
