@@ -68,6 +68,13 @@ macro_rules! ngx_calloc_buf {
 }
 
 
+macro_rules! log_error_core {
+   ($level:expr, $log:expr, $err:expr, $fmt:expr, $( $arg:expr ),*) => (
+      ngx_log_error_core($level, $log.ptr, $err, $fmt, $( $arg ),*)
+   )
+}
+
+
 bitflags! {
     flags BufFlags: u32 {
         const FLAG_TEMPORARY        = 0b0000000000000001,
@@ -86,7 +93,7 @@ bitflags! {
 
 
 
-macro_rules! define_http_module_command {
+macro_rules! simple_http_module_command {
    ($command:ident, $handler:ident) => (
       #[no_mangle]
       pub extern fn $command(
@@ -105,14 +112,18 @@ macro_rules! define_http_module_command {
 }
 
 
-define_http_module_command!(ngx_http_sample_module_command, ngx_http_sample_handler);
+simple_http_module_command!(ngx_http_sample_module_command, ngx_http_sample_handler);
 
 
 #[no_mangle]
 pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 {
+   let request = nginx::HttpRequest {
+      ptr: r
+   };
+
    unsafe {
-      let log = (*(*r).connection).log;
+      let log = request.connection().unwrap().log().unwrap();
 
       let ngx_http_sample_text: ngx_str_t = sample_text_from_rust(r);
 
@@ -133,7 +144,7 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
       let out: Box<ngx_chain_t> = Box::new(
          ngx_chain_t {
             buf: b,
-            next: ptr::null_mut(),
+            next: ptr::null_mut()
          }
       );
 
@@ -142,7 +153,7 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
       let cstr_template = CString::new("BITS: \"%s\"").unwrap();
       let b1 = CString::new(format!("{:032b}", headers_in._bindgen_bitfield_1_)).unwrap();
 
-      ngx_log_error_core(
+      log_error_core!(
          2, log, 0,
          cstr_template.as_ptr(),
          b1.as_ptr()
