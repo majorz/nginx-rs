@@ -88,6 +88,61 @@ struct va_list;
 struct RSA;
 
 
+pub const NGX_OK:        ngx_int_t =  0;
+pub const NGX_ERROR:     ngx_int_t = -1;
+pub const NGX_AGAIN:     ngx_int_t = -2;
+pub const NGX_BUSY:      ngx_int_t = -3;
+pub const NGX_DONE:      ngx_int_t = -4;
+pub const NGX_DECLINED:  ngx_int_t = -5;
+pub const NGX_ABORT:     ngx_int_t = -6;
+
+
+pub const NGX_HTTP_CONTINUE:                  ngx_int_t = 100;
+pub const NGX_HTTP_SWITCHING_PROTOCOLS:       ngx_int_t = 101;
+pub const NGX_HTTP_PROCESSING:                ngx_int_t = 102;
+
+pub const NGX_HTTP_OK:                        ngx_int_t = 200;
+pub const NGX_HTTP_CREATED:                   ngx_int_t = 201;
+pub const NGX_HTTP_ACCEPTED:                  ngx_int_t = 202;
+pub const NGX_HTTP_NO_CONTENT:                ngx_int_t = 204;
+pub const NGX_HTTP_PARTIAL_CONTENT:           ngx_int_t = 206;
+
+pub const NGX_HTTP_SPECIAL_RESPONSE:          ngx_int_t = 300;
+pub const NGX_HTTP_MOVED_PERMANENTLY:         ngx_int_t = 301;
+pub const NGX_HTTP_MOVED_TEMPORARILY:         ngx_int_t = 302;
+pub const NGX_HTTP_SEE_OTHER:                 ngx_int_t = 303;
+pub const NGX_HTTP_NOT_MODIFIED:              ngx_int_t = 304;
+pub const NGX_HTTP_TEMPORARY_REDIRECT:        ngx_int_t = 307;
+
+pub const NGX_HTTP_BAD_REQUEST:               ngx_int_t = 400;
+pub const NGX_HTTP_UNAUTHORIZED:              ngx_int_t = 401;
+pub const NGX_HTTP_FORBIDDEN:                 ngx_int_t = 403;
+pub const NGX_HTTP_NOT_FOUND:                 ngx_int_t = 404;
+pub const NGX_HTTP_NOT_ALLOWED:               ngx_int_t = 405;
+pub const NGX_HTTP_REQUEST_TIME_OUT:          ngx_int_t = 408;
+pub const NGX_HTTP_CONFLICT:                  ngx_int_t = 409;
+pub const NGX_HTTP_LENGTH_REQUIRED:           ngx_int_t = 411;
+pub const NGX_HTTP_PRECONDITION_FAILED:       ngx_int_t = 412;
+pub const NGX_HTTP_REQUEST_URI_TOO_LARGE:     ngx_int_t = 414;
+pub const NGX_HTTP_REQUEST_ENTITY_TOO_LARGE:  ngx_int_t = 413;
+pub const NGX_HTTP_UNSUPPORTED_MEDIA_TYPE:    ngx_int_t = 415;
+pub const NGX_HTTP_RANGE_NOT_SATISFIABLE:     ngx_int_t = 416;
+pub const NGX_HTTP_CLOSE:                     ngx_int_t = 444;
+pub const NGX_HTTP_NGINX_CODES:               ngx_int_t = 494;
+pub const NGX_HTTP_REQUEST_HEADER_TOO_LARGE:  ngx_int_t = 494;
+pub const NGX_HTTPS_CERT_ERROR:               ngx_int_t = 495;
+pub const NGX_HTTPS_NO_CERT:                  ngx_int_t = 496;
+pub const NGX_HTTP_TO_HTTPS:                  ngx_int_t = 497;
+pub const NGX_HTTP_CLIENT_CLOSED_REQUEST:     ngx_int_t = 499;
+
+pub const NGX_HTTP_INTERNAL_SERVER_ERROR:     ngx_int_t = 500;
+pub const NGX_HTTP_NOT_IMPLEMENTED:           ngx_int_t = 501;
+pub const NGX_HTTP_BAD_GATEWAY:               ngx_int_t = 502;
+pub const NGX_HTTP_SERVICE_UNAVAILABLE:       ngx_int_t = 503;
+pub const NGX_HTTP_GATEWAY_TIME_OUT:          ngx_int_t = 504;
+pub const NGX_HTTP_INSUFFICIENT_STORAGE:      ngx_int_t = 507;
+
+
 pub type __u_char = ::libc::c_uchar;
 pub type __u_short = ::libc::c_ushort;
 pub type __u_int = ::libc::c_uint;
