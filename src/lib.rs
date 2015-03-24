@@ -118,20 +118,20 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 
    let ngx_http_sample_text: ngx_str_t = sample_text_from_rust(r);
 
-   unsafe {
-      let mut headers_out = request.headers_out();
+   let mut headers_out = request.headers_out();
 
-      headers_out.set_status(NGX_HTTP_OK);
-      headers_out.set_content_length_n(ngx_http_sample_text.len as i64);
+   headers_out.set_status(NGX_HTTP_OK);
+   headers_out.set_content_length_n(ngx_http_sample_text.len as i64);
 
-      match request.http_send_header() {
-         Ok(()) => {}
-         Err(rc) => {
-            return rc;
-         }
+   match request.http_send_header() {
+      Ok(()) => {}
+      Err(rc) => {
+         return rc;
       }
-      //if rc == NGX_ERROR || rc > NGX_OK { //|| (*r).header_only) {
+   }
+   //if rc == NGX_ERROR || rc > NGX_OK { //|| (*r).header_only) {
 
+   unsafe {
       let b: *mut ngx_buf_t = ngx_calloc_buf!((*r).pool) as *mut ngx_buf_t;
 
       if b.is_null() {
