@@ -20,6 +20,7 @@ use nginx::ffi::{
    ngx_http_conf_ctx_t, ngx_int_t, ngx_http_output_filter, ngx_chain_t, ngx_http_send_header, ngx_buf_t,
    ngx_uint_t, ngx_http_core_loc_conf_t, ngx_log_error_core,
 };
+use nginx::Status;
 
 use libc::{size_t, c_void, c_uchar, c_char};
 
@@ -27,9 +28,6 @@ use libc::{size_t, c_void, c_uchar, c_char};
 const NGX_CONF_OK: *const c_char = 0 as *const c_char;
 const NGX_CONF_ERROR: *const c_char = -1 as *const c_char;
 
-
-const NGX_HTTP_OK:                      ngx_uint_t = 200;
-const NGX_HTTP_INTERNAL_SERVER_ERROR:   ngx_uint_t = 500;
 
 
 macro_rules! ngx_http_conf_get_module_loc_conf {
@@ -120,14 +118,17 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 
    let mut headers_out = request.headers_out();
 
-   headers_out.set_status(NGX_HTTP_OK);
+   headers_out.set_status(200);
    headers_out.set_content_length_n(ngx_http_sample_text.len as i64);
 
    match request.http_send_header() {
-      Ok(()) => {}
-      Err(rc) => {
-         return rc;
+      Status::Error => {
+         return Status::Error.rc();
       }
+      Status::Http(http_status) => {
+         return Status::Http(http_status).rc();
+      }
+      _ => {}
    }
    //if rc == NGX_ERROR || rc > NGX_OK { //|| (*r).header_only) {
 
@@ -135,7 +136,7 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
       let b: *mut ngx_buf_t = ngx_calloc_buf!((*r).pool) as *mut ngx_buf_t;
 
       if b.is_null() {
-         return NGX_HTTP_INTERNAL_SERVER_ERROR as i64;
+         return 500;
       };
 
       let out: Box<ngx_chain_t> = Box::new(

@@ -2,7 +2,11 @@ pub mod ffi;
 
 use std::result;
 
-use libc::c_char;
+use libc::c_long;
+
+
+const NGX_HTTP_OK:                      ffi::ngx_int_t = 200;
+const NGX_HTTP_INTERNAL_SERVER_ERROR:   ffi::ngx_int_t = 500;
 
 
 const NGX_OK:        ffi::ngx_int_t =  0;
@@ -14,7 +18,68 @@ const NGX_DECLINED:  ffi::ngx_int_t = -5;
 const NGX_ABORT:     ffi::ngx_int_t = -6;
 
 
-pub type Result = result::Result<(), ffi::ngx_int_t>;
+pub enum HttpStatus {
+   Ok,
+   InternalServerError,
+}
+
+impl HttpStatus {
+   pub fn new(rc: ffi::ngx_int_t) -> Self {
+      match rc {
+         NGX_HTTP_OK => {
+            HttpStatus::Ok }
+         NGX_HTTP_INTERNAL_SERVER_ERROR => {
+            HttpStatus::InternalServerError }
+         _ => {
+            HttpStatus::InternalServerError }
+      }
+   }
+
+   pub fn rc(&self) -> ffi::ngx_int_t {
+      match *self {
+         HttpStatus::Ok => {
+            NGX_HTTP_OK }
+         HttpStatus::InternalServerError => {
+            NGX_HTTP_INTERNAL_SERVER_ERROR }
+      }
+   }
+}
+
+
+pub enum Status {
+   Ok,
+   Error,
+   Again,
+   Busy,
+   Done,
+   Declined,
+   Abort,
+   Http(HttpStatus),
+}
+
+impl Status {
+   pub fn new(rc: ffi::ngx_int_t) -> Self {
+      match rc {
+         NGX_OK => {
+            Status::Ok }
+         http_rc if rc > 0 => {
+            Status::Http(HttpStatus::new(http_rc)) }
+         _ => {
+            Status::Error }
+      }
+   }
+
+   pub fn rc(&self) -> ffi::ngx_int_t {
+      match *self {
+         Status::Ok => {
+            NGX_OK }
+         Status::Http(ref http_status) => {
+            http_status.rc() }
+         _ => {
+            NGX_ERROR }
+      }
+   }
+}
 
 
 pub struct Connection {
@@ -84,14 +149,9 @@ impl HttpRequest {
       HttpHeadersOut::new(raw)
    }
 
-   pub fn http_send_header(&self) -> Result {
+   pub fn http_send_header(&self) -> Status {
       let rc = unsafe { ffi::ngx_http_send_header(self.raw) };
-
-      if rc == NGX_OK {
-         Ok(())
-      } else {
-         Err(rc)
-      }
+      Status::new(rc)
    }
 }
 
