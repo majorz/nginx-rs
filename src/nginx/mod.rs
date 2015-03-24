@@ -79,7 +79,9 @@ impl HttpRequest {
    }
 
    pub fn headers_out(&self) -> HttpHeadersOut {
-      HttpHeadersOut::new(self.raw)
+      let raw: *mut ffi::ngx_http_headers_out_t = &mut unsafe { (*self.raw).headers_out };
+
+      HttpHeadersOut::new(raw)
    }
 
    pub fn http_send_header(&self) -> Result {
@@ -95,25 +97,25 @@ impl HttpRequest {
 
 
 pub struct HttpHeadersOut {
-   request_raw: *mut ffi::ngx_http_request_t,
+   raw: *mut ffi::ngx_http_headers_out_t,
 }
 
 impl HttpHeadersOut {
-   pub fn new(request_raw: *mut ffi::ngx_http_request_t) -> Self {
+   pub fn new(raw: *mut ffi::ngx_http_headers_out_t) -> Self {
       HttpHeadersOut {
-         request_raw: request_raw
+         raw: raw
       }
    }
 
    pub fn set_status(&mut self, status: ffi::ngx_uint_t) {
       unsafe {
-         (*self.request_raw).headers_out.status = status;
+         (*self.raw).status = status;
       };
    }
 
    pub fn set_content_length_n(&mut self, content_length_n: ffi::off_t) {
       unsafe {
-         (*self.request_raw).headers_out.content_length_n = content_length_n;
+         (*self.raw).content_length_n = content_length_n;
       };
    }
 }
