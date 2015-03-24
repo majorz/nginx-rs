@@ -120,15 +120,17 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 {
    let request = nginx::HttpRequest::new(r);
 
-   let log = request.connection().unwrap().log().unwrap();
+   let connection = request.connection().unwrap();
+
+   let log = connection.log().unwrap();
 
    let ngx_http_sample_text: ngx_str_t = sample_text_from_rust(r);
 
    unsafe {
+      let mut headers_out = request.headers_out();
 
-
-      (*r).headers_out.status = NGX_HTTP_OK;
-      (*r).headers_out.content_length_n = ngx_http_sample_text.len as i64;
+      headers_out.set_status(NGX_HTTP_OK);
+      headers_out.set_content_length_n(ngx_http_sample_text.len as i64);
 
       let rc: ngx_int_t = ngx_http_send_header(r);
       if rc == NGX_ERROR || rc > NGX_OK { //|| (*r).header_only) {
