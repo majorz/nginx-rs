@@ -79,7 +79,7 @@ impl HttpRequest {
    }
 
    pub fn headers_out(&self) -> HttpHeadersOut {
-      let raw: *mut ffi::ngx_http_headers_out_t = &mut unsafe { (*self.raw).headers_out };
+      let raw: *mut ffi::ngx_http_headers_out_t = unsafe { &mut (*self.raw).headers_out };
 
       HttpHeadersOut::new(raw)
    }
