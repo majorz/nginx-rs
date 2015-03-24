@@ -1,6 +1,20 @@
 pub mod ffi;
 
+use std::result;
+
 use libc::c_char;
+
+
+const NGX_OK:        ffi::ngx_int_t =  0;
+const NGX_ERROR:     ffi::ngx_int_t = -1;
+const NGX_AGAIN:     ffi::ngx_int_t = -2;
+const NGX_BUSY:      ffi::ngx_int_t = -3;
+const NGX_DONE:      ffi::ngx_int_t = -4;
+const NGX_DECLINED:  ffi::ngx_int_t = -5;
+const NGX_ABORT:     ffi::ngx_int_t = -6;
+
+
+pub type Result = result::Result<(), ffi::ngx_int_t>;
 
 
 pub struct Connection {
@@ -66,6 +80,16 @@ impl HttpRequest {
 
    pub fn headers_out(&self) -> HttpHeadersOut {
       HttpHeadersOut::new(self.raw)
+   }
+
+   pub fn http_send_header(&self) -> Result {
+      let rc = unsafe { ffi::ngx_http_send_header(self.raw) };
+
+      if rc == NGX_OK {
+         Ok(())
+      } else {
+         Err(rc)
+      }
    }
 }
 

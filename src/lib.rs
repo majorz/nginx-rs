@@ -27,14 +27,6 @@ use libc::{size_t, c_void, c_uchar, c_char};
 const NGX_CONF_OK: *const c_char = 0 as *const c_char;
 const NGX_CONF_ERROR: *const c_char = -1 as *const c_char;
 
-const NGX_OK:        ngx_int_t =  0;
-const NGX_ERROR:     ngx_int_t = -1;
-const NGX_AGAIN:     ngx_int_t = -2;
-const NGX_BUSY:      ngx_int_t = -3;
-const NGX_DONE:      ngx_int_t = -4;
-const NGX_DECLINED:  ngx_int_t = -5;
-const NGX_ABORT:     ngx_int_t = -6;
-
 
 const NGX_HTTP_OK:                      ngx_uint_t = 200;
 const NGX_HTTP_INTERNAL_SERVER_ERROR:   ngx_uint_t = 500;
@@ -132,10 +124,13 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
       headers_out.set_status(NGX_HTTP_OK);
       headers_out.set_content_length_n(ngx_http_sample_text.len as i64);
 
-      let rc: ngx_int_t = ngx_http_send_header(r);
-      if rc == NGX_ERROR || rc > NGX_OK { //|| (*r).header_only) {
-         return rc;
+      match request.http_send_header() {
+         Ok(()) => {}
+         Err(rc) => {
+            return rc;
+         }
       }
+      //if rc == NGX_ERROR || rc > NGX_OK { //|| (*r).header_only) {
 
       let b: *mut ngx_buf_t = ngx_calloc_buf!((*r).pool) as *mut ngx_buf_t;
 
