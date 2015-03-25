@@ -107,7 +107,7 @@ simple_http_module_command!(ngx_http_sample_module_command, ngx_http_sample_hand
 #[no_mangle]
 pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 {
-   let request = nginx::HttpRequest::new(r);
+   let request = nginx::HttpRequest::from_raw(r);
 
    let connection = request.connection().unwrap();
 

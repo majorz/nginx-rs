@@ -18,7 +18,7 @@ macro_rules! getter {
             None
          } else {
             Some(
-               $restype::new(raw)
+               $restype::from_raw(raw)
             )
          }
       }
@@ -31,7 +31,7 @@ struct Wrapper<R> {
 }
 
 impl<R> Wrapper<R> {
-   pub fn new(raw: *mut R) -> Self {
+   pub fn from_raw(raw: *mut R) -> Self {
       Wrapper::<R> {
          raw: raw
       }
@@ -58,7 +58,7 @@ impl HttpRequest {
    pub fn headers_out(&self) -> HttpHeadersOut {
       let raw: *mut ffi::ngx_http_headers_out_t = unsafe { &mut (*self.raw).headers_out };
 
-      HttpHeadersOut::new(raw)
+      HttpHeadersOut::from_raw(raw)
    }
 
    pub fn http_send_header(&self) -> Status {
@@ -93,7 +93,7 @@ impl Pool {
          None => { None }
          Some(raw) => {
             Some(
-               Buf::new(raw)
+               Buf::from_raw(raw)
             )
          }
       }
@@ -104,7 +104,7 @@ impl Pool {
          None => { None }
          Some(raw) => {
             Some(
-               Buf::new(raw)
+               Buf::from_raw(raw)
             )
          }
       }
@@ -115,7 +115,7 @@ impl Pool {
          None => { None }
          Some(raw) => {
             Some(
-               Buf::new(raw)
+               Buf::from_raw(raw)
             )
          }
       }
