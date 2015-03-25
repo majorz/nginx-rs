@@ -132,16 +132,14 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
    }
    //if rc == NGX_ERROR || rc > NGX_OK { //|| (*r).header_only) {
 
+   let pool = request.pool().unwrap();
+
+   let buf = pool.calloc_buf().unwrap(); // return 500 on error
+
    unsafe {
-      let b: *mut ngx_buf_t = ngx_calloc_buf!((*r).pool) as *mut ngx_buf_t;
-
-      if b.is_null() {
-         return 500;
-      };
-
       let out: Box<ngx_chain_t> = Box::new(
          ngx_chain_t {
-            buf: b,
+            buf: buf.raw,
             next: ptr::null_mut()
          }
       );
@@ -159,14 +157,14 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 
       let out: *mut ngx_chain_t = boxed::into_raw(out);
 
-      (*b).start = ngx_http_sample_text.data;
-      (*b).pos = (*b).start;
+      (*buf.raw).start = ngx_http_sample_text.data;
+      (*buf.raw).pos = (*buf.raw).start;
 
-      (*b).end = ngx_http_sample_text.data.offset(ngx_http_sample_text.len as isize);
-      (*b).last = (*b).end;
+      (*buf.raw).end = ngx_http_sample_text.data.offset(ngx_http_sample_text.len as isize);
+      (*buf.raw).last = (*buf.raw).end;
 
       let buf_flags = FLAG_MEMORY | FLAG_LAST_BUF | FLAG_LAST_IN_CHAIN;
-      (*b)._bindgen_bitfield_1_ = buf_flags.bits();
+      (*buf.raw)._bindgen_bitfield_1_ = buf_flags.bits();
 
       ngx_http_output_filter(r, out)
    }
