@@ -1,6 +1,5 @@
 #![feature(libc)]
 #![feature(plugin)]
-#![feature(alloc)]
 
 #![allow(dead_code)]
 #![allow(unused_imports)]
@@ -137,12 +136,12 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
    let buf = pool.calloc_buf().unwrap(); // return 500 on error
 
    unsafe {
-      let out: Box<ngx_chain_t> = Box::new(
-         ngx_chain_t {
-            buf: buf.raw,
-            next: ptr::null_mut()
-         }
-      );
+      let mut chain = ngx_chain_t {
+         buf: buf.raw,
+         next: ptr::null_mut()
+      };
+
+      let out: *mut ngx_chain_t = (&mut chain) as *mut ngx_chain_t;
 
       let headers_in = (*r).headers_in;
 
@@ -154,8 +153,6 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
          cstr_template.as_ptr(),
          b1.as_ptr()
       );
-
-      let out: *mut ngx_chain_t = boxed::into_raw(out);
 
       (*buf.raw).start = ngx_http_sample_text.data;
       (*buf.raw).pos = (*buf.raw).start;
