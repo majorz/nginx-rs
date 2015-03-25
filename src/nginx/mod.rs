@@ -9,6 +9,23 @@ use std::mem;
 use libc::c_long;
 
 
+macro_rules! getter {
+   ( $field:ident, $restype:ident ) => {
+      pub fn $field(&self) -> Option<$restype> {
+         let raw = unsafe { (*self.raw).$field };
+
+         if raw.is_null() {
+            None
+         } else {
+            Some(
+               $restype::new(raw)
+            )
+         }
+      }
+   };
+}
+
+
 struct Wrapper<R> {
    pub raw: *mut R,
 }
@@ -25,17 +42,7 @@ impl<R> Wrapper<R> {
 pub type Connection = Wrapper<ffi::ngx_connection_t>;
 
 impl Connection {
-   pub fn log(&self) -> Option<Log> {
-      let raw = unsafe { (*self.raw).log };
-
-      if raw.is_null() {
-         None
-      } else {
-         Some(
-            Log::new(raw)
-         )
-      }
-   }
+   getter!(log, Log);
 }
 
 
@@ -45,17 +52,8 @@ pub type Log = Wrapper<ffi::ngx_log_t>;
 pub type HttpRequest = Wrapper<ffi::ngx_http_request_t>;
 
 impl HttpRequest {
-   pub fn connection(&self) -> Option<Connection> {
-      let raw = unsafe { (*self.raw).connection };
-
-      if raw.is_null() {
-         None
-      } else {
-         Some(
-            Connection::new(raw)
-         )
-      }
-   }
+   getter!(connection, Connection);
+   getter!(pool, Pool);
 
    pub fn headers_out(&self) -> HttpHeadersOut {
       let raw: *mut ffi::ngx_http_headers_out_t = unsafe { &mut (*self.raw).headers_out };
@@ -66,18 +64,6 @@ impl HttpRequest {
    pub fn http_send_header(&self) -> Status {
       let rc = unsafe { ffi::ngx_http_send_header(self.raw) };
       Status::new(rc)
-   }
-
-   pub fn pool(&self) -> Option<Pool> {
-      let raw = unsafe { (*self.raw).pool };
-
-      if raw.is_null() {
-         None
-      } else {
-         Some(
-            Pool::new(raw)
-         )
-      }
    }
 }
 
