@@ -88,25 +88,78 @@ impl HttpHeadersOut {
 pub type Pool = Wrapper<ffi::ngx_pool_t>;
 
 impl Pool {
+   pub fn alloc_buf(&self) -> Option<Buf> {
+      match self.raw_palloc::<ffi::ngx_buf_t>() {
+         None => { None }
+         Some(raw) => {
+            Some(
+               Buf::new(raw)
+            )
+         }
+      }
+   }
+
+   pub fn nalloc_buf(&self) -> Option<Buf> {
+      match self.raw_pnalloc::<ffi::ngx_buf_t>() {
+         None => { None }
+         Some(raw) => {
+            Some(
+               Buf::new(raw)
+            )
+         }
+      }
+   }
+
+   pub fn calloc_buf(&self) -> Option<Buf> {
+      match self.raw_pcalloc::<ffi::ngx_buf_t>() {
+         None => { None }
+         Some(raw) => {
+            Some(
+               Buf::new(raw)
+            )
+         }
+      }
+   }
+
    #[inline]
-   pub fn raw_palloc<T>(&self) -> *mut T {
-      unsafe {
+   pub fn raw_palloc<T>(&self) -> Option<*mut T> {
+      let raw = unsafe {
          ffi::ngx_palloc(self.raw, mem::size_of::<T>() as ffi::size_t) as *mut T
+      };
+
+      if raw.is_null() {
+         None
+      } else {
+         Some(raw)
       }
    }
 
    #[inline]
-   pub fn raw_pnalloc<T>(&self) -> *mut T {
-      unsafe {
+   pub fn raw_pnalloc<T>(&self) -> Option<*mut T> {
+      let raw = unsafe {
          ffi::ngx_pnalloc(self.raw, mem::size_of::<T>() as ffi::size_t) as *mut T
+      };
+
+      if raw.is_null() {
+         None
+      } else {
+         Some(raw)
       }
    }
 
    #[inline]
-   pub fn raw_pcalloc<T>(&self) -> *mut T {
-      unsafe {
+   pub fn raw_pcalloc<T>(&self) -> Option<*mut T> {
+      let raw = unsafe {
          ffi::ngx_pcalloc(self.raw, mem::size_of::<T>() as ffi::size_t) as *mut T
+      };
+
+      if raw.is_null() {
+         None
+      } else {
+         Some(raw)
       }
    }
 
 }
+
+pub type Buf = Wrapper<ffi::ngx_buf_t>;
