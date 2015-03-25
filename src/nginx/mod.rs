@@ -400,21 +400,21 @@ impl Pool {
    }
 
    #[inline]
-   pub fn palloc<T>(&self) -> *mut T {
+   pub fn raw_palloc<T>(&self) -> *mut T {
       unsafe {
          ffi::ngx_palloc(self.raw, mem::size_of::<T>() as ffi::size_t) as *mut T
       }
    }
 
    #[inline]
-   pub fn pnalloc<T>(&self) -> *mut T {
+   pub fn raw_pnalloc<T>(&self) -> *mut T {
       unsafe {
          ffi::ngx_pnalloc(self.raw, mem::size_of::<T>() as ffi::size_t) as *mut T
       }
    }
 
    #[inline]
-   pub fn pcalloc<T>(&self) -> *mut T {
+   pub fn raw_pcalloc<T>(&self) -> *mut T {
       unsafe {
          ffi::ngx_pcalloc(self.raw, mem::size_of::<T>() as ffi::size_t) as *mut T
       }
