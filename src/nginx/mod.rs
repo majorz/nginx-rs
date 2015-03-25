@@ -1,6 +1,7 @@
 pub mod ffi;
 
 use std::result;
+use std::mem;
 
 use libc::c_long;
 
@@ -347,6 +348,18 @@ impl HttpRequest {
       let rc = unsafe { ffi::ngx_http_send_header(self.raw) };
       Status::new(rc)
    }
+
+   pub fn pool(&self) -> Option<Pool> {
+      let raw = unsafe { (*self.raw).pool };
+
+      if raw.is_null() {
+         None
+      } else {
+         Some(
+            Pool::new(raw)
+         )
+      }
+   }
 }
 
 
@@ -372,4 +385,39 @@ impl HttpHeadersOut {
          (*self.raw).content_length_n = content_length_n;
       };
    }
+}
+
+
+pub struct Pool {
+   raw: *mut ffi::ngx_pool_t,
+}
+
+impl Pool {
+   pub fn new(raw: *mut ffi::ngx_pool_t) -> Self {
+      Pool {
+         raw: raw
+      }
+   }
+
+   #[inline]
+   pub fn palloc<T>(&self) -> *mut T {
+      unsafe {
+         ffi::ngx_palloc(self.raw, mem::size_of::<T>() as ffi::size_t) as *mut T
+      }
+   }
+
+   #[inline]
+   pub fn pnalloc<T>(&self) -> *mut T {
+      unsafe {
+         ffi::ngx_pnalloc(self.raw, mem::size_of::<T>() as ffi::size_t) as *mut T
+      }
+   }
+
+   #[inline]
+   pub fn pcalloc<T>(&self) -> *mut T {
+      unsafe {
+         ffi::ngx_pcalloc(self.raw, mem::size_of::<T>() as ffi::size_t) as *mut T
+      }
+   }
+
 }
