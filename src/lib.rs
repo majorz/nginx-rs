@@ -121,12 +121,10 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
    headers_out.set_content_length_n(len as i64);
 
    // TODO: rc == NGX_ERROR || rc > NGX_OK || (*r).header_only)
-   match request.http_send_header() {
-      Status::Error => {
-         return Status::Error.rc();
-      }
-      Status::Http(http_status) => {
-         return Status::Http(http_status).rc();
+   let send_status = request.http_send_header();
+   match send_status {
+      Status::Error | Status::Http(_) => {
+         return send_status.rc();
       }
       _ => {}
    }
