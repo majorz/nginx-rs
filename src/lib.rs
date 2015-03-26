@@ -1,5 +1,6 @@
 #![feature(libc)]
 #![feature(plugin)]
+#![feature(convert)]
 
 #![allow(dead_code)]
 #![allow(unused_imports)]
@@ -129,20 +130,10 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
       _ => {}
    }
 
-   let mut buf_t = ngx_buf_t::default();
+   let mut buf = nginx::Buf::from(&html);
 
-   let ptr = html.as_ptr() as *mut u8;
-
-   buf_t.start = ptr;
-   buf_t.pos = buf_t.start;
-
-   buf_t.end = unsafe { ptr.offset(len as isize) };
-   buf_t.last = buf_t.end;
-
-   let buf_flags = FLAG_MEMORY | FLAG_LAST_BUF | FLAG_LAST_IN_CHAIN;
-   buf_t._bindgen_bitfield_1_ = buf_flags.bits();
-
-   let mut buf = nginx::Buf::take(buf_t);
+   buf.flag_last_buf();
+   buf.flag_last_in_chain();
 
    let mut chain = nginx::Chain::new(&mut buf, &mut None);
 

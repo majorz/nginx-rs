@@ -6,7 +6,9 @@ pub use self::status::Status;
 use std::result;
 use std::mem;
 use std::ptr;
-use std::ffi::CStr;
+use std::ffi::{CStr, CString};
+use std::convert::From;
+use std::default::Default;
 
 use libc::c_long;
 
@@ -184,6 +186,62 @@ impl Pool {
 }
 
 pub type Buf = Wrapper<ffi::ngx_buf_t>;
+
+impl Buf {
+   pub fn flag_memory(&mut self) {
+      self.set_bitflag_1(0b0000000000000010);
+   }
+
+   pub fn memory(&mut self) -> bool {
+      self.get_bitflag_1(0b0000000000000010)
+   }
+
+   pub fn flag_last_buf(&mut self) {
+      self.set_bitflag_1(0b0000000010000000);
+   }
+
+   pub fn last_buf(&mut self) -> bool {
+      self.get_bitflag_1(0b0000000010000000)
+   }
+
+   pub fn flag_last_in_chain(&mut self) {
+      self.set_bitflag_1(0b0000000100000000);
+   }
+
+   pub fn last_in_chain(&mut self) -> bool {
+      self.get_bitflag_1(0b0000000100000000)
+   }
+
+   fn set_bitflag_1(&mut self, flag: ::libc::c_uint) {
+      let raw = self.raw();
+      unsafe { (*raw)._bindgen_bitfield_1_ = flag | (*raw)._bindgen_bitfield_1_ };
+   }
+
+   fn get_bitflag_1(&mut self, flag: ::libc::c_uint) -> bool {
+      unsafe { flag & (*self.raw())._bindgen_bitfield_1_ != 0 }
+   }
+}
+
+impl<'a> From<&'a CString> for Buf {
+   fn from(s: &CString) -> Self {
+      let ptr = s.as_ptr() as *mut u8;
+      let len = s.to_bytes().len();
+
+      let mut ngx_buf = ffi::ngx_buf_t::default();
+
+      ngx_buf.start = ptr;
+      ngx_buf.pos = ngx_buf.start;
+
+      ngx_buf.end = unsafe { ptr.offset(len as isize) };
+      ngx_buf.last = ngx_buf.end;
+
+      let mut buf = Buf::take(ngx_buf);
+
+      buf.flag_memory();
+
+      buf
+   }
+}
 
 pub type Chain = Wrapper<ffi::ngx_chain_t>;
 
