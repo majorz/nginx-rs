@@ -197,3 +197,12 @@ impl Chain {
       }
    }
 }
+
+pub type Str = Wrapper<ffi::ngx_str_t>;
+
+// impl Str {
+//    pub len: size_t,
+//    pub data: *mut u_char,
+//
+//    fn from_str
+// }

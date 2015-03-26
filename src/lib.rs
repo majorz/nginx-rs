@@ -109,7 +109,7 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 {
    let mut request = nginx::HttpRequest::from_raw(r);
 
-   let ngx_http_sample_text: ngx_str_t = sample_text_from_rust(r);
+   let ngx_http_sample_text: ngx_str_t = sample_text_from_rust();
 
    let mut headers_out = request.headers_out();
 
@@ -133,9 +133,9 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 
    let mut chain = nginx::Chain::new(&mut buf, &mut None);
 
-   unsafe {
-      let out = chain.raw();
+   let out = chain.raw();
 
+   unsafe {
       (*buf.raw()).start = ngx_http_sample_text.data;
       (*buf.raw()).pos = (*buf.raw()).start;
 
@@ -150,21 +150,15 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 }
 
 
-fn sample_text_from_rust(r: *mut ngx_http_request_t) -> ngx_str_t
+fn sample_text_from_rust() -> ngx_str_t
 {
-   let s = CString::new("<html><head><meta charset=\"utf-8\"></head><body>Здравейте!</body></html>".to_string()).unwrap();
+   let s = CString::new("<html><head><meta charset=\"utf-8\"></head><body>Здравейте!</body></html>").unwrap();
    let len = s.to_bytes().len() as size_t;
 
    let result = ngx_str_t {
       len: len,
-      data: unsafe {
-         ngx_pcalloc((*r).pool, len) as *mut u8
-      },
+      data: s.as_ptr() as *mut u8
    };
-
-   unsafe {
-      ptr::copy_nonoverlapping(result.data, s.as_ptr() as *const u8, len as usize);
-   }
 
    result
 }
