@@ -137,9 +137,6 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 
    let mut chain = nginx::Chain::new(&mut buf, &mut None);
 
-   let out = chain.raw();
+   request.http_output_filter(&mut chain).rc()
 
-   unsafe {
-      ngx_http_output_filter(r, out)
-   }
 }

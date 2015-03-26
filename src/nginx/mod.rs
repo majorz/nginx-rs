@@ -88,6 +88,11 @@ impl HttpRequest {
       let rc = unsafe { ffi::ngx_http_send_header(self.raw()) };
       Status::new(rc)
    }
+
+   pub fn http_output_filter(&mut self, chain: &mut Chain) -> Status {
+      let rc = unsafe { ffi::ngx_http_output_filter(self.raw(), chain.raw()) };
+      Status::new(rc)
+   }
 }
 
 
