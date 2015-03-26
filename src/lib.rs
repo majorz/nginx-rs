@@ -13,6 +13,7 @@ use std::ffi::CString;
 use std::ptr;
 use std::mem;
 use std::boxed;
+use std::default::Default;
 
 use nginx::ffi::{
    ngx_str_t, ngx_http_request_t, ngx_pcalloc, ngx_palloc, ngx_conf_t, ngx_command_t, ngx_http_core_module,
@@ -107,15 +108,19 @@ simple_http_module_command!(ngx_http_sample_module_command, ngx_http_sample_hand
 #[no_mangle]
 pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 {
+   // TODO: return 500 on failures
+
    let mut request = nginx::HttpRequest::from_raw(r);
 
-   let ngx_http_sample_text: ngx_str_t = sample_text_from_rust();
+   let html = CString::new("<html><head><meta charset=\"utf-8\"></head><body>Здравейте!</body></html>").unwrap();
+   let len = html.to_bytes().len();
 
    let mut headers_out = request.headers_out();
 
    headers_out.set_status(200);
-   headers_out.set_content_length_n(ngx_http_sample_text.len as i64);
+   headers_out.set_content_length_n(len as i64);
 
+   // TODO: rc == NGX_ERROR || rc > NGX_OK || (*r).header_only)
    match request.http_send_header() {
       Status::Error => {
          return Status::Error.rc();
@@ -125,40 +130,27 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
       }
       _ => {}
    }
-   //if rc == NGX_ERROR || rc > NGX_OK { //|| (*r).header_only) {
 
-   let mut pool = request.pool().unwrap();
+   let mut buf_t = ngx_buf_t::default();
 
-   let mut buf = pool.calloc_buf().unwrap(); // return 500 on error
+   let ptr = html.as_ptr() as *mut u8;
+
+   buf_t.start = ptr;
+   buf_t.pos = buf_t.start;
+
+   buf_t.end = unsafe { ptr.offset(len as isize) };
+   buf_t.last = buf_t.end;
+
+   let buf_flags = FLAG_MEMORY | FLAG_LAST_BUF | FLAG_LAST_IN_CHAIN;
+   buf_t._bindgen_bitfield_1_ = buf_flags.bits();
+
+   let mut buf = nginx::Buf::take(buf_t);
 
    let mut chain = nginx::Chain::new(&mut buf, &mut None);
 
    let out = chain.raw();
 
    unsafe {
-      (*buf.raw()).start = ngx_http_sample_text.data;
-      (*buf.raw()).pos = (*buf.raw()).start;
-
-      (*buf.raw()).end = ngx_http_sample_text.data.offset(ngx_http_sample_text.len as isize);
-      (*buf.raw()).last = (*buf.raw()).end;
-
-      let buf_flags = FLAG_MEMORY | FLAG_LAST_BUF | FLAG_LAST_IN_CHAIN;
-      (*buf.raw())._bindgen_bitfield_1_ = buf_flags.bits();
-
       ngx_http_output_filter(r, out)
    }
-}
-
-
-fn sample_text_from_rust() -> ngx_str_t
-{
-   let s = CString::new("<html><head><meta charset=\"utf-8\"></head><body>Здравейте!</body></html>").unwrap();
-   let len = s.to_bytes().len() as size_t;
-
-   let result = ngx_str_t {
-      len: len,
-      data: s.as_ptr() as *mut u8
-   };
-
-   result
 }

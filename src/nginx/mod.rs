@@ -6,6 +6,7 @@ pub use self::status::Status;
 use std::result;
 use std::mem;
 use std::ptr;
+use std::ffi::CStr;
 
 use libc::c_long;
 
@@ -41,6 +42,12 @@ impl<T> Wrapper<T> {
    pub fn from_raw(raw: *mut T) -> Self {
       Wrapper::<T> {
          value: Value::Raw(raw)
+      }
+   }
+
+   pub fn take(item: T) -> Self {
+      Wrapper::<T> {
+         value: Value::Stack(item)
       }
    }
 
@@ -199,10 +206,3 @@ impl Chain {
 }
 
 pub type Str = Wrapper<ffi::ngx_str_t>;
-
-// impl Str {
-//    pub len: size_t,
-//    pub data: *mut u_char,
-//
-//    fn from_str
-// }
