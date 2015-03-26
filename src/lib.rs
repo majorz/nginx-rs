@@ -131,13 +131,10 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 
    let mut buf = pool.calloc_buf().unwrap(); // return 500 on error
 
-   unsafe {
-      let mut chain = ngx_chain_t {
-         buf: buf.raw(),
-         next: ptr::null_mut()
-      };
+   let mut chain = nginx::Chain::new(&mut buf, &mut None);
 
-      let out: *mut ngx_chain_t = (&mut chain) as *mut ngx_chain_t;
+   unsafe {
+      let out = chain.raw();
 
       (*buf.raw()).start = ngx_http_sample_text.data;
       (*buf.raw()).pos = (*buf.raw()).start;

@@ -5,6 +5,7 @@ pub use self::status::Status;
 
 use std::result;
 use std::mem;
+use std::ptr;
 
 use libc::c_long;
 
@@ -46,7 +47,7 @@ impl<T> Wrapper<T> {
    pub fn raw(&mut self) -> *mut T {
       match self.value {
          Value::Raw(raw) => { raw }
-         Value::Stack(ref mut v) => { v as *mut T }
+         Value::Stack(ref mut val) => { val as *mut T }
       }
    }
 }
@@ -178,3 +179,21 @@ impl Pool {
 pub type Buf = Wrapper<ffi::ngx_buf_t>;
 
 pub type Chain = Wrapper<ffi::ngx_chain_t>;
+
+impl Chain {
+   pub fn new(buf: &mut Buf, next: &mut Option<Chain>) -> Self {
+      let next_raw = match *next {
+         None => { ptr::null_mut() }
+         Some(ref mut chain) => { chain.raw() }
+      };
+
+      let val = ffi::ngx_chain_t {
+         buf: buf.raw(),
+         next: next_raw
+      };
+
+      Chain {
+         value: Value::Stack(val)
+      }
+   }
+}
