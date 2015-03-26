@@ -59,7 +59,7 @@ macro_rules! ngx_calloc_buf {
 
 macro_rules! log_error_core {
    ($level:expr, $log:expr, $err:expr, $fmt:expr, $( $arg:expr ),*) => (
-      ngx_log_error_core($level, $log.raw, $err, $fmt, $( $arg ),*)
+      ngx_log_error_core($level, $log.raw(), $err, $fmt, $( $arg ),*)
    )
 }
 
@@ -107,11 +107,11 @@ simple_http_module_command!(ngx_http_sample_module_command, ngx_http_sample_hand
 #[no_mangle]
 pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 {
-   let request = nginx::HttpRequest::from_raw(r);
+   let mut request = nginx::HttpRequest::from_raw(r);
 
-   let connection = request.connection().unwrap();
+   let mut connection = request.connection().unwrap();
 
-   let log = connection.log().unwrap();
+   let mut log = connection.log().unwrap();
 
    let ngx_http_sample_text: ngx_str_t = sample_text_from_rust(r);
 
@@ -131,13 +131,13 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
    }
    //if rc == NGX_ERROR || rc > NGX_OK { //|| (*r).header_only) {
 
-   let pool = request.pool().unwrap();
+   let mut pool = request.pool().unwrap();
 
-   let buf = pool.calloc_buf().unwrap(); // return 500 on error
+   let mut buf = pool.calloc_buf().unwrap(); // return 500 on error
 
    unsafe {
       let mut chain = ngx_chain_t {
-         buf: buf.raw,
+         buf: buf.raw(),
          next: ptr::null_mut()
       };
 
@@ -154,14 +154,14 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
          b1.as_ptr()
       );
 
-      (*buf.raw).start = ngx_http_sample_text.data;
-      (*buf.raw).pos = (*buf.raw).start;
+      (*buf.raw()).start = ngx_http_sample_text.data;
+      (*buf.raw()).pos = (*buf.raw()).start;
 
-      (*buf.raw).end = ngx_http_sample_text.data.offset(ngx_http_sample_text.len as isize);
-      (*buf.raw).last = (*buf.raw).end;
+      (*buf.raw()).end = ngx_http_sample_text.data.offset(ngx_http_sample_text.len as isize);
+      (*buf.raw()).last = (*buf.raw()).end;
 
       let buf_flags = FLAG_MEMORY | FLAG_LAST_BUF | FLAG_LAST_IN_CHAIN;
-      (*buf.raw)._bindgen_bitfield_1_ = buf_flags.bits();
+      (*buf.raw())._bindgen_bitfield_1_ = buf_flags.bits();
 
       ngx_http_output_filter(r, out)
    }
