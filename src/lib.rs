@@ -109,10 +109,6 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 {
    let mut request = nginx::HttpRequest::from_raw(r);
 
-   let mut connection = request.connection().unwrap();
-
-   let mut log = connection.log().unwrap();
-
    let ngx_http_sample_text: ngx_str_t = sample_text_from_rust(r);
 
    let mut headers_out = request.headers_out();
@@ -142,17 +138,6 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
       };
 
       let out: *mut ngx_chain_t = (&mut chain) as *mut ngx_chain_t;
-
-      let headers_in = (*r).headers_in;
-
-      let cstr_template = CString::new("BITS: \"%s\"").unwrap();
-      let b1 = CString::new(format!("{:032b}", headers_in._bindgen_bitfield_1_)).unwrap();
-
-      log_error_core!(
-         2, log, 0,
-         cstr_template.as_ptr(),
-         b1.as_ptr()
-      );
 
       (*buf.raw()).start = ngx_http_sample_text.data;
       (*buf.raw()).pos = (*buf.raw()).start;
@@ -185,87 +170,4 @@ fn sample_text_from_rust(r: *mut ngx_http_request_t) -> ngx_str_t
    }
 
    result
-}
-
-#[no_mangle]
-pub extern fn dump_request(r: *mut ngx_http_request_t) {
-   unsafe {
-      let log = (*(*r).connection).log;
-
-      let template = "REQ: \
-         method=\"%ud\" \
-         http_version=\"%ud\" \
-         request_line=\"%V\" \
-         uri=\"%V\" \
-         args=\"%V\" \
-         exten=\"%V\" \
-         unparsed_uri=\"%V\" \
-         method_name=\"%V\" \
-         http_protocol=\"%V\" \
-         bit1=\"%s\" \
-         bit2=\"%s\" \
-         bit3=\"%s\" \
-         bit4=\"%s\" \
-         bits=\"%s\" \
-      ";
-      let cstr_template = CString::new(template).unwrap();
-
-      let b1 = CString::new(format!("{:032b}", (*r)._bindgen_bitfield_1_)).unwrap();
-      let b2 = CString::new(format!("{:032b}", (*r)._bindgen_bitfield_2_)).unwrap();
-      let b3 = CString::new(format!("{:032b}", (*r)._bindgen_bitfield_3_)).unwrap();
-      let b4 = CString::new(format!("{:032b}", (*r)._bindgen_bitfield_4_)).unwrap();
-
-      let buf_flags = FLAG_MEMORY | FLAG_LAST_BUF | FLAG_LAST_IN_CHAIN;
-      let bits = CString::new(format!("{:032b}", buf_flags.bits())).unwrap();
-
-      ngx_log_error_core(
-         2, log, 0,
-         cstr_template.as_ptr(),
-         (*r).method,
-         (*r).http_version,
-         &((*r).request_line),
-         &((*r).uri),
-         &((*r).args),
-         &((*r).exten),
-         &((*r).unparsed_uri),
-         &((*r).method_name),
-         &((*r).http_protocol),
-         b1.as_ptr(),
-         b2.as_ptr(),
-         b3.as_ptr(),
-         b4.as_ptr(),
-         bits.as_ptr(),
-      );
-   }
-}
-
-
-#[no_mangle]
-pub extern fn dump_buffer(r: *mut ngx_http_request_t, b: *mut ngx_buf_t) {
-   unsafe {
-      let log = (*(*r).connection).log;
-
-      let template = "BUF: \
-         pos=\"%p\" \
-         last=\"%p\" \
-         start=\"%p\" \
-         end=\"%p\" \
-         num=\"%d\" \
-         bit1=\"%s\" \
-      ";
-      let cstr_template = CString::new(template).unwrap();
-
-      let b1 = CString::new(format!("{:064b}", (*b)._bindgen_bitfield_1_)).unwrap();
-
-      ngx_log_error_core(
-         2, log, 0,
-         cstr_template.as_ptr(),
-         (*b).pos,
-         (*b).last,
-         (*b).start,
-         (*b).end,
-         (*b).num,
-         b1.as_ptr(),
-      );
-   }
 }
