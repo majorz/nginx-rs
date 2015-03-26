@@ -48,7 +48,7 @@ impl Paths {
       let root_path = Paths::get_root_path();
       report_path("root", &root_path);
 
-      let target_path = PathBuf::new(target_slice);
+      let target_path = PathBuf::from(target_slice);
       report_path("target", &target_path);
 
       let dist_path = target_path.join("dist");
@@ -111,6 +111,6 @@ impl Paths {
          panic!("Cannot retrieve root dir – CARGO_MANIFEST_DIR.")
       });
 
-      PathBuf::new(root_path.as_slice())
+      PathBuf::from(root_path)
    }
 }

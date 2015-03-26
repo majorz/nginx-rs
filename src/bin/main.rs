@@ -1,7 +1,9 @@
 #![feature(core)]
 #![feature(path_ext)]
+#![feature(convert)]
 
 extern crate term;
+extern crate itertools;
 
 mod version;
 mod paths;

@@ -3,8 +3,9 @@
 name = "nginx-rust"
 version = "0.0.1"
 
-[dependencies.term]
-git = "https://github.com/rust-lang/term.git"
+[dependencies]
+term = "*"
+itertools = "*"
 
 [dependencies.bitflags]
 git = "https://github.com/rust-lang/bitflags.git"

@@ -34,9 +34,9 @@ impl Builder {
 
       let args = vec![
          "--with-http_ssl_module",
-         prefix.as_slice(),
-         conf_path.as_slice(),
-         add_module.as_slice(),
+         prefix.as_ref(),
+         conf_path.as_ref(),
+         add_module.as_ref(),
       ];
 
       report_command("Configuring", "configure", &args);

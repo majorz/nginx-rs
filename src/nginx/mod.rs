@@ -54,7 +54,7 @@ impl<T> Wrapper<T> {
    pub fn raw(&mut self) -> *mut T {
       match self.value {
          Value::Raw(raw) => { raw }
-         Value::Stack(ref mut val) => { val as *mut T }
+         Value::Stack(ref mut val) => { val }
       }
    }
 }

@@ -33,7 +33,7 @@ impl Downloader {
    }
 
    fn download_with_curl(&self) {
-      let args = vec!["-s", "-L", "-O", self.paths.http_location.as_slice()];
+      let args = vec!["-s", "-L", "-O", self.paths.http_location.as_ref()];
 
       report_command("Downloading", "curl", &args);
 
@@ -43,7 +43,7 @@ impl Downloader {
    }
 
    fn extract(&self) {
-      let args = vec!["xzf", self.paths.archive.as_slice()];
+      let args = vec!["xzf", self.paths.archive.as_ref()];
 
       report_command("Extracting", "tar", &args);
 

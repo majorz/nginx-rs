@@ -3,12 +3,22 @@ use std::io;
 use term::{stdout, color, Attr};
 use std::str::Str;
 use std::path::PathBuf;
+use std::iter::IntoIterator;
+use itertools::Itertools;
+
+
+fn connected<'a, S, I>(s: I) -> String //'
+    where S: Str,
+          I: IntoIterator<Item=&'a S> //'
+{
+    s.into_iter().map(|s| s.as_slice()).intersperse(" ").collect()
+}
 
 
 pub fn report_command<T, U, S>(status: T, command: U, args: &Vec<S>)
    where T: fmt::Display, U: fmt::Display, S: Str
 {
-   let arg_string =  args.connect(" ");
+   let arg_string = connected(args);
    report(status, format!("{} {}", command, arg_string));
 }
 
