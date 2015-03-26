@@ -2,6 +2,8 @@
 #![feature(path_ext)]
 #![feature(convert)]
 
+#![allow(deprecated)]
+
 extern crate term;
 extern crate itertools;
 
