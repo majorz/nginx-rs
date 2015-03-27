@@ -1,7 +1,6 @@
 #![feature(libc)]
 #![feature(plugin)]
 #![feature(convert)]
-#![feature(core)]
 
 #![allow(dead_code)]
 #![allow(unused_imports)]

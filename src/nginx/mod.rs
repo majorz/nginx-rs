@@ -30,8 +30,6 @@ macro_rules! getter {
 }
 
 
-use std::num::Int;
-
 macro_rules! flag_pack_1 {
    ( $pos:expr, $getter:ident, $setter:ident, $clearer:ident, $toggler:ident ) => {
       flag_methods!($pos, $getter, $setter, $clearer, $toggler, _bindgen_bitfield_1_);
@@ -77,22 +75,22 @@ macro_rules! flag_pack_7 {
 macro_rules! flag_methods {
    ( $pos:expr, $getter:ident, $setter:ident, $clearer:ident, $toggler:ident, $pack:ident ) => {
       pub fn $getter(&mut self) -> bool {
-         unsafe { 2.pow($pos) & (*self.raw()).$pack != 0 }
+         unsafe { (1 << $pos) & (*self.raw()).$pack != 0 }
       }
 
       pub fn $setter(&mut self) {
          let raw = self.raw();
-         unsafe { (*raw).$pack = 2.pow($pos) | (*raw).$pack };
+         unsafe { (*raw).$pack = (1 << $pos) | (*raw).$pack };
       }
 
       pub fn $clearer(&mut self) {
          let raw = self.raw();
-         unsafe { (*raw).$pack = 2.pow($pos) | (*raw).$pack };
+         unsafe { (*raw).$pack = !(1 << $pos) & (*raw).$pack };
       }
 
       pub fn $toggler(&mut self) {
          let raw = self.raw();
-         unsafe { (*raw).$pack = 2.pow($pos) | (*raw).$pack };
+         unsafe { (*raw).$pack = (1 << $pos) ^ (*raw).$pack };
       }
    };
 }
