@@ -30,6 +30,73 @@ macro_rules! getter {
 }
 
 
+use std::num::Int;
+
+macro_rules! flag_pack_1 {
+   ( $pos:expr, $getter:ident, $setter:ident, $clearer:ident, $toggler:ident ) => {
+      flag_methods!($pos, $getter, $setter, $clearer, $toggler, _bindgen_bitfield_1_);
+   };
+}
+
+macro_rules! flag_pack_2 {
+   ( $pos:expr, $getter:ident, $setter:ident, $clearer:ident, $toggler:ident ) => {
+      flag_methods!($pos, $getter, $setter, $clearer, $toggler, _bindgen_bitfield_2_);
+   };
+}
+
+macro_rules! flag_pack_3 {
+   ( $pos:expr, $getter:ident, $setter:ident, $clearer:ident, $toggler:ident ) => {
+      flag_methods!($pos, $getter, $setter, $clearer, $toggler, _bindgen_bitfield_3_);
+   };
+}
+
+macro_rules! flag_pack_4 {
+   ( $pos:expr, $getter:ident, $setter:ident, $clearer:ident, $toggler:ident ) => {
+      flag_methods!($pos, $getter, $setter, $clearer, $toggler, _bindgen_bitfield_4_);
+   };
+}
+
+macro_rules! flag_pack_5 {
+   ( $pos:expr, $getter:ident, $setter:ident, $clearer:ident, $toggler:ident ) => {
+      flag_methods!($pos, $getter, $setter, $clearer, $toggler, _bindgen_bitfield_5_);
+   };
+}
+
+macro_rules! flag_pack_6 {
+   ( $pos:expr, $getter:ident, $setter:ident, $clearer:ident, $toggler:ident ) => {
+      flag_methods!($pos, $getter, $setter, $clearer, $toggler, _bindgen_bitfield_6_);
+   };
+}
+
+macro_rules! flag_pack_7 {
+   ( $pos:expr, $getter:ident, $setter:ident, $clearer:ident, $toggler:ident ) => {
+      flag_methods!($pos, $getter, $setter, $clearer, $toggler, _bindgen_bitfield_7_);
+   };
+}
+
+macro_rules! flag_methods {
+   ( $pos:expr, $getter:ident, $setter:ident, $clearer:ident, $toggler:ident, $pack:ident ) => {
+      pub fn $getter(&mut self) -> bool {
+         unsafe { 2.pow($pos) & (*self.raw()).$pack != 0 }
+      }
+
+      pub fn $setter(&mut self) {
+         let raw = self.raw();
+         unsafe { (*raw).$pack = 2.pow($pos) | (*raw).$pack };
+      }
+
+      pub fn $clearer(&mut self) {
+         let raw = self.raw();
+         unsafe { (*raw).$pack = 2.pow($pos) | (*raw).$pack };
+      }
+
+      pub fn $toggler(&mut self) {
+         let raw = self.raw();
+         unsafe { (*raw).$pack = 2.pow($pos) | (*raw).$pack };
+      }
+   };
+}
+
 enum Value<T> {
    Raw(*mut T),
    Stack(T)
@@ -193,38 +260,25 @@ impl Pool {
 pub type Buf = Wrapper<ffi::ngx_buf_t>;
 
 impl Buf {
-   pub fn flag_memory(&mut self) {
-      self.set_bitflag_1(0b0000000000000010);
-   }
+   flag_pack_1!(0, temporary, set_temporary, clear_temporary, toggle_temporary);
 
-   pub fn memory(&mut self) -> bool {
-      self.get_bitflag_1(0b0000000000000010)
-   }
+   flag_pack_1!(1, memory, set_memory, clear_memory, toggle_memory);
 
-   pub fn flag_last_buf(&mut self) {
-      self.set_bitflag_1(0b0000000010000000);
-   }
+   flag_pack_1!(2, mmap, set_mmap, clear_mmap, toggle_mmap);
 
-   pub fn last_buf(&mut self) -> bool {
-      self.get_bitflag_1(0b0000000010000000)
-   }
+   flag_pack_1!(3, in_file, set_in_file, clear_in_file, toggle_in_file);
 
-   pub fn flag_last_in_chain(&mut self) {
-      self.set_bitflag_1(0b0000000100000000);
-   }
+   flag_pack_1!(4, flush, set_flush, clear_flush, toggle_flush);
 
-   pub fn last_in_chain(&mut self) -> bool {
-      self.get_bitflag_1(0b0000000100000000)
-   }
+   flag_pack_1!(5, sync, set_sync, clear_sync, toggle_sync);
 
-   fn set_bitflag_1(&mut self, flag: ::libc::c_uint) {
-      let raw = self.raw();
-      unsafe { (*raw)._bindgen_bitfield_1_ = flag | (*raw)._bindgen_bitfield_1_ };
-   }
+   flag_pack_1!(6, last_buf, set_last_buf, clear_last_buf, toggle_last_buf);
 
-   fn get_bitflag_1(&mut self, flag: ::libc::c_uint) -> bool {
-      unsafe { flag & (*self.raw())._bindgen_bitfield_1_ != 0 }
-   }
+   flag_pack_1!(7, last_in_chain, set_last_in_chain, clear_last_in_chain, toggle_last_in_chain);
+
+   flag_pack_1!(8, last_shadow, set_last_shadow, clear_last_shadow, toggle_last_shadow);
+
+   flag_pack_1!(9, temp_file, set_temp_file, clear_temp_file, toggle_temp_file);
 }
 
 impl<'a> From<&'a CString> for Buf {
@@ -242,7 +296,7 @@ impl<'a> From<&'a CString> for Buf {
 
       let mut buf = Buf::take(ngx_buf);
 
-      buf.flag_memory();
+      buf.set_memory();
 
       buf
    }

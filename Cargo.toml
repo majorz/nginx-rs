@@ -7,9 +7,6 @@ version = "0.0.1"
 term = "*"
 itertools = "*"
 
-[dependencies.bitflags]
-git = "https://github.com/rust-lang/bitflags.git"
-
 [lib]
 name = "nrust"
 crate-type = ["dylib"]

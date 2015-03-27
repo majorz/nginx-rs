@@ -1,12 +1,12 @@
 #![feature(libc)]
 #![feature(plugin)]
 #![feature(convert)]
+#![feature(core)]
 
 #![allow(dead_code)]
 #![allow(unused_imports)]
 
 extern crate libc;
-#[macro_use] extern crate bitflags;
 
 mod nginx;
 
@@ -66,24 +66,6 @@ macro_rules! log_error_core {
 }
 
 
-bitflags! {
-   flags BufFlags: u32 {
-      const FLAG_TEMPORARY        = 0b0000000000000001,
-      const FLAG_MEMORY           = 0b0000000000000010,
-      const FLAG_MMAP             = 0b0000000000000100,
-      const FLAG_RECYCLED         = 0b0000000000001000,
-      const FLAG_IN_FILE          = 0b0000000000010000,
-      const FLAG_FLUSH            = 0b0000000000100000,
-      const FLAG_SYNC             = 0b0000000001000000,
-      const FLAG_LAST_BUF         = 0b0000000010000000,
-      const FLAG_LAST_IN_CHAIN    = 0b0000000100000000,
-      const FLAG_LAST_SHADOW      = 0b0000001000000000,
-      const FLAG_TEMP_FILE        = 0b0000010000000000,
-   }
-}
-
-
-
 macro_rules! simple_http_module_command {
    ($command:ident, $handler:ident) => (
       #[no_mangle]
@@ -131,8 +113,8 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 
    let mut buf = nginx::Buf::from(&html);
 
-   buf.flag_last_buf();
-   buf.flag_last_in_chain();
+   buf.set_last_buf();
+   buf.set_last_in_chain();
 
    let mut chain = nginx::Chain::new(&mut buf, &mut None);
 

@@ -2,15 +2,9 @@
 name = "nginx-rust"
 version = "0.0.1"
 dependencies = [
- "bitflags 0.1.1 (git+https://github.com/rust-lang/bitflags.git)",
  "itertools 0.1.10 (registry+https://github.com/rust-lang/crates.io-index)",
  "term 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
-
-[[package]]
-name = "bitflags"
-version = "0.1.1"
-source = "git+https://github.com/rust-lang/bitflags.git#63be765b22eb516b81bb6ff92d68b4b4952f4776"
 
 [[package]]
 name = "itertools"
