@@ -1,7 +1,7 @@
 pub mod ffi;
 pub mod status;
 
-pub use self::status::Status;
+pub use self::status::{Status, HttpStatus};
 
 use std::result;
 use std::mem;
@@ -99,12 +99,12 @@ impl HttpRequest {
 pub type HttpHeadersOut = Wrapper<ffi::ngx_http_headers_out_t>;
 
 impl HttpHeadersOut {
-   pub fn set_status(&mut self, status: ffi::ngx_uint_t) {
+   pub fn set_status(&mut self, http_status: HttpStatus) {
       unsafe {
-         (*self.raw()).status = status;
+         (*self.raw()).status = http_status.rc() as ffi::ngx_uint_t;
       };
-   }
 
+   }
    pub fn set_content_length_n(&mut self, len: usize) {
       unsafe {
          (*self.raw()).content_length_n = len as ffi::off_t;

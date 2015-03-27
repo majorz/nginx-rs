@@ -21,7 +21,7 @@ use nginx::ffi::{
    ngx_http_conf_ctx_t, ngx_int_t, ngx_http_output_filter, ngx_chain_t, ngx_http_send_header, ngx_buf_t,
    ngx_uint_t, ngx_http_core_loc_conf_t, ngx_log_error_core,
 };
-use nginx::Status;
+use nginx::{Status, HttpStatus};
 
 use libc::{size_t, c_void, c_uchar, c_char};
 
@@ -117,7 +117,7 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
 
    let mut headers_out = request.headers_out();
 
-   headers_out.set_status(200);
+   headers_out.set_status(HttpStatus::Ok);
    headers_out.set_content_length_n(html.to_bytes().len());
 
    // TODO: rc == NGX_ERROR || rc > NGX_OK || (*r).header_only)
