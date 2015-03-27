@@ -114,12 +114,11 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
    let mut request = nginx::HttpRequest::from_raw(r);
 
    let html = CString::new("<html><head><meta charset=\"utf-8\"></head><body>Здравейте!</body></html>").unwrap();
-   let len = html.to_bytes().len();
 
    let mut headers_out = request.headers_out();
 
    headers_out.set_status(200);
-   headers_out.set_content_length_n(len as i64);
+   headers_out.set_content_length_n(html.to_bytes().len());
 
    // TODO: rc == NGX_ERROR || rc > NGX_OK || (*r).header_only)
    let send_status = request.http_send_header();

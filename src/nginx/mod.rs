@@ -105,9 +105,9 @@ impl HttpHeadersOut {
       };
    }
 
-   pub fn set_content_length_n(&mut self, content_length_n: ffi::off_t) {
+   pub fn set_content_length_n(&mut self, len: usize) {
       unsafe {
-         (*self.raw()).content_length_n = content_length_n;
+         (*self.raw()).content_length_n = len as ffi::off_t;
       };
    }
 }
