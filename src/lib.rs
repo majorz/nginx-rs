@@ -93,6 +93,7 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
    // TODO: return 500 on failures
 
    let mut request = nginx::HttpRequest::from_raw(r);
+   request.dump_bitflags();
 
    let html = CString::new("<html><head><meta charset=\"utf-8\"></head><body>Здравейте!</body></html>").unwrap();
 
@@ -109,6 +110,8 @@ pub extern fn ngx_http_sample_handler(r: *mut ngx_http_request_t) -> ngx_int_t
       }
       _ => {}
    }
+
+   request.dump_bitflags();
 
    let mut buf = nginx::Buf::from(&html);
 
