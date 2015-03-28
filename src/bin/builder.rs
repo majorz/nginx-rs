@@ -34,6 +34,7 @@ impl Builder {
 
       let args = vec![
          "--with-http_ssl_module",
+         "--with-debug",
          prefix.as_ref(),
          conf_path.as_ref(),
          add_module.as_ref(),
