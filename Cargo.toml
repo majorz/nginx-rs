@@ -1,6 +1,6 @@
 [package]
 
-name = "nginx-rust"
+name = "nginx-rs"
 version = "0.0.1"
 
 [dependencies]
